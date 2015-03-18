@@ -25,6 +25,10 @@ public class Track implements Serializable {
 	@JoinColumn (name="cd_id", referencedColumnName="id", nullable = false)
 	@ManyToOne
 	private Album disc;
+	
+	@JoinColumn (name="playlist_id", referencedColumnName="id", nullable = false)
+	@ManyToOne
+	private Playlist playlist;
 
 	public Track() {
 	}
@@ -56,6 +60,14 @@ public class Track implements Serializable {
 
 	public void setDisc(Album disc) {
 		this.disc = disc;
+	}
+
+	public Playlist getPlaylist() {
+		return playlist;
+	}
+
+	public void setPlaylist(Playlist playlist) {
+		this.playlist = playlist;
 	}
 
 }

@@ -8,6 +8,7 @@ version="1.0">
 		<class>entities.Album</class>
 		<class>entities.Track</class>
 		<class>entities.User</class>
+		<class>entities.Playlist</class>
 		<properties>
 			<property name="hibernate.dialect"
 			value="org.hibernate.dialect.MySQL5Dialect"/>
