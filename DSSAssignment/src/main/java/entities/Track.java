@@ -9,7 +9,12 @@ import javax.persistence.*;
 @Table(name = "tracks")
 public class Track implements Serializable {
 
-  	@Id
+  	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
   	@GeneratedValue(strategy=GenerationType.AUTO)
   	@Column(name="id")
 	private Integer id;

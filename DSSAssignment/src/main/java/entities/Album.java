@@ -17,6 +17,11 @@ import javax.persistence.Table;
 @Table(name="albums")
 public class Album implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
@@ -28,8 +33,8 @@ public class Album implements Serializable{
 	@Column(name="artist")
 	private String artist;
 	
-	@Column(name="price")
-	private Double price;
+	@Column(name="genre")
+	private String genre;
 	
 	@Column(name="tracks") 
 	private Integer tracks;
@@ -41,11 +46,11 @@ public class Album implements Serializable{
 	public Album() {
 	}
 
-	public Album(String title, String artist, Double price,
+	public Album(String title, String artist, String genre,
 			Integer tracks) {
 		this.title = title;
 		this.artist = artist;
-		this.price = price;
+		this.genre = genre;
 		this.tracks = tracks;
 	}
 
@@ -78,15 +83,14 @@ public class Album implements Serializable{
 		this.artist = artist;
 	}
 
-	public Double getPrice() {
-		return price;
+
+	public String getGenre() {
+		return genre;
 	}
 
-	public void setPrice(Double price) {
-		this.price = price;
+	public void setGenre(String genre) {
+		this.genre = genre;
 	}
-
-
 
 	public Integer getTracks() {
 		return tracks;

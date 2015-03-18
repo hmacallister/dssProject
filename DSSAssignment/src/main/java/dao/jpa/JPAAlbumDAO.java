@@ -89,7 +89,7 @@ public class JPAAlbumDAO implements AlbumDAO {
 		
 		Album cd = em.find(Album.class, disc.getId());
 		cd.setArtist(disc.getArtist());
-		cd.setPrice(disc.getPrice());
+		cd.setGenre(disc.getGenre());
 		cd.setTitle(disc.getTitle());
 		cd.setTracks(disc.getTracks());
 		
