@@ -55,7 +55,7 @@ public class JPAAlbumDAO implements AlbumDAO {
 
 	public Collection<Album> getAllDiscs() {
 
-		Query query = em.createQuery("from Album");
+		Query query = em.createQuery("from Album a, Track t where t.disc = a.id");
 		List<Album> result = query.getResultList();
 
 		return result;

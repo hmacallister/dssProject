@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +43,7 @@ public class Playlist implements Serializable{
 	
 
 	@JoinColumn(name = "tracks", referencedColumnName = "id", nullable = true)
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Track> trackTitles = new ArrayList<Track>();
 	
 	
@@ -97,5 +98,33 @@ public class Playlist implements Serializable{
 	public void setTrackTitles(List<Track> trackTitles) {
 		this.trackTitles = trackTitles;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Playlist other = (Playlist) obj;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
+	}
+	
+	
+	
 
 }
