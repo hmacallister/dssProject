@@ -23,7 +23,7 @@ public class Album implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private Integer id;
 	
@@ -36,8 +36,10 @@ public class Album implements Serializable{
 	@Column(name="genre")
 	private String genre;
 	
+	/*
 	@Column(name="tracks") 
 	private Integer tracks;
+	*/
 	
 	@OneToMany(mappedBy="disc", cascade={CascadeType.MERGE, CascadeType.PERSIST})
 	private List<Track> trackTitles = new ArrayList<Track>();
@@ -46,12 +48,11 @@ public class Album implements Serializable{
 	public Album() {
 	}
 
-	public Album(String title, String artist, String genre,
-			Integer tracks) {
+	public Album(String title, String artist, String genre/*Integer tracks*/) {
 		this.title = title;
 		this.artist = artist;
 		this.genre = genre;
-		this.tracks = tracks;
+		//this.tracks = tracks;
 	}
 
 	public void addTrack(Track t) {
@@ -92,6 +93,7 @@ public class Album implements Serializable{
 		this.genre = genre;
 	}
 
+	/*
 	public Integer getTracks() {
 		return tracks;
 	}
@@ -99,6 +101,7 @@ public class Album implements Serializable{
 	public void setTracks(Integer tracks) {
 		this.tracks = tracks;
 	}
+	*/
 
 	@Override
 	public int hashCode() {

@@ -27,10 +27,8 @@ public class JPAAlbumDAO implements AlbumDAO {
 		Query query = em.createQuery("from Album");
 		List<Album> discs = query.getResultList();
 		if (!discs.contains(disc)) {
-
 			em.persist(disc);
 		}
-
 	}
 
 	public Album getCompactDiscByTitle(String title) {
@@ -91,7 +89,7 @@ public class JPAAlbumDAO implements AlbumDAO {
 		cd.setArtist(disc.getArtist());
 		cd.setGenre(disc.getGenre());
 		cd.setTitle(disc.getTitle());
-		cd.setTracks(disc.getTracks());
+		//cd.setTracks(disc.getTracks());
 		
 		/*
 		Query query = em

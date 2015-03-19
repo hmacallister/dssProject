@@ -1,8 +1,9 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
 
 @Entity
@@ -15,7 +16,7 @@ public class Track implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-  	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
   	@Column(name="id")
 	private Integer id;
 
@@ -26,9 +27,11 @@ public class Track implements Serializable {
 	@ManyToOne
 	private Album disc;
 	
-	@JoinColumn (name="playlist_id", referencedColumnName="id", nullable = false)
-	@ManyToOne
-	private Playlist playlist;
+	/*
+	@JoinColumn (name="playlist", referencedColumnName="id", nullable = false)
+	@OneToMany
+	private List<Playlist> playlists = new ArrayList<Playlist>();
+	*/
 
 	public Track() {
 	}
@@ -62,6 +65,7 @@ public class Track implements Serializable {
 		this.disc = disc;
 	}
 
+	/*
 	public Playlist getPlaylist() {
 		return playlist;
 	}
@@ -69,5 +73,6 @@ public class Track implements Serializable {
 	public void setPlaylist(Playlist playlist) {
 		this.playlist = playlist;
 	}
+	*/
 
 }
