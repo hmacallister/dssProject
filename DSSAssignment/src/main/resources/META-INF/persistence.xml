@@ -5,7 +5,6 @@ version="1.0">
 	<persistence-unit name="dssProject">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:/dssProjectSQL</jta-data-source>
-		<class>entities.Album</class>
 		<class>entities.Track</class>
 		<class>entities.User</class>
 		<class>entities.Playlist</class>

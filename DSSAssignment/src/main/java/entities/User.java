@@ -1,12 +1,16 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity 
@@ -31,6 +35,7 @@ public class User implements Serializable{
 	
 	@Column(name="libraryPersistentID")
 	private String libraryPersistentID;
+	
 
 	public User() {
 	}
@@ -46,6 +51,13 @@ public class User implements Serializable{
 		this.username = username;
 		this.password = password;
 	}
+	
+	/*
+	public void addTrack(Track t) {
+		t.setLibrary(this);
+		trackTitles.add(t);
+	}
+	*/
 	
 	public User(int id) {
 		this.id=id;
@@ -83,6 +95,18 @@ public class User implements Serializable{
 	public void setLibraryPersistentID(String libraryPersistentID) {
 		this.libraryPersistentID = libraryPersistentID;
 	}
+	
+	/*
+
+	public List<Track> getTrackTitles() {
+		return trackTitles;
+	}
+
+	public void setTrackTitles(List<Track> trackTitles) {
+		this.trackTitles = trackTitles;
+	}
+	
+	*/
 
 	@Override
 	public int hashCode() {

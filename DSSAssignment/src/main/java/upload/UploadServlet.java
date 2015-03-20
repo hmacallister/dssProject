@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import dao.AlbumDAO;
 import dao.FileDAO;
 import dao.PlaylistDAO;
+import dao.UserDAO;
 
 
 //import resources.ExcellLoader;
@@ -38,11 +38,11 @@ public class UploadServlet extends HttpServlet {
 	private static final String SAVE_DIR = "uploadFiles";
 	
 	@EJB
-	private PlaylistDAO dao;
+	private PlaylistDAO playlistDao;
 	//@EJB
 	//private TracksaDAO errorDao;
 	@EJB
-	private AlbumDAO albumDao;
+	private UserDAO userDao;
 	@EJB
 	private FileDAO fileDao;
 	

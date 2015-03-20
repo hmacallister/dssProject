@@ -10,7 +10,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import dao.PlaylistDAO;
-import entities.Album;
 import entities.Playlist;
 
 @Stateless

@@ -20,7 +20,7 @@ public class JPAUserDAO implements UserDAO{
 	private EntityManager em;
 
 	public Collection<User> getAllUsers() {
-		Query query = em.createQuery("from User");
+		Query query = em.createQuery("from User u, Track t where t.user = u.id");
 		List<User> result = query.getResultList();
 		return result;
 	}
