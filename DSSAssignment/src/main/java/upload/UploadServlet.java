@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import dao.FileDAO;
 import dao.PlaylistDAO;
@@ -21,9 +24,9 @@ import dao.UserDAO;
 //import resources.ExcellLoader;
 
 @WebServlet("/UploadServlet")
-@MultipartConfig(fileSizeThreshold=1024*1024*2,	// 2MB 
-				 maxFileSize=1024*1024*10,		// 10MB
-				 maxRequestSize=1024*1024*50)	// 50MB
+@MultipartConfig(fileSizeThreshold=1024*1024*10,	// 10MB 
+				 maxFileSize=1024*1024*500,		// 500MB
+				 maxRequestSize=1024*1024*500)	// 500MB
 public class UploadServlet extends HttpServlet {
 
 	/**
@@ -49,7 +52,7 @@ public class UploadServlet extends HttpServlet {
 
 	//ReadLookup lookupDataReader = new ExcelLookupDataRead();
 	//@Inject
-	//ReadBase baseDataReader = new ExcelBaseDataRead();
+	ReadXML xmlReader = new ReadXMLDataParser();
 	
 	/**
 	 * handles file upload
@@ -65,33 +68,40 @@ public class UploadServlet extends HttpServlet {
 		
 		// creates the save directory if it does not exists
 		File fileSaveDir = new File(savePath);
-		File myFile = new File(fileSaveDir + File.separator + "upload.txt");
+		//File myFile = new File(fileSaveDir + File.separator + "upload.txt");
 		if (!fileSaveDir.exists()) {
 			fileSaveDir.mkdir();
 		}
 		
 		String finalFilePath = "";
 		String finalFileName = "";
-		String fileExtension = "";
+	//	String fileExtension = "";
 		boolean correctFileFound = false;
 		Part part = request.getPart("file");
 		//for (Part part : request.getParts()) {
 			String fileName = extractFileName(part);
-			fileExtension = getFileExtension(fileName);
-			if(fileExtension.equals(".xls")){
+			//fileExtension = getFileExtension(fileName);
+		//	if(fileExtension.equals(".xml")){
 				correctFileFound = true;
 				long timeInMili = System.currentTimeMillis();
 				Date t = new Date(timeInMili);
 				timeInMili = timeInMili >> 4;
-				finalFileName = t + "_" + timeInMili + fileExtension;
+				finalFileName = t + "_" + "_"+ timeInMili + "_" + fileName;
 				finalFilePath = savePath + File.separator + finalFileName;
 				part.write(finalFilePath);
 				fileDao.addUploadedFilePath(finalFileName, finalFilePath, false);
-			}
+			//}
 		//}
 		
-		String resp = "Upload Successful";
-		response.sendRedirect("/dss/upload.html#"+resp);
+		if(correctFileFound){
+			String resp = "Upload Successful";
+			response.sendRedirect("/dss/upload.html#"+resp);
+		}
+		else{
+			String resp = "Upload Failed";
+			response.sendRedirect("/dss/upload.html#"+resp);
+		}
+		
 	}
 	
 	
@@ -103,14 +113,22 @@ public class UploadServlet extends HttpServlet {
 		lookupDataReader.setInputFile(finalFilePath);
 		lookupDataReader.setLookUpDao(lookupDao);
 		lookupDataReader.read();
-		
-		baseDataReader.setSheetNumber(0);
-		baseDataReader.setInputFile(finalFilePath);
-		baseDataReader.setBaseDataDao(dao);
-		baseDataReader.setErrorBaseDataDao(errorDao);
-		baseDataReader.read();
-		int numOfInvalidRows = baseDataReader.getInvalidRowCount();
 		*/
+		//baseDataReader.setSheetNumber(0);
+		xmlReader.setInputFile(finalFilePath);
+		xmlReader.setUserDao(userDao);
+		//baseDataReader.setErrorBaseDataDao(errorDao);
+		try {
+			xmlReader.read();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//int numOfInvalidRows = baseDataReader.getInvalidRowCount();
+		
 		
 		String resp = "Transfer to database completed successfully!"
 				+ "<br>There were "  + " invalid rows in the base data";
