@@ -63,7 +63,6 @@ public class ReadXMLDataParser implements ReadXML {
 				
 		log.info("root of xml file: " + doc.getDocumentElement().getNodeName());
 		
-		
 		NodeList nodes = doc.getElementsByTagName("dict");
 		
 		for (int i = 0; i < nodes.getLength(); i++) {
@@ -72,9 +71,11 @@ public class ReadXMLDataParser implements ReadXML {
 			NodeList nodes1 =  node.getChildNodes();
 			
 			for(int j = 0; j < nodes1.getLength(); j++){
-				Element element = (Element) node;
-				String keyValues = getValue("key", element);
-				log.info("Value IS: "+ keyValues);
+				Node node1 = nodes1.item(j);
+				String tag = node1.getNodeName();
+				String keyValue = node1.getNodeValue();
+				//String keyValues = getValue(tag, element);
+				log.info("Tag is: "+tag + " and Value IS: "+ keyValue);
 			}
 			
 			/*
