@@ -69,8 +69,15 @@ public class ReadXMLDataParser implements ReadXML {
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node node = nodes.item(i);
 			log.info("PARENT NODE IS: "+ node.getNodeName());
-			/*
+			NodeList nodes1 =  node.getChildNodes();
 			
+			for(int j = 0; j < nodes1.getLength(); j++){
+				Element element = (Element) node;
+				String keyValues = getValue("key", element);
+				log.info("Value IS: "+ keyValues);
+			}
+			
+			/*
 			Element element1 = (Element) node;
 			NodeList childNodes = element1.getElementsByTagName("key");
 			
@@ -84,7 +91,7 @@ public class ReadXMLDataParser implements ReadXML {
 			}
 			*/
 			
-			
+			/*
 
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element element = (Element) node;
@@ -97,14 +104,17 @@ public class ReadXMLDataParser implements ReadXML {
 				//System.out.println("Stock Quantity: " + getValue("quantity", element));
 			}
 			
+			*/
+			
 			
 		}		
 	}
-	private static ArrayList<String> getValue(String tag, Element element) {
-		ArrayList<String> values = new ArrayList<String>();
-		values.add("VALUES START HERE");
+	private static String getValue(String tag, Element element) {
+		//ArrayList<String> values = new ArrayList<String>();
+		//values.add("VALUES START HERE");
 		NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
-		List<Node> nodeList = new ArrayList<Node>();
+		//List<Node> nodeList = new ArrayList<Node>();
+		/*
 		for(int i = 0; i < nodes.getLength(); i++){
 			Node node = (Node) element.getElementsByTagName(tag).item(i).getChildNodes();
 			//values.add(element.getElementsByTagName(tag).item(i).getChildNodes());
@@ -117,9 +127,10 @@ public class ReadXMLDataParser implements ReadXML {
 			//Node node = (Node) nodes.item(i);
 			values.add(n.getNodeValue());
 		}
-		//Node node = (Node) nodes.item(0);
+		*/
+		Node node = (Node) nodes.item(0);
 	
-		return values;// node.getNodeValue();
+		return node.getNodeValue();
 	}
 
 
