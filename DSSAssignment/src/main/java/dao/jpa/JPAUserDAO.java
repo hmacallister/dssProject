@@ -91,6 +91,20 @@ public class JPAUserDAO implements UserDAO{
 		List<User> result = query.getResultList();
 		return result.get(0);
 	}
+
+
+	@Override
+	public User getUserByLibraryPersistentID(String libraryPersistentID) {
+		Query query = em.createQuery("from User u where u.libraryPersistentID = :libraryPersistentID");
+		query.setParameter("libraryPersistentID", libraryPersistentID);
+		List<User> result = query.getResultList();
+		if(result.isEmpty()){
+			User tempUser = new User("TEMP", "TEMP", "-1");
+			em.persist(tempUser);
+			return tempUser;
+		}
+		return result.get(0);
+	}
 	
 
 }

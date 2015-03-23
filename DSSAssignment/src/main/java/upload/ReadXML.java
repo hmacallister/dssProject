@@ -6,6 +6,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import dao.TrackDAO;
 import dao.UserDAO;
 
 public interface ReadXML {
@@ -15,5 +16,6 @@ public interface ReadXML {
 	void read() throws IOException, ParserConfigurationException, SAXException;
 
 	void setUserDao(UserDAO dao);
+	void setTrackDao(TrackDAO dao);
 
 }

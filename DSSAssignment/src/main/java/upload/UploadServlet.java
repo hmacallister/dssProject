@@ -18,6 +18,7 @@ import org.xml.sax.SAXException;
 
 import dao.FileDAO;
 import dao.PlaylistDAO;
+import dao.TrackDAO;
 import dao.UserDAO;
 
 
@@ -48,6 +49,8 @@ public class UploadServlet extends HttpServlet {
 	private UserDAO userDao;
 	@EJB
 	private FileDAO fileDao;
+	@EJB
+	private TrackDAO trackDao;
 	
 
 	//ReadLookup lookupDataReader = new ExcelLookupDataRead();
@@ -117,6 +120,7 @@ public class UploadServlet extends HttpServlet {
 		//baseDataReader.setSheetNumber(0);
 		xmlReader.setInputFile(finalFilePath);
 		xmlReader.setUserDao(userDao);
+		xmlReader.setTrackDao(trackDao);
 		//baseDataReader.setErrorBaseDataDao(errorDao);
 		try {
 			xmlReader.read();
@@ -130,8 +134,7 @@ public class UploadServlet extends HttpServlet {
 		//int numOfInvalidRows = baseDataReader.getInvalidRowCount();
 		
 		
-		String resp = "Transfer to database completed successfully!"
-				+ "<br>There were "  + " invalid rows in the base data";
+		String resp = "Transfer to database completed successfully!";
 		response.sendRedirect("/dss/upload.html#"+resp);
 	}
 

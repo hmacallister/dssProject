@@ -2,6 +2,7 @@ package upload;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -17,11 +18,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-
 import dao.TrackDAO;
 import dao.UserDAO;
 import dao.jpa.JPAFileDAO;
 import entities.Track;
+import entities.User;
 
 @Stateless
 @Local
@@ -29,7 +30,7 @@ public class ReadXMLDataParser implements ReadXML {
 
 	private String inputFile;
 
-	private UserDAO userDao;
+	private static UserDAO userDao;
 	private static TrackDAO trackDAO;
 	
 	private static String libraryPersistentID;
@@ -37,8 +38,6 @@ public class ReadXMLDataParser implements ReadXML {
 	private static String album;
 	private static String artist;
 	private static String genre;
-	private Track track;
-	private static ArrayList<Track> trackList;
 	
 	private static final Logger log = LoggerFactory.getLogger(JPAFileDAO.class);
 
@@ -65,6 +64,7 @@ public class ReadXMLDataParser implements ReadXML {
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(inputFile);
 		doc.getDocumentElement().normalize();
+
 				
 		log.info("root of xml file: " + doc.getDocumentElement().getNodeName());
 		
@@ -72,71 +72,13 @@ public class ReadXMLDataParser implements ReadXML {
 			printNote(doc.getChildNodes());	 
 		}
 		
-		
-		/*
-		
-		NodeList nodes = doc.getElementsByTagName("dict");
-		
-		for (int i = 0; i < nodes.getLength(); i++) {
-			Node node = nodes.item(i);
-			log.info("PARENT NODE IS: "+ node.getNodeName());
-			/*
-			
-			Element element1 = (Element) node;
-			NodeList childNodes = element1.getElementsByTagName("key");
-			
-			 * for(int j= 0; j < childNodes.getLength(); j++){
-				Node node2 = childNodes.item(i);
-				String childName = node2.getNodeName();
-				log.info("CHILD NODE IS: "+ childName);
-				Element element5 = (Element) node2;
-				String value = getValue(childName, element5);
-				log.info("VALUE IS: "+ value);
-			}
-			
-			
-			
-
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element element = (Element) node;
-				ArrayList<String> keyValues = getValue("key", element);
-				for(String s:keyValues){
-					log.info("Value IS: "+s);
-				}
-				//log.info("KEY IS: "+key);								
-				//System.out.println("Stock Price: " + getValue("price", element));
-				//System.out.println("Stock Quantity: " + getValue("quantity", element));
-			}
-			
-			
-		}		
-	}
-	private static ArrayList<String> getValue(String tag, Element element) {
-		ArrayList<String> values = new ArrayList<String>();
-		values.add("VALUES START HERE");
-		NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
-		List<Node> nodeList = new ArrayList<Node>();
-		for(int i = 0; i < nodes.getLength(); i++){
-			Node node = (Node) element.getElementsByTagName(tag).item(i).getChildNodes();
-			//values.add(element.getElementsByTagName(tag).item(i).getChildNodes());
-			nodeList.add(node);
-			//values.add(node.getNodeValue());
-		}
-		
-		for(Node n: nodeList){
-			
-			//Node node = (Node) nodes.item(i);
-			values.add(n.getNodeValue());
-		}
-		//Node node = (Node) nodes.item(0);
-	
-		return values;// node.getNodeValue();
-	}
-
-	*/
 	}
 	
 	 private static void printNote(NodeList nodeList) {
+			
+			Track track = new Track();
+			List<Track> trackList = new ArrayList<Track>();
+		 
 		    for (int count = 0; count < nodeList.getLength(); count++) {
 		    	Node tempNode = nodeList.item(count);
 		    	// make sure it's element node.
@@ -152,24 +94,28 @@ public class ReadXMLDataParser implements ReadXML {
 		    		if(tempNode.getTextContent().equals("Name")){
 		    			Node tempNodeTitle = nodeList.item(count+1);
 		    			title = tempNodeTitle.getTextContent();
+		    			track.setTitle(title);
 		    			log.info("title = " + title);		    			
 		    		}
 		    		if(tempNode.getTextContent().equals("Artist")){
 		    			Node tempNodeArtist = nodeList.item(count+1);
 		    			artist = tempNodeArtist.getTextContent();
+		    			track.setArtist(artist);
 		    			log.info("artist = " + artist);		    			
 		    		}
 		    		if(tempNode.getTextContent().equals("Album")){
 		    			Node tempNodeAlbum = nodeList.item(count+1);
 		    			album = tempNodeAlbum.getTextContent();
+		    			track.setAlbum(album);
 		    			log.info("album = " + album);		    			
 		    		}
 		    		if(tempNode.getTextContent().equals("Genre")){
 		    			Node tempNodeGenre = nodeList.item(count+1);
 		    			genre = tempNodeGenre.getTextContent();
+		    			track.setGenre(genre);
 		    			log.info("genre = " + genre);		    			
 		    		}
-		    		trackList.add(new Track(title,album,artist,genre));
+		    		trackList.add(track);
 		    			if (tempNode.hasAttributes()) {
 		    				// get attributes names and values
 		    				NamedNodeMap nodeMap = tempNode.getAttributes();		 
@@ -186,11 +132,15 @@ public class ReadXMLDataParser implements ReadXML {
 		    			//log.info("Node Name =" + tempNode.getNodeName() + " [CLOSE]");
 		    	}//end outer if
 		    }//end outer for
+		    User user = userDao.getUserByLibraryPersistentID(libraryPersistentID);
+		    track.setUser(user);
 		    trackDAO.addTracks(trackList);
 	 }//end print note
 	
-	 
-	 public void setTrackDAO(TrackDAO dao) {
-			this.trackDAO = dao;
+
+
+	@Override
+	public void setTrackDao(TrackDAO dao) {
+		this.trackDAO = dao;
 	}
 }//end class
