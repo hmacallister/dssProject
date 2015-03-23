@@ -18,6 +18,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import dao.PlaylistDAO;
 import dao.TrackDAO;
 import dao.UserDAO;
 import dao.jpa.JPAFileDAO;
@@ -33,6 +34,7 @@ public class ReadXMLDataParser implements ReadXML {
 
 	private static UserDAO userDao;
 	private static TrackDAO trackDAO;
+	private static PlaylistDAO playlistDAO;
 	
 	private static String libraryPersistentID;
 	private static String title;
@@ -42,7 +44,7 @@ public class ReadXMLDataParser implements ReadXML {
 	private static String trackID;
 	private static String playListTitle;
 	private static String playListTracks;
-	private static User user;
+	private static User user = new User();
 	
 	private static final Logger log = LoggerFactory.getLogger(JPAFileDAO.class);
 
@@ -83,17 +85,17 @@ public class ReadXMLDataParser implements ReadXML {
 			
 			Track track = new Track();
 			List<Track> trackList = new ArrayList<Track>();
-			Playlist playlist = new Playlist();
 			List<Playlist> allPlaylists = new ArrayList<Playlist>();
-			List<Track> playlistTrackList = new ArrayList<Track>();
 		 
 		    for (int count = 0; count < nodeList.getLength(); count++) {
 		    	Node tempNode = nodeList.item(count);
+		    	Playlist playlist = new Playlist();
+				List<Track> playlistTrackList = new ArrayList<Track>();
 		    	// make sure it's element node.
 		    	if (tempNode.getNodeType() == Node.ELEMENT_NODE) {		 
 		    		// get node name and value
 		    		//log.info("\nNode Name =" + tempNode.getNodeName() + " [OPEN]");
-		    	//	log.info("Node Value =" + tempNode.getTextContent());
+		    		//log.info("Node Value =" + tempNode.getTextContent());
 		    		if(tempNode.getTextContent().equals("Library Persistent ID")){
 		    			Node tempNodeLPID = nodeList.item(count+1);
 		    			libraryPersistentID = tempNodeLPID.getTextContent();
@@ -135,26 +137,27 @@ public class ReadXMLDataParser implements ReadXML {
 		    		//	log.info("genre = " + genre);		    			
 		    		}
 		    		if(tempNode.getTextContent().equals("Playlist ID")){
-		    			Node tempNodePlaylistName = nodeList.item(count-1);
-		    			playListTitle = tempNodePlaylistName.getTextContent();
-		    			log.info("playlist title:  = " + playListTitle);
+		    			//Node tempNodePlaylistName = nodeList.item(count-1);
+		    			playListTitle = nodeList.item(count-2).getTextContent();
+		    			//log.info("playlist title:  = " + playListTitle);
 		    			playlist.setTitle(playListTitle);
 		    		}
 		    		if(tempNode.getTextContent().equals("Playlist Items")){
-		    			Node tempNodePlaylistTracks = nodeList.item(count+1);
-		    			playListTracks = tempNodePlaylistTracks.getTextContent();
+		    			//Node tempNodePlaylistTracks = nodeList.item(count+1);
+		    			playListTracks = nodeList.item(count+2).getTextContent();
+		    			//log.info("all tracks on playlist: "+playListTracks);
 		    			String[] splitTracks = playListTracks.split("Track ID");
 		    			for(int i=0; i<splitTracks.length; i++){
 		    				playlistTrackList.add(trackDAO.getTrack(splitTracks[i]));
-		    				log.info("playlist track: "+splitTracks[i]);
+		    			//	log.info("playlist track: "+splitTracks[i]);
 		    			}
-		    			playlist.setUserFK(user);
-		    			playlist.setTrackTitles(playlistTrackList);
-		    			allPlaylists.add(playlist);
-		    			playlist = null;
 		    		}
+	    			playlist.setUserFK(user);
+	    			playlist.setTrackTitles(playlistTrackList);
+	    			allPlaylists.add(playlist);
 		    		
 		    		trackList.add(track);
+		    		
 		    			if (tempNode.hasAttributes()) {
 		    				// get attributes names and values
 		    				NamedNodeMap nodeMap = tempNode.getAttributes();		 
@@ -173,12 +176,23 @@ public class ReadXMLDataParser implements ReadXML {
 		    }//end outer for
 		    track.setUser(user);
 		    trackDAO.addTracks(trackList);
+		    playlistDAO.addAllPlaylists(allPlaylists);
 	 }//end print note
 	
 
 
+	public static void addPlaylists(List<Playlist> allPlaylists) {
+		
+		
+	}
+
 	@Override
 	public void setTrackDao(TrackDAO dao) {
 		this.trackDAO = dao;
+	}
+
+	@Override
+	public void setPlaylistDao(PlaylistDAO dao) {
+		this.playlistDAO = dao;
 	}
 }//end class

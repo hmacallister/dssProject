@@ -43,8 +43,6 @@ public class UploadServlet extends HttpServlet {
 	
 	@EJB
 	private PlaylistDAO playlistDao;
-	//@EJB
-	//private TracksaDAO errorDao;
 	@EJB
 	private UserDAO userDao;
 	@EJB
@@ -121,6 +119,7 @@ public class UploadServlet extends HttpServlet {
 		xmlReader.setInputFile(finalFilePath);
 		xmlReader.setUserDao(userDao);
 		xmlReader.setTrackDao(trackDao);
+		xmlReader.setPlaylistDao(playlistDao);	
 		//baseDataReader.setErrorBaseDataDao(errorDao);
 		try {
 			xmlReader.read();

@@ -6,6 +6,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import dao.PlaylistDAO;
 import dao.TrackDAO;
 import dao.UserDAO;
 
@@ -17,5 +18,7 @@ public interface ReadXML {
 
 	void setUserDao(UserDAO dao);
 	void setTrackDao(TrackDAO dao);
+
+	void setPlaylistDao(PlaylistDAO dao);
 
 }
