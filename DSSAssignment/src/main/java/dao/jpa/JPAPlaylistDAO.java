@@ -76,4 +76,12 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 		return result;
 	}
 
+	@Override
+	public void addAllPlaylists(List<Playlist> playlists) {
+		for(Playlist playlist: playlists){
+			em.persist(playlist);
+		}
+		
+	}
+
 }

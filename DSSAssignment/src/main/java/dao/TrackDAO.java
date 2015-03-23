@@ -9,4 +9,5 @@ import entities.Track;
 @Local
 public interface TrackDAO {
 	void addTracks(List<Track> tracks);
+	Track getTrack(String trackID);
 }

@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.Local;
 
@@ -10,6 +11,7 @@ import entities.Playlist;
 public interface PlaylistDAO {
 	
 	void addPlaylist(Playlist playlist);
+	void addAllPlaylists(List<Playlist> playlist);
 
 	Playlist getPlaylistByTitle(String title);
 	

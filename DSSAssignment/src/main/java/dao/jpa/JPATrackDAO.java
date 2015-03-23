@@ -35,6 +35,17 @@ public class JPATrackDAO implements TrackDAO{
 		return result;
 	}
 
+	@Override
+	public Track getTrack(String trackId) {
+		Query query = em.createQuery("from Track t where t.trackId = :trackId");
+		query.setParameter("trackId", trackId);
+		List<Track> result = query.getResultList();
+		if(result.isEmpty()){
+			return new Track("error", "error", "error", "error", trackId);
+		}
+		return result.get(0);
+	}
+
 	/*
 	
 	public User getUser(User user) {

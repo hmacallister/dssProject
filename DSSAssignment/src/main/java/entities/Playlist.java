@@ -98,6 +98,8 @@ public class Playlist implements Serializable{
 	public void setTrackTitles(List<Track> trackTitles) {
 		this.trackTitles = trackTitles;
 	}
+	
+	
 
 	@Override
 	public int hashCode() {
