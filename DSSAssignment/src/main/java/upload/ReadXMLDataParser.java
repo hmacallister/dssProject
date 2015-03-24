@@ -45,6 +45,7 @@ public class ReadXMLDataParser implements ReadXML {
 	private static String playListTitle;
 	private static String playListTracks;
 	private static User user = new User();
+	private static List<Playlist> allPlaylists = new ArrayList<Playlist>();
 	static boolean searchTracks;
 	static boolean searchPlaylists;
 
@@ -80,6 +81,7 @@ public class ReadXMLDataParser implements ReadXML {
 		if (doc.hasChildNodes()) {
 			printNote(doc.getChildNodes());
 		}
+		addPlaylists(allPlaylists);
 
 	}
 
@@ -87,12 +89,12 @@ public class ReadXMLDataParser implements ReadXML {
 
 		Track track = new Track();
 		List<Track> trackList = new ArrayList<Track>();
-		List<Playlist> allPlaylists = new ArrayList<Playlist>();
+		
 
 		for (int count = 0; count < nodeList.getLength(); count++) {
 			Node tempNode = nodeList.item(count);
 			Playlist playlist = new Playlist();
-			List<Track> playlistTrackList = new ArrayList<Track>();
+			List<String> playlistTrackList = new ArrayList<String>();
 			// make sure it's element node.
 			if (tempNode.getNodeType() == Node.ELEMENT_NODE) {
 				// get node name and value
@@ -166,14 +168,13 @@ public class ReadXMLDataParser implements ReadXML {
 						// log.info("all tracks on playlist: "+playListTracks);
 						String[] splitTracks = playListTracks.split("Track ID");
 						for (int i = 0; i < splitTracks.length; i++) {
-							playlistTrackList.add(trackDAO
-									.getTrack(splitTracks[i]));
-							// log.info("playlist track: "+splitTracks[i]);
+							playlistTrackList.add(splitTracks[i]);
+							 log.info("playlist track: "+splitTracks[i]);
 						}
 					}
 				}
 				playlist.setUserFK(user);
-				playlist.setTrackTitles(playlistTrackList);
+				playlist.setTrackIDs(playlistTrackList);
 				if(playlist.getTitle() != null){
 					allPlaylists.add(playlist);
 				}
@@ -211,6 +212,15 @@ public class ReadXMLDataParser implements ReadXML {
 	}// end print note
 
 	public static void addPlaylists(List<Playlist> allPlaylists) {
+		
+		for(Playlist p: allPlaylists){
+			List<Track> playlistTracks = new ArrayList<Track>();
+			List<String> trackIDs = p.getTrackIDs();
+			for(String s: trackIDs){
+				playlistTracks.add(trackDAO.getTrack(s));
+			}
+			p.setTrackTitles(playlistTracks);
+		}
 		playlistDAO.addAllPlaylists(allPlaylists);
 	}
 

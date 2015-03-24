@@ -41,7 +41,9 @@ public class JPATrackDAO implements TrackDAO{
 		query.setParameter("trackId", trackId);
 		List<Track> result = query.getResultList();
 		if(result.isEmpty()){
-			return new Track("error", "error", "error", "error", trackId);
+			Track t = new Track("error", "error", "error", "error", trackId);
+			em.persist(t);
+			return  t;
 		}
 		return result.get(0);
 	}

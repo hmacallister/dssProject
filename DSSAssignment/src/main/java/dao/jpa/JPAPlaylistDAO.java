@@ -79,6 +79,7 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 	@Override
 	public void addAllPlaylists(List<Playlist> playlists) {
 		for(Playlist playlist: playlists){
+			playlist.getTrackTitles();
 			em.persist(playlist);
 		}
 		

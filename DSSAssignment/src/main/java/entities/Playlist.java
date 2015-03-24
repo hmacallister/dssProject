@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity 
 @Table(name="playlists")
@@ -35,6 +36,9 @@ public class Playlist implements Serializable{
 	@JoinColumn(name = "users", referencedColumnName = "id", nullable = true)
 	@OneToOne
 	private User userFK;
+	
+	@Transient
+	private List<String> trackIDs = new ArrayList<String>();
 	
 	/*
 	@OneToMany(mappedBy="playlist", cascade={CascadeType.MERGE, CascadeType.PERSIST})
@@ -124,6 +128,14 @@ public class Playlist implements Serializable{
 		} else if (!title.equals(other.title))
 			return false;
 		return true;
+	}
+
+	public List<String> getTrackIDs() {
+		return trackIDs;
+	}
+
+	public void setTrackIDs(List<String> trackIDs) {
+		this.trackIDs = trackIDs;
 	}
 	
 	
