@@ -2,7 +2,10 @@ package upload;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -46,6 +49,7 @@ public class ReadXMLDataParser implements ReadXML {
 	private static String playListTracks;
 	private static User user = new User();
 	private static List<Playlist> allPlaylists = new ArrayList<Playlist>();
+	private static Map<Playlist, List<String> > playlistsMap = new HashMap<Playlist, List<String> >();
 	static boolean searchTracks;
 	static boolean searchPlaylists;
 
@@ -169,14 +173,19 @@ public class ReadXMLDataParser implements ReadXML {
 						String[] splitTracks = playListTracks.split("Track ID");
 						for (int i = 0; i < splitTracks.length; i++) {
 							playlistTrackList.add(splitTracks[i]);
-							 log.info("playlist track: "+splitTracks[i]);
+							 //log.info("playlist track: "+splitTracks[i]);
 						}
 					}
 				}
 				playlist.setUserFK(user);
-				playlist.setTrackIDs(playlistTrackList);
+				playlistsMap.put(playlist,playlistTrackList);
+				//playlist.setTrackIDs(playlistTrackList);
 				if(playlist.getTitle() != null){
+					for(String s: playlistTrackList){
+						log.info("track on add to lists are "+s);
+					}
 					allPlaylists.add(playlist);
+					playlistsMap.put(playlist,playlistTrackList);
 				}
 				if(track.getArtist() != null){
 					trackList.add(track);
@@ -201,11 +210,28 @@ public class ReadXMLDataParser implements ReadXML {
 		}// end outer for
 		track.setUser(user);
 		for(Track t:trackList){
-			log.info("Track: "+t.getTitle());
+			//log.info("Track: "+t.getTitle());
+		}
+		for(Entry<Playlist, List<String>> entry : playlistsMap.entrySet()){
+			Playlist key = entry.getKey();
+			List<String> values = entry.getValue();
+			log.info("for playlist: "+key.getTitle()+" the track ids are: ");
+			for(String s: values){
+				log.info("track "+s);
+			}
+			
+			
 		}
 		for(Playlist p: allPlaylists){
-			List<Track> t = p.getTrackTitles();
-			log.info("Playlist: "+p.getTitle() + " tracks: "+t.toString());
+			List<String> t = p.getTrackIDs();
+			if(t.isEmpty()){
+				//log.info("no track ids now in playlist: "+p.getTitle());
+			}
+			
+			for(String s: t){
+				//log.info("tracks in playlist is after added to allPLaylists are: : "+s);
+			}
+			//log.info("Playlist: "+p.getTitle() + " tracks ids size is : "+t.size());
 		}
 		trackDAO.addTracks(trackList);
 		//playlistDAO.addAllPlaylists(allPlaylists);
@@ -214,10 +240,13 @@ public class ReadXMLDataParser implements ReadXML {
 	public static void addPlaylists(List<Playlist> allPlaylists) {
 		
 		for(Playlist p: allPlaylists){
+			//log.info("adding playlist titled: " + p.getTitle());
 			List<Track> playlistTracks = new ArrayList<Track>();
 			List<String> trackIDs = p.getTrackIDs();
+			//log.info("the track ids for his playlist are: "+p.getTrackIDs().toString());
 			for(String s: trackIDs){
 				playlistTracks.add(trackDAO.getTrack(s));
+				//log.info("adding playlist track, title is: "+trackDAO.getTrack(s).getTitle());
 			}
 			p.setTrackTitles(playlistTracks);
 		}
