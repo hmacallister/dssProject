@@ -62,6 +62,10 @@ public class Playlist implements Serializable{
 		this.userFK = userFK;
 	}
 
+	public Playlist(String title) {
+		this.title = title;
+	}
+
 
 	/*
 	public void addTrack(Track t) {

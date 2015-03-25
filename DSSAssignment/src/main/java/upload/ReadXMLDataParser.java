@@ -85,7 +85,7 @@ public class ReadXMLDataParser implements ReadXML {
 		if (doc.hasChildNodes()) {
 			printNote(doc.getChildNodes());
 		}
-		addPlaylists(allPlaylists);
+		addPlaylists(playlistsMap);
 
 	}
 
@@ -158,6 +158,7 @@ public class ReadXMLDataParser implements ReadXML {
 					}
 				}
 				if (searchPlaylists == true) {
+					//log.info("while playlists true temp noe is: "+ nodeList.item(count).getTextContent());
 					if (tempNode.getTextContent().equals("Playlist ID")) {
 						// Node tempNodePlaylistName = nodeList.item(count-1);
 						playListTitle = nodeList.item(count - 2)
@@ -176,17 +177,35 @@ public class ReadXMLDataParser implements ReadXML {
 							 //log.info("playlist track: "+splitTracks[i]);
 						}
 					}
-				}
-				playlist.setUserFK(user);
-				playlistsMap.put(playlist,playlistTrackList);
-				//playlist.setTrackIDs(playlistTrackList);
-				if(playlist.getTitle() != null){
-					for(String s: playlistTrackList){
-						log.info("track on add to lists are "+s);
+					if(playListTitle != null && !playListTitle.equals("")){
+						if(playListTracks !=null && user != null){
+							Playlist plist = new Playlist(playListTitle);
+							ArrayList<String> plTrackList = new ArrayList<String>();
+							String[] splitTracks = playListTracks.split("Track ID");
+							for (int i = 0; i < splitTracks.length; i++) {
+								plTrackList.add(splitTracks[i]);
+							}	
+							playlistsMap.put(plist,plTrackList);
+						}
 					}
-					allPlaylists.add(playlist);
-					playlistsMap.put(playlist,playlistTrackList);
+					//log.info("playlists title: "+ playListTitle+ " trascks = "+playListTracks);
 				}
+				//playlist.setUserFK(user);
+				//playlistsMap.put(playlist,playlistTrackList);
+				//playlist.setTrackIDs(playlistTrackList);
+				
+				
+//				
+//				if(playlist.getTitle() != null){
+//					for(String s: playlistTrackList){
+//					//	log.info("track on add to lists are "+s);
+//					}
+//					allPlaylists.add(playlist);
+//					//playlistsMap.put(playlist,playlistTrackList);
+//				}
+				
+				
+				
 				if(track.getArtist() != null){
 					trackList.add(track);
 				}
@@ -209,19 +228,33 @@ public class ReadXMLDataParser implements ReadXML {
 			}// end outer if
 		}// end outer for
 		track.setUser(user);
+		
+		
+		
+		/*
 		for(Track t:trackList){
 			//log.info("Track: "+t.getTitle());
 		}
-		for(Entry<Playlist, List<String>> entry : playlistsMap.entrySet()){
-			Playlist key = entry.getKey();
-			List<String> values = entry.getValue();
-			log.info("for playlist: "+key.getTitle()+" the track ids are: ");
-			for(String s: values){
-				log.info("track "+s);
-			}
-			
-			
-		}
+		
+		*/
+		
+		
+		
+	
+//		for(Entry<Playlist, List<String>> entry : playlistsMap.entrySet()){
+//			Playlist key = entry.getKey();
+//			List<String> values = entry.getValue();
+//			log.info("for playlist: "+key.getTitle()+" the track ids are: ");
+//			for(String s: values){
+//				log.info("track "+s);
+//			}
+//			
+//			
+//		}
+		
+		
+		
+		/*
 		for(Playlist p: allPlaylists){
 			List<String> t = p.getTrackIDs();
 			if(t.isEmpty()){
@@ -233,24 +266,48 @@ public class ReadXMLDataParser implements ReadXML {
 			}
 			//log.info("Playlist: "+p.getTitle() + " tracks ids size is : "+t.size());
 		}
+		*/
+		
+		
+		
 		trackDAO.addTracks(trackList);
 		//playlistDAO.addAllPlaylists(allPlaylists);
 	}// end print note
 
-	public static void addPlaylists(List<Playlist> allPlaylists) {
-		
-		for(Playlist p: allPlaylists){
-			//log.info("adding playlist titled: " + p.getTitle());
+	public static void addPlaylists(Map<Playlist, List<String> > allPlaylists) {
+		List<Playlist> allPlaylistsData = new ArrayList<Playlist>();
+		for(Entry<Playlist, List<String>> entry : allPlaylists.entrySet()){
+			Playlist playlist = entry.getKey();
+			playlist.setUserFK(user);
+			List<String> playlistTrackIDs = entry.getValue();
 			List<Track> playlistTracks = new ArrayList<Track>();
-			List<String> trackIDs = p.getTrackIDs();
-			//log.info("the track ids for his playlist are: "+p.getTrackIDs().toString());
-			for(String s: trackIDs){
-				playlistTracks.add(trackDAO.getTrack(s));
-				//log.info("adding playlist track, title is: "+trackDAO.getTrack(s).getTitle());
+			log.info("for playlist: "+playlist.getTitle()+" the track ids are: ");
+			for(String s: playlistTrackIDs){
+				try{
+					playlistTracks.add(trackDAO.getTrack(s));
+				}	
+				catch(Exception e){
+					log.info("no user for this track?");
+				}
+				log.info("track "+s);
 			}
-			p.setTrackTitles(playlistTracks);
+			playlist.setTrackTitles(playlistTracks);
+			allPlaylistsData.add(playlist);				
 		}
-		playlistDAO.addAllPlaylists(allPlaylists);
+		
+		
+//		for(Playlist p: allPlaylists){
+//			//log.info("adding playlist titled: " + p.getTitle());
+//			List<Track> playlistTracks = new ArrayList<Track>();
+//			List<String> trackIDs = p.getTrackIDs();
+//			//log.info("the track ids for his playlist are: "+p.getTrackIDs().toString());
+//			for(String s: trackIDs){
+//				playlistTracks.add(trackDAO.getTrack(s));
+//				//log.info("adding playlist track, title is: "+trackDAO.getTrack(s).getTitle());
+//			}
+//			p.setTrackTitles(playlistTracks);
+//		}
+		playlistDAO.addAllPlaylists(allPlaylistsData);
 	}
 
 	@Override
