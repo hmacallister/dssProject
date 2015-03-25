@@ -129,13 +129,13 @@
 			}
 			
 			function viewLibrary() {
-				window.name = "all";
+				//window.name = "all";
+				createCookie('choicecookie', "all", 0);
 				formFrame.src = "querytable.html";
 			}
 
 			function alterQuery() {
 				var choice = document.getElementById('querySelection').value;
-				alert(choice);
 				var formFrame = document.getElementById('formFrame');
 				var elem = document.getElementById("result")
 				elem.innerHTML = "Choose Another Query: <form role='form' action='queries.html'><div class='form-group'><button type='submit' class='btn btn-default'>Queries</button></div></form>";
@@ -144,7 +144,8 @@
 				queryDiv.className = 'hidden';
 				var tableDiv = document.getElementById("parametersAndTableVisibility");
 				tableDiv.className = 'unhidden';
-				window.name = choice;
+				//window.name = choice;
+				createCookie('choicecookie', choice, 0);
 				formFrame.src = "querytable.html";
 			
 			}

@@ -9,7 +9,7 @@
 
 		<title>Query Viewer</title>
 		<script type="text/javascript" id="me">
-			var name = window.name;
+			//var name = window.name;
 			//elem.style.color = 'red';
 			
 			//var code = name.substring(0, 3);
@@ -57,21 +57,22 @@
 		<script>
 			function errorLoader($scope, $http) {
 				console.log("name is: "+name);
-				if(name == "all"){
-					$http.get('/dss/rest/playlists/getplaylistbytitle/' + name).
+				var choice = readCookie('choicecookie')
+				if(choice == "all"){
+					$http.get('/dss/rest/playlists/getplaylistbytitle/' + choice).
 			        success(function(data) {
 			            $scope.records = data;
 			        });
 			        
-				    window.top.name = "";	
+				   // window.top.name = "";	
 				}				
 				else{
-					$http.get('/dss/rest/playlists/getplaylistbytitle/Country').
+					$http.get('/dss/rest/playlists/getplaylistbytitle/' + choice).
 			        success(function(data) {
 			            $scope.records = data;
 			        });
 			        
-				    window.top.name = "";
+				  //  window.top.name = "";
 				}
 				
 			}
@@ -96,6 +97,23 @@
 					}
 				}
 				return null;
+			}
+			function createCookie(name, value, days) {
+				if (days) {
+					var date = new Date();
+					date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+					var expires = "; expires=" + date.toGMTString();
+				} else
+					var expires = "";
+				document.cookie = name + "=" + value + expires + "; path=/";
+			}
+
+			function eraseCookie(name) {
+				createCookie(name, "", -1);
+				if(name == "usercookie"){
+					window.location.replace("/dss/login.html");
+				}
+				
 			}
 		</script>
 		   
