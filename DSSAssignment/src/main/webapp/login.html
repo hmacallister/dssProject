@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		
+		
+		<title>Login</title>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+			
+	</head>
+	<body>
+		<div class="body"></div>
+		<div class="header">
+		</div>
+		<br>
+		<div>
+		
+		</div>
+		
+		<div id="loginContent" class="login">
+			<div id="loginResult" style="display: none;"></div>
+			<form id="loginForm" name="loginForm">
+				<p id="result"></p>
+				
+				<fieldset>
+					<legend>
+						Enter information
+					</legend>
+					<p>
+						
+						<input type="text"
+						id="username" name="username" placeholder="username" class="text" size="20" autofocus required/>
+					</p>
+					<p>
+						
+						<input
+						type="password" id="password" name="password" placeholder="password"class="text"
+						size="20" required/>
+					</p>
+					<p>
+						<input type="submit" class="button positive" value="Login"/>
+							
+					</p>
+				</fieldset>
+			</form>
+			
+			<p>
+				<button id="register" type="submit" class="btn btn-default" onclick="registerUser()">
+					Register
+				</button>			
+			</p>
+			
+			<script>
+			window.onload = function(){
+				var x = readCookie('usercookie')
+				//alert("script! x = " + x)
+				if (x) {
+					var userID = x.charAt(x.length-2)
+					if(userID==-1){
+						eraseCookie('usercookie');
+					}
+					else{	
+						window.location.replace("upload.html");
+					}	
+				}
+			}
+		</script>
+			
+			<script	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+			
+			<script>
+			
+				(function($) {
+					function processForm(e) {
+						$.ajax({
+							url : '/dss/rest/users/getuser',
+							dataType : 'json',
+							type : 'post',
+							contentType : 'application/json',
+							data : JSON.stringify({
+								"username" : $('#username').val(),
+								"password" : $('#password').val()
+							}),
+							processData : false,
+							success : function(data, textStatus, jQxhr) {
+								if (data != null) {
+									createCookie('usercookie', JSON.stringify(data), 0);
+									var key = 'libraryPersistentID';
+									var elem = document.getElementById("result");
+									if (data[key] != -1){
+										window.location.replace("upload.html");
+									}
+									else {
+										elem.innerHTML = "Login Failed: wrong username or password";
+										elem.style.color = 'red';
+									}								
+								}
+								else{
+									elem.innerHTML = "Server Error - could not log in";
+									elem.style.color = 'red';
+									console.log(errorThrown);
+								}
+							},
+							error : function(jqXhr, textStatus, errorThrown) {						
+								createCookie('usercookie', JSON.stringify(data), 7);
+								document.write('<p>Unknown Error!!!! This should not happen</p><a href ="login.html">Continue</a>');
+								console.log(errorThrown);
+
+							}
+						});
+						e.preventDefault();
+					}
+
+
+					$('#loginForm').submit(processForm);
+				})(jQuery);
+				
+				function registerUser(){
+					//var username = document.getElementById('username');
+					//var password = document.getElementById('password');
+					//var libraryPersistentID = "TEMPORARY";
+					(function($){
+					try{	
+					$.ajax({
+							url : '/dss/rest/users/',
+							dataType : 'json',
+							type : 'put',
+							contentType : 'application/json',
+							data : JSON.stringify({
+								"username" : $('#username').val(),
+								"password" : $('#password').val(),
+								"libraryPersistentID" : "TEMPORARY ID"
+							}),
+							processData : false,
+							success : function(data, textStatus, jQxhr) {
+							var elem = document.getElementById("result");	
+								if (data != null) {
+									createCookie('usercookie', JSON.stringify(data), 0);
+									var key = 'libraryPersistentID';									
+									if (data[key] != -1){
+										alert("Registration Successful");
+										window.location.replace("upload.html");
+									}
+									else {
+										elem.innerHTML = "Login Failed: wrong username or password";
+										elem.style.color = 'red';
+									}								
+								}
+								else{
+									elem.innerHTML = "Username already exists! Please try another!";
+									elem.style.color = 'red';
+									console.log(errorThrown);
+								}
+							},
+							error : function(jqXhr, textStatus, errorThrown) {						
+								createCookie('usercookie', JSON.stringify(data), 7);
+								document.write('<p>Unknown Error!!!! This should not happen</p><a href ="login.html">Continue</a>');
+								console.log(errorThrown);
+
+							}
+						});
+						catch(Exception e){
+							e.preventDefault();
+							console.log(e);
+
+						}	
+						
+					
+					})(jQuery);
+				}	
+
+				function createCookie(name, value, days) {
+					if (days) {
+						var date = new Date();
+						date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+						var expires = "; expires=" + date.toGMTString();
+					} else
+						var expires = "";
+					document.cookie = name + "=" + value + expires + "; path=/";
+				}
+
+				function readCookie(name) {
+					var nameEQ = name + "=";
+					var ca = document.cookie.split(';');
+					for (var i = 0; i < ca.length; i++) {
+						var c = ca[i];
+						while (c.charAt(0) == ' ')
+						c = c.substring(1, c.length);
+						if (c.indexOf(nameEQ) == 0)
+							return c.substring(nameEQ.length, c.length);
+					}
+					return null;
+				}
+
+				function eraseCookie(name) {
+					createCookie(name, "", -1);
+				}
+
+			</script>
+
+		</div>
+	</body>
+</html>
