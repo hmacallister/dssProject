@@ -13,6 +13,7 @@ public interface UserService {
 	User getUser(User user);
 	User getUserById(User user);
 	User addUser(User user);
+	User getUserByLibraryPersistentID(String libraryPersistentID);
 	void updateUser(User user);
 	void deleteUser(User user);
 

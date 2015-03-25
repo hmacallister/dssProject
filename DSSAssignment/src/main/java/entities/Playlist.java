@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,7 +35,7 @@ public class Playlist implements Serializable{
 	private String title;
 	
 	@JoinColumn(name = "users", referencedColumnName = "id", nullable = true)
-	@OneToOne
+	@OneToOne(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
 	private User userFK;
 	
 	@Transient
@@ -47,7 +48,7 @@ public class Playlist implements Serializable{
 	
 
 	@JoinColumn(name = "tracks", referencedColumnName = "id", nullable = true)
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
 	private List<Track> trackTitles = new ArrayList<Track>();
 	
 	

@@ -58,8 +58,13 @@
 			function errorLoader($scope, $http) {
 				console.log("name is: "+name);
 				var choice = readCookie('choicecookie')
-				if(choice == "all"){
-					$http.get('/dss/rest/playlists/getplaylistbytitle/' + choice).
+				alert(choice);
+				if(choice == 1){
+					var x = readCookie('usercookie')
+					var libraryPersistentID = x.split('libraryPersistentID":"');		
+					var userID = libraryPersistentID[1].substring(0,libraryPersistentID[1].length-2);
+					//alert(userID);
+					$http.get('/dss/rest/tracks/getlibrary/29E12A03204E0721').
 			        success(function(data) {
 			            $scope.records = data;
 			        });

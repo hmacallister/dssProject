@@ -1,6 +1,8 @@
 package rest;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -10,10 +12,13 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import services.UserService;
+import dao.TrackDAO;
+import entities.Track;
 import entities.User;
 
 @Path("/users")
@@ -22,6 +27,9 @@ public class UsersRest {
 
 	@EJB
 	private UserService service;
+	
+	@EJB
+	private TrackDAO trackDAO;
 
 	@GET
 	@Path("/getallusers")
@@ -67,6 +75,6 @@ public class UsersRest {
 	public void deleteUser(User user){
 		service.deleteUser(user);
 	}
-	
+		
 
 }

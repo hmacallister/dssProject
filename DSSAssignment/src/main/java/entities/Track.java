@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -44,7 +45,7 @@ public class Track implements Serializable {
 	private String genre;
 	
 	@JoinColumn (name="user_id", referencedColumnName="id", nullable = false)
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
 	private User user;
 	
 	/*

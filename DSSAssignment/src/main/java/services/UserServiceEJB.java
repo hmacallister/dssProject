@@ -42,7 +42,13 @@ public class UserServiceEJB implements UserService{
 	public User getUserById(User user) {
 		return dao.getUserById(user);
 	}
-	
+
+
+	@Override
+	public User getUserByLibraryPersistentID(String libraryPersistentID) {
+		return dao.getUserByLibraryPersistentID(libraryPersistentID);
+	}
+
 
 
 

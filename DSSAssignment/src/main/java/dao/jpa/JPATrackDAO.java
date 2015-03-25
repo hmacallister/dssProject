@@ -48,6 +48,21 @@ public class JPATrackDAO implements TrackDAO{
 		return result.get(0);
 	}
 
+	@Override
+	public List<Track> getTracksByUser(String userID) {
+		Query userQuery = em.createQuery("from User u where u.libraryPersistentID = :userID");
+		userQuery.setParameter("userID", userID);
+		List<User> userresult = userQuery.getResultList();
+		User user = userresult.get(0);
+		Query query = em.createQuery("from Track t where t.user = :user");
+		query.setParameter("user", user);
+		List<Track> result = query.setMaxResults(100).getResultList();
+		if(result.isEmpty()){
+			return null;
+		}
+		return result;
+	}
+
 	/*
 	
 	public User getUser(User user) {

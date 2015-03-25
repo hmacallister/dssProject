@@ -1,4 +1,4 @@
-package dao;
+package services;
 
 import java.util.List;
 
@@ -7,8 +7,10 @@ import javax.ejb.Local;
 import entities.Track;
 
 @Local
-public interface TrackDAO {
+public interface TrackService {
+	
 	void addTracks(List<Track> tracks);
 	Track getTrack(String trackID);
 	List<Track> getTracksByUser(String userID);
+
 }
