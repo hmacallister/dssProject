@@ -120,7 +120,7 @@ public class ReadXMLDataParser implements ReadXML {
 					libraryPersistentID = tempNodeLPID.getTextContent();
 					user = userDao
 							.getUserByLibraryPersistentID(libraryPersistentID);
-					if (user.getLibraryPersistentID().equals("-1")) {
+					if (user.getLibraryPersistentID().equals("-1") || user.getLibraryPersistentID().equals("TEMPORARY ID")) {
 						user.setLibraryPersistentID(libraryPersistentID);
 						userDao.updateUser(user);
 					}
@@ -277,37 +277,30 @@ public class ReadXMLDataParser implements ReadXML {
 	public static void addPlaylists(Map<Playlist, List<String> > allPlaylists) {
 		List<Playlist> allPlaylistsData = new ArrayList<Playlist>();
 		for(Entry<Playlist, List<String>> entry : allPlaylists.entrySet()){
-			Playlist playlist = entry.getKey();
-			playlist.setUserFK(user);
-			List<String> playlistTrackIDs = entry.getValue();
-			List<Track> playlistTracks = new ArrayList<Track>();
-			log.info("for playlist: "+playlist.getTitle()+" the track ids are: ");
-			for(String s: playlistTrackIDs){
-				try{
-					playlistTracks.add(trackDAO.getTrack(s));
-				}	
-				catch(Exception e){
-					log.info("no user for this track?");
+			try{
+				Playlist playlist = entry.getKey();
+				playlist.setUserFK(user);
+				List<String> playlistTrackIDs = entry.getValue();
+				List<Track> playlistTracks = new ArrayList<Track>();
+				//log.info("for playlist: "+playlist.getTitle()+" the track ids are: ");
+				for(String s: playlistTrackIDs){
+					try{
+						playlistTracks.add(trackDAO.getTrack(s));
+					}	
+					catch(Exception e){
+						log.info("no record of this track" + s);
+					}
+					//log.info("track "+s);
 				}
-				log.info("track "+s);
+				playlist.setTrackTitles(playlistTracks);
+				allPlaylistsData.add(playlist);				
 			}
-			playlist.setTrackTitles(playlistTracks);
-			allPlaylistsData.add(playlist);				
+			catch(Exception e){
+				log.info("error in the playlist: "+ entry.getKey().getTitle());
+			}
 		}
-		
-		
-//		for(Playlist p: allPlaylists){
-//			//log.info("adding playlist titled: " + p.getTitle());
-//			List<Track> playlistTracks = new ArrayList<Track>();
-//			List<String> trackIDs = p.getTrackIDs();
-//			//log.info("the track ids for his playlist are: "+p.getTrackIDs().toString());
-//			for(String s: trackIDs){
-//				playlistTracks.add(trackDAO.getTrack(s));
-//				//log.info("adding playlist track, title is: "+trackDAO.getTrack(s).getTitle());
-//			}
-//			p.setTrackTitles(playlistTracks);
-//		}
 		playlistDAO.addAllPlaylists(allPlaylistsData);
+		
 	}
 
 	@Override

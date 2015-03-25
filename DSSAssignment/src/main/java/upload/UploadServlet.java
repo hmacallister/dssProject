@@ -2,7 +2,8 @@ package upload;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -84,10 +85,11 @@ public class UploadServlet extends HttpServlet {
 			//fileExtension = getFileExtension(fileName);
 		//	if(fileExtension.equals(".xml")){
 				correctFileFound = true;
-				long timeInMili = System.currentTimeMillis();
-				Date t = new Date(timeInMili);
-				timeInMili = timeInMili >> 4;
-				finalFileName = t + "_" + "_"+ timeInMili + "_" + fileName;
+				//long timeInMili = System.currentTimeMillis();
+				//Date t = new Date(timeInMili);
+				//timeInMili = timeInMili >> 4;
+				String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+				finalFileName = timeStamp + "_" + fileName;
 				finalFilePath = savePath + File.separator + finalFileName;
 				part.write(finalFilePath);
 				fileDao.addUploadedFilePath(finalFileName, finalFilePath, false);

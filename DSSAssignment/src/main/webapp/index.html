@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+		<title>Home</title>
+
+	</head>
+
+	<body>
+
+		<div id="wrapper">
+		<button id="logOut" type="submit" class="btn btn-default" onclick="eraseCookie('usercookie')">
+			Log Out
+		</button>
+			
+			<div id="page-wrapper">
+
+	
+			<div id="mainPanel" align="center">
+				<iframe align="left" id="formFrame" src="upload.html" frameborder=0 width="50%" height="250"></iframe>
+				<iframe align="right" id="tableFrame" src="queries.html" frameborder=0 width="50%" height="600"></iframe>					
+			</div><!-- end parametersAndTableVisibility  -->
+		
+
+
+
+			</div>
+			<!-- /#page-wrapper -->
+
+		</div>
+		<!-- /#wrapper -->
+
+		<script>
+			var x = readCookie('usercookie')
+			if (!x) {
+				window.location.replace("/dss/login.html");
+			}
+
+			function createCookie(name, value, days) {
+				if (days) {
+					var date = new Date();
+					date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+					var expires = "; expires=" + date.toGMTString();
+				} else
+					var expires = "";
+				document.cookie = name + "=" + value + expires + "; path=/";
+			}
+
+			function readCookie(name) {
+				var nameEQ = name + "=";
+				var ca = document.cookie.split(';');
+				for (var i = 0; i < ca.length; i++) {
+					var c = ca[i];
+					while (c.charAt(0) == ' ')
+					c = c.substring(1, c.length);
+					if (c.indexOf(nameEQ) == 0)
+						return c.substring(nameEQ.length, c.length);
+				}
+				return null;
+			}
+
+			function eraseCookie(name) {
+				createCookie(name, "", -1);
+				window.location.replace("/dss/login.html");
+			}
+
+		</script>
+
+
+	</body>
+
+</html>

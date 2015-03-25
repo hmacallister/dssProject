@@ -10,15 +10,10 @@
 			
 	</head>
 	<body>
-		<div class="body"></div>
-		<div class="header">
-		</div>
-		<br>
-		<div>
+
+
 		
-		</div>
-		
-		<div id="loginContent" class="login">
+		<div id="loginContent" class="login" align="center" style="width:500px;">
 			<div id="loginResult" style="display: none;"></div>
 			<form id="loginForm" name="loginForm">
 				<p id="result"></p>
@@ -61,7 +56,7 @@
 						eraseCookie('usercookie');
 					}
 					else{	
-						window.location.replace("upload.html");
+						window.location.replace("index.html");
 					}	
 				}
 			}
@@ -89,7 +84,7 @@
 									var key = 'libraryPersistentID';
 									var elem = document.getElementById("result");
 									if (data[key] != -1){
-										window.location.replace("upload.html");
+										window.location.replace("index.html");
 									}
 									else {
 										elem.innerHTML = "Login Failed: wrong username or password";
@@ -120,8 +115,7 @@
 					//var username = document.getElementById('username');
 					//var password = document.getElementById('password');
 					//var libraryPersistentID = "TEMPORARY";
-					(function($){
-					try{	
+					(function($){	
 					$.ajax({
 							url : '/dss/rest/users/',
 							dataType : 'json',
@@ -134,13 +128,13 @@
 							}),
 							processData : false,
 							success : function(data, textStatus, jQxhr) {
-							var elem = document.getElementById("result");	
+								var elem = document.getElementById("result");	
 								if (data != null) {
 									createCookie('usercookie', JSON.stringify(data), 0);
 									var key = 'libraryPersistentID';									
 									if (data[key] != -1){
 										alert("Registration Successful");
-										window.location.replace("upload.html");
+										window.location.replace("index.html");
 									}
 									else {
 										elem.innerHTML = "Login Failed: wrong username or password";
@@ -154,21 +148,15 @@
 								}
 							},
 							error : function(jqXhr, textStatus, errorThrown) {						
-								createCookie('usercookie', JSON.stringify(data), 7);
+								createCookie('usercookie', JSON.stringify(data), 0);
 								document.write('<p>Unknown Error!!!! This should not happen</p><a href ="login.html">Continue</a>');
 								console.log(errorThrown);
 
 							}
 						});
-						catch(Exception e){
-							e.preventDefault();
-							console.log(e);
-
-						}	
-						
 					
-					})(jQuery);
-				}	
+					})(jQuery);//end anonymous inner function
+				}//end register user	
 
 				function createCookie(name, value, days) {
 					if (days) {

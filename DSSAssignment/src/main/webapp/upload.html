@@ -15,13 +15,14 @@
 	</head>
 
 	<body ng-controller="fileLoader">
-		<button id="logOut" type="submit" class="btn btn-default" onclick="eraseCookie('usercookie')">
-			Log Out
-		</button>
+<!-- 		<button id="logOut" type="submit" class="btn btn-default" onclick="eraseCookie('usercookie')"> -->
+<!-- 			Log Out -->
+<!-- 		</button> -->
 
-		<h1 class="page-header"> Import & Upload <small>New Playlists</small></h1>
+		
 
-		<div id="mainPanel" align="center">
+		<div id="uploadPanel" align="center">
+		<h2> Import & Upload <small>New Playlists</small></h2>
 			<!--<h1>File Upload</h1>-->
 			<form method="post" action="UploadServlet" enctype="multipart/form-data" style="display: inline-block">
 				Select file to upload to server:
@@ -54,14 +55,12 @@
 			<br/>
 		</div>
 
-		</div>
-		<!-- /#wrapper -->
+		
 
 		<!-- jQuery -->
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
 
 		<script>
-			alert(document.cookie);
 			var x = readCookie('usercookie')
 			if (!x) {
 				window.location.replace("/dss/login.html");
