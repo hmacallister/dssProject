@@ -64,7 +64,7 @@
 					var libraryPersistentID = x.split('libraryPersistentID":"');		
 					var userID = libraryPersistentID[1].substring(0,libraryPersistentID[1].length-2);
 					//alert(userID);
-					$http.get('/dss/rest/tracks/getlibrary/29E12A03204E0721').
+					$http.get('/dss/rest/tracks/getlibrary/'+ userID).
 			        success(function(data) {
 			            $scope.records = data;
 			        });
