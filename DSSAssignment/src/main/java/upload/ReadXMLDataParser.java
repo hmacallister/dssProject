@@ -209,7 +209,7 @@ public class ReadXMLDataParser implements ReadXML {
 //				}
 				
 				
-				
+				track.setUser(user);
 				if(track.getArtist() != null){
 					trackList.add(track);
 				}
@@ -231,7 +231,6 @@ public class ReadXMLDataParser implements ReadXML {
 					// " [CLOSE]");
 			}// end outer if
 		}// end outer for
-		track.setUser(user);
 		
 		
 		
@@ -289,7 +288,9 @@ public class ReadXMLDataParser implements ReadXML {
 				//log.info("for playlist: "+playlist.getTitle()+" the track ids are: ");
 				for(String s: playlistTrackIDs){
 					try{
-						playlistTracks.add(trackDAO.getTrack(s));
+						Track track = trackDAO.getTrack(s);
+						track.setUser(user);		
+						playlistTracks.add(track);
 					}	
 					catch(Exception e){
 						log.info("no record of this track" + s);

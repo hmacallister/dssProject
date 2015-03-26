@@ -10,7 +10,7 @@
 		<meta name="author" content="">
 
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-		<title>Queries</title>
+		<title>Home</title>
 
 		<script>
 			function resizeTableFrame() {
@@ -89,21 +89,39 @@
 
 		<script>
 			var x = readCookie('usercookie')
+			//alert(x);
 			if (!x) {
 				window.location.replace("/dss/login.html");
 			}
 			else{
-				var userID = x.charAt(x.length-2)
-					if(userID==-1 || userID==0){
+				var ID = x.charAt(x.length-3)
+				//alert("USER ID: "+userID);
+					if(ID==-1 || ID==0){
 						eraseCookie('usercookie');
 					}
-					
+					if(ID=='D'){
+						var username = x.split('username":"');		
+						var usersplit = username[1].substring(0,username[1].length-2);
+						var passwordsplit = (usersplit.split('","password'));
+						var userID = passwordsplit[0];
+						//alert(userID);
+						
+						$http.get('/dss/rest/users/getuserbyname/'+userID).success(function(data) {
+							libraryPersistentID = data;
+						});
+						alert(data);
+						//alert(x);
+						
+					}
+										
 			}
 
 			function queryReferenceLoader($scope, $http) {
-				var x = readCookie('usercookie');
-				var userType = x.charAt(x.length - 2);
-				$http.get('/dss/rest/playlists/').success(function(data) {
+				var x = readCookie('usercookie')
+				var libraryPersistentID = x.split('libraryPersistentID":"');		
+				var userID = libraryPersistentID[1].substring(0,libraryPersistentID[1].length-2);
+				alert(userID);
+				$http.get('/dss/rest/playlists/playlistsbyuser/'+userID).success(function(data) {
 					$scope.queries = data;
 				});
 			}

@@ -45,7 +45,7 @@ public class PlaylistServiceEJB implements PlaylistService{
 	}
 
 	@Override
-	public Collection<Playlist> getPlaylistsByUser(int user) {
+	public Collection<Playlist> getPlaylistsByUser(String user) {
 		return dao.getPlaylistsByUser(user);
 	}
 

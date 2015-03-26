@@ -19,7 +19,7 @@ public interface PlaylistService {
 	
 	void updatePlaylist(Playlist playlist);
 
-	Collection<Playlist> getPlaylistsByUser(int user);
+	Collection<Playlist> getPlaylistsByUser(String user);
 
 	Collection<Playlist> getAllPlaylists();
 

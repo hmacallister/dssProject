@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 
 import services.UserService;
 import dao.TrackDAO;
+import entities.Playlist;
 import entities.Track;
 import entities.User;
 
@@ -37,6 +38,14 @@ public class UsersRest {
 	public Collection<User> getAllUsers() {
 		return service.getUsers();
 	}
+	
+	@GET
+	@Path("getuserbyname/{user}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getPlaylistsByUser(@PathParam("user") String user) {
+		return service.getUserByName(user);
+	}
+
 	
 	@POST
 	@Path("/getuser")

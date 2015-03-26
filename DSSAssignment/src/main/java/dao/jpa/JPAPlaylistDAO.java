@@ -11,6 +11,7 @@ import javax.persistence.Query;
 
 import dao.PlaylistDAO;
 import entities.Playlist;
+import entities.User;
 
 @Stateless
 @Local
@@ -61,8 +62,12 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 	}
 
 	@Override
-	public Collection<Playlist> getPlaylistsByUser(int user) {
-		Query query = em.createQuery("from Playlist cd where cd.users = :user");
+	public Collection<Playlist> getPlaylistsByUser(String userID) {
+		Query userQuery = em.createQuery("from User u where u.libraryPersistentID = :userID");
+		userQuery.setParameter("userID", userID);
+		List<User> userresult = userQuery.getResultList();
+		User user = userresult.get(0);
+		Query query = em.createQuery("from Playlist p where p.user = :user");
 		query.setParameter("user", user);
 		List<Playlist> result = query.getResultList();
 		return result;

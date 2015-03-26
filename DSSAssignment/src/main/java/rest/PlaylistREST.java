@@ -1,15 +1,11 @@
 package rest;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -32,6 +28,13 @@ public class PlaylistREST {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Playlist> getAllPlaylists() {
 		return service.getAllPlaylists();
+	}
+	
+	@GET
+	@Path("playlistsbyuser/{user}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Playlist> getPlaylistsByUser(@PathParam("user") String user) {
+		return service.getPlaylistsByUser(user);
 	}
 	
 	@GET
