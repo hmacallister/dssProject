@@ -37,10 +37,10 @@ public class Playlist implements Serializable{
 	@JoinColumn(name = "users", referencedColumnName = "id", nullable = true)
 	@OneToOne(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
 	private User userFK;
-	
-	@Transient
-	private List<String> trackIDs = new ArrayList<String>();
-	
+//	
+//	@Transient
+//	private List<String> trackIDs = new ArrayList<String>();
+//	
 	/*
 	@OneToMany(mappedBy="playlist", cascade={CascadeType.MERGE, CascadeType.PERSIST})
 	private List<Track> trackTitles = new ArrayList<Track>();
@@ -134,16 +134,16 @@ public class Playlist implements Serializable{
 			return false;
 		return true;
 	}
-
-	public List<String> getTrackIDs() {
-		return trackIDs;
-	}
-
-	public void setTrackIDs(List<String> trackIDs) {
-		this.trackIDs = trackIDs;
-	}
-	
-	
+//
+//	public List<String> getTrackIDs() {
+//		return trackIDs;
+//	}
+//
+//	public void setTrackIDs(List<String> trackIDs) {
+//		this.trackIDs = trackIDs;
+//	}
+//	
+//	
 	
 
 }

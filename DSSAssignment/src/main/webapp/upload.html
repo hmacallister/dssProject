@@ -18,11 +18,13 @@
 <!-- 		<button id="logOut" type="submit" class="btn btn-default" onclick="eraseCookie('usercookie')"> -->
 <!-- 			Log Out -->
 <!-- 		</button> -->
+			
 
 		
-
+		
 		<div id="uploadPanel" align="center">
-		<h2> Import & Upload <small>New Playlists</small></h2>
+			<h1>Registration Successful! <small>Welcome new user</small></h1>
+		<h2> Import <small>Your Library</small></h2>
 			<!--<h1>File Upload</h1>-->
 			<form method="post" action="UploadServlet" enctype="multipart/form-data" style="display: inline-block">
 				Select file to upload to server:
@@ -118,7 +120,7 @@
 			var len = response.length;
 			var elem = document.getElementById("server-reponse");
 			if (len > 2) {
-				elem.innerHTML = "Server Response:" + response;
+				elem.innerHTML = "Server Response:" + response + "<p>Go to home page: </p><a href ='index.html'>Home</a>";
 				//elem.style.color = 'red';
 			}
 

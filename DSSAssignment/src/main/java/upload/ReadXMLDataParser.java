@@ -48,7 +48,7 @@ public class ReadXMLDataParser implements ReadXML {
 	private static String playListTitle;
 	private static String playListTracks;
 	private static User user = new User();
-	private static List<Playlist> allPlaylists = new ArrayList<Playlist>();
+	//private static List<Playlist> allPlaylists = new ArrayList<Playlist>();
 	private static Map<Playlist, List<String> > playlistsMap = new HashMap<Playlist, List<String> >();
 	static boolean searchTracks;
 	static boolean searchPlaylists;
@@ -118,12 +118,16 @@ public class ReadXMLDataParser implements ReadXML {
 				if (tempNode.getTextContent().equals("Library Persistent ID")) {
 					Node tempNodeLPID = nodeList.item(count + 1);
 					libraryPersistentID = tempNodeLPID.getTextContent();
-					user = userDao
-							.getUserByLibraryPersistentID(libraryPersistentID);
-					if (user.getLibraryPersistentID().equals("-1") || user.getLibraryPersistentID().equals("TEMPORARY ID")) {
-						user.setLibraryPersistentID(libraryPersistentID);
-						userDao.updateUser(user);
-					}
+//					user = userDao
+//							.getUserByLibraryPersistentID(libraryPersistentID);
+//					if (user.getLibraryPersistentID().equals("-1") || user.getLibraryPersistentID().equals("TEMPORARY ID")) {
+//						user.setLibraryPersistentID(libraryPersistentID);
+//						userDao.updateUser(user);
+//					}
+					user = userDao.getUserByLibraryPersistentID("TEMPORARY ID");
+					log.info("user returned from temp is: "+user.getUsername()+" user lib id is now: "+libraryPersistentID);
+					user.setLibraryPersistentID(libraryPersistentID);
+					userDao.updateUser(user);
 				}
 				if (searchTracks == true) {
 					if (tempNode.getTextContent().equals("Track ID")) {

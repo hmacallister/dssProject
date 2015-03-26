@@ -95,18 +95,6 @@ public class User implements Serializable{
 	public void setLibraryPersistentID(String libraryPersistentID) {
 		this.libraryPersistentID = libraryPersistentID;
 	}
-	
-	/*
-
-	public List<Track> getTrackTitles() {
-		return trackTitles;
-	}
-
-	public void setTrackTitles(List<Track> trackTitles) {
-		this.trackTitles = trackTitles;
-	}
-	
-	*/
 
 	@Override
 	public int hashCode() {
@@ -116,6 +104,8 @@ public class User implements Serializable{
 				* result
 				+ ((libraryPersistentID == null) ? 0 : libraryPersistentID
 						.hashCode());
+		result = prime * result
+				+ ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
@@ -133,8 +123,27 @@ public class User implements Serializable{
 				return false;
 		} else if (!libraryPersistentID.equals(other.libraryPersistentID))
 			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
 		return true;
 	}
+	
+	/*
+
+	public List<Track> getTrackTitles() {
+		return trackTitles;
+	}
+
+	public void setTrackTitles(List<Track> trackTitles) {
+		this.trackTitles = trackTitles;
+	}
+	
+	*/
+
+
 
 	
 

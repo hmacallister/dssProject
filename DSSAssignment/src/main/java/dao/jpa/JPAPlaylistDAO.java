@@ -24,7 +24,7 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 		Query query = em.createQuery("from Playlist");
 		List<Playlist> playlists = query.getResultList();
 		if (!playlists.contains(playlists)) {
-			em.persist(playlists);
+			em.merge(playlists);
 		}
 		
 	}
@@ -80,7 +80,7 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 	public void addAllPlaylists(List<Playlist> playlists) {
 		for(Playlist playlist: playlists){
 			playlist.getTrackTitles();
-			em.persist(playlist);
+			em.merge(playlist);
 		}
 		
 	}

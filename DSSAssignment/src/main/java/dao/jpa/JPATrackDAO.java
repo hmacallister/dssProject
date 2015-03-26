@@ -24,7 +24,7 @@ public class JPATrackDAO implements TrackDAO{
 	@Override
 	public void addTracks(List<Track> tracks) {
 		for(Track track: tracks){
-			em.persist(track);
+			em.merge(track);
 		}
 		
 	}
@@ -42,7 +42,7 @@ public class JPATrackDAO implements TrackDAO{
 		List<Track> result = query.getResultList();
 		if(result.isEmpty()){
 			Track t = new Track("error", "error", "error", "error", trackId);
-			em.persist(t);
+			em.merge(t);
 			return  t;
 		}
 		return result.get(0);
@@ -70,7 +70,7 @@ public class JPATrackDAO implements TrackDAO{
 		List<User> res = q.getResultList();
 		if(res.isEmpty()){
 			User admin = new User("admin", "admin", "0");
-			em.persist(admin);
+			em.merge(admin);
 		}
 		Query query = em.createQuery("from User u where u.username = :username and u.password = :password");
 		query.setParameter("username", user.getUsername());
@@ -88,7 +88,7 @@ public class JPATrackDAO implements TrackDAO{
 		Query query = em.createQuery("from User");
 		List<User> users = query.getResultList();
 		if (!users.contains(user)){
-			em.persist(user);
+			em.merge(user);
 			return user;
 		}
 		return null;
