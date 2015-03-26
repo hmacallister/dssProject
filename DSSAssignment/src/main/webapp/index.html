@@ -100,6 +100,7 @@
 						eraseCookie('usercookie');
 					}
 					if(ID=='D'){
+						var libraryPersistentID="";
 						var username = x.split('username":"');		
 						var usersplit = username[1].substring(0,username[1].length-2);
 						var passwordsplit = (usersplit.split('","password'));
@@ -109,7 +110,7 @@
 						$http.get('/dss/rest/users/getuserbyname/'+userID).success(function(data) {
 							libraryPersistentID = data;
 						});
-						alert(data);
+						alert(libraryPersistentID);
 						//alert(x);
 						
 					}
