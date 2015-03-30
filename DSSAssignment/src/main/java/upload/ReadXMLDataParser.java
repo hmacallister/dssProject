@@ -188,8 +188,11 @@ public class ReadXMLDataParser implements ReadXML {
 							String[] splitTracks = playListTracks.split("Track ID");
 							for (int i = 0; i < splitTracks.length; i++) {
 								plTrackList.add(splitTracks[i]);
-							}	
-							playlistsMap.put(plist,plTrackList);
+							}
+							if(!playlistsMap.containsKey(plist)){
+								playlistsMap.put(plist,plTrackList);
+							}
+							
 						}
 					}
 					//log.info("playlists title: "+ playListTitle+ " trascks = "+playListTracks);
@@ -210,7 +213,7 @@ public class ReadXMLDataParser implements ReadXML {
 				
 				
 				track.setUser(user);
-				if(track.getArtist() != null){
+				if(track.getArtist() != null && !trackList.contains(track)){
 					trackList.add(track);
 				}
 

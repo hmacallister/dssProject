@@ -10,7 +10,7 @@
 		<meta name="author" content="">
 
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-		<title>File Upload</title>
+		<title>Library Upload</title>
 
 	</head>
 
@@ -36,7 +36,6 @@
 			<h4 id="server-reponse"></h4>
 			<br>
 			<form form id='homeForm' enctype="multipart/form-data" role="form">
-				User Profile now complete:
 				<input id="homeButton" value ="Home" type="hidden" class="btn btn-default" onclick="createUserCookie()"/>
 				<br>
 			</form>
@@ -124,7 +123,7 @@
 				//elem.style.color = 'red';
 			}
 			if (len > 18) {
-				elem.innerHTML = "Server Response:" + response;
+				elem.innerHTML = "Server Response:" + response + "<br>User Profile now complete!";
 				document.getElementById("homeButton").type = "submit";
 			}
 
