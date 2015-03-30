@@ -67,7 +67,7 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 		userQuery.setParameter("userID", userID);
 		List<User> userresult = userQuery.getResultList();
 		User user = userresult.get(0);
-		Query query = em.createQuery("from Playlist p where p.user = :user");
+		Query query = em.createQuery("from Playlist p where p.userFK = :user");
 		query.setParameter("user", user);
 		List<Playlist> result = query.getResultList();
 		return result;

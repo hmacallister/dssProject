@@ -15,16 +15,13 @@
 	</head>
 
 	<body ng-controller="fileLoader">
-<!-- 		<button id="logOut" type="submit" class="btn btn-default" onclick="eraseCookie('usercookie')"> -->
-<!-- 			Log Out -->
-<!-- 		</button> -->
-			
+		<!-- 		<button id="logOut" type="submit" class="btn btn-default" onclick="eraseCookie('usercookie')"> -->
+		<!-- 			Log Out -->
+		<!-- 		</button> -->
 
-		
-		
 		<div id="uploadPanel" align="center">
 			<h1>Registration Successful! <small>Welcome new user</small></h1>
-		<h2> Import <small>Your Library</small></h2>
+			<h2> Import <small>Your Library</small></h2>
 			<!--<h1>File Upload</h1>-->
 			<form method="post" action="UploadServlet" enctype="multipart/form-data" style="display: inline-block">
 				Select file to upload to server:
@@ -38,6 +35,11 @@
 			<br>
 			<h4 id="server-reponse"></h4>
 			<br>
+			<form form id='homeForm' enctype="multipart/form-data" role="form">
+				User Profile now complete:
+				<input id="homeButton" value ="Home" type="hidden" class="btn btn-default" onclick="createUserCookie()"/>
+				<br>
+			</form>
 
 			<form form id='form' role="form" method="get" action="UploadServlet" enctype="multipart/form-data" style="display: inline-block">
 				Select uploaded file to send to database:
@@ -57,8 +59,6 @@
 			<br/>
 		</div>
 
-		
-
 		<!-- jQuery -->
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
 
@@ -67,7 +67,7 @@
 			if (!x) {
 				window.location.replace("/dss/login.html");
 			}
-			
+
 			function hideButton() {
 				var buttn = document.getElementById("submitButton");
 				var parent = buttn.parentNode;
@@ -120,10 +120,70 @@
 			var len = response.length;
 			var elem = document.getElementById("server-reponse");
 			if (len > 2) {
-				elem.innerHTML = "Server Response:" + response + "<p>Go to home page: </p><a href ='index.html'>Home</a>";
+				elem.innerHTML = "Server Response:" + response;
 				//elem.style.color = 'red';
 			}
+			if (len > 18) {
+				elem.innerHTML = "Server Response:" + response;
+				document.getElementById("homeButton").type = "submit";
+			}
 
+			function createUserCookie() {
+				var libraryPersistentID = "";
+				var username = x.split('username":"');
+				var usersplit = username[1].substring(0, username[1].length - 2);
+				var passwordsplit = (usersplit.split('","password'));
+				var userID = passwordsplit[0];
+				alert(userID);
+
+				(function($) {
+					$.ajax({
+						url : '/dss/rest/users/getuserbyname',
+						dataType : 'json',
+						type : 'post',
+						contentType : 'application/json',
+						data : JSON.stringify({
+							"username" : userID,
+							"password" : "hhh",
+							"libraryPersistentID" : "TEMPORARY ID"
+						}),
+						processData : false,
+						success : function(data, textStatus, jQxhr) {
+							var elem = document.getElementById("server-reponse");
+							if (data != null) {
+								createCookie('usercookie', JSON.stringify(data), 0);
+								var key = 'libraryPersistentID';
+								if (data[key] != -1) {
+									alert("Registration Successful");
+									window.location.replace("index.html");
+								} else {
+									elem.innerHTML = "Login Failed: wrong username or password";
+									elem.style.color = 'red';
+								}
+							} else {
+								elem.innerHTML = "Username already exists! Please try another!";
+								elem.style.color = 'red';
+								console.log(errorThrown);
+							}
+						},
+						error : function(jqXhr, textStatus, errorThrown) {
+							createCookie('usercookie', "", 0);
+							document.write('<p>Unknown Error!!!! This should not happen</p><a href ="login.html">Continue</a>');
+							console.log(errorThrown);
+
+						}
+					});
+
+				})(jQuery);
+				//end anonymous inner function
+
+				/*
+				 $http.get('/dss/rest/users/getuserbyname/'+userID).success(function(data) {
+				 libraryPersistentID = data;
+				 alert(libraryPersistentID);
+				 });
+				 */
+			}
 		</script>
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

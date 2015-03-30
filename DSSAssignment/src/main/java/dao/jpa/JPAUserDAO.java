@@ -108,10 +108,10 @@ public class JPAUserDAO implements UserDAO{
 
 
 	@Override
-	public String getUserByName(String username) {
-		Query query = em.createQuery("select libraryPersistentID from User u where u.username = :username");
+	public User getUserByName(String username) {
+		Query query = em.createQuery("from User u where u.username = :username");
 		query.setParameter("username", username);
-		List<String> result = query.getResultList();
+		List<User> result = query.getResultList();
 		return result.get(0);
 	}	
 	

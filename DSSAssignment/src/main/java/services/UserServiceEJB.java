@@ -51,7 +51,7 @@ public class UserServiceEJB implements UserService{
 
 
 	@Override
-	public String getUserByName(String username) {
+	public User getUserByName(String username) {
 		return dao.getUserByName(username);
 	}
 

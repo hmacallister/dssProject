@@ -39,11 +39,12 @@ public class UsersRest {
 		return service.getUsers();
 	}
 	
-	@GET
-	@Path("getuserbyname/{user}")
+	@POST
+	@Path("/getuserbyname")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getPlaylistsByUser(@PathParam("user") String user) {
-		return service.getUserByName(user);
+	public User getPlaylistsByUser(User user) {
+		return service.getUserByName(user.getUsername());
 	}
 
 	
