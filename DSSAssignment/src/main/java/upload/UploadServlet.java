@@ -92,9 +92,24 @@ public class UploadServlet extends HttpServlet {
 				finalFileName = timeStamp + "_" + fileName;
 				finalFilePath = savePath + File.separator + finalFileName;
 				part.write(finalFilePath);
-				fileDao.addUploadedFilePath(finalFileName, finalFilePath, false);
+				//fileDao.addUploadedFilePath(finalFileName, finalFilePath, false);
 			//}
 		//}
+				
+		xmlReader.setInputFile(finalFilePath);
+		xmlReader.setUserDao(userDao);
+		xmlReader.setTrackDao(trackDao);
+		xmlReader.setPlaylistDao(playlistDao);	
+		//baseDataReader.setErrorBaseDataDao(errorDao);
+		try {
+			xmlReader.read();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 		
 		if(correctFileFound){
 			String resp = "Upload Successful";
@@ -107,6 +122,7 @@ public class UploadServlet extends HttpServlet {
 		
 	}
 	
+	/*
 	
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -116,7 +132,8 @@ public class UploadServlet extends HttpServlet {
 		lookupDataReader.setInputFile(finalFilePath);
 		lookupDataReader.setLookUpDao(lookupDao);
 		lookupDataReader.read();
-		*/
+		
+		
 		//baseDataReader.setSheetNumber(0);
 		xmlReader.setInputFile(finalFilePath);
 		xmlReader.setUserDao(userDao);
@@ -138,6 +155,8 @@ public class UploadServlet extends HttpServlet {
 		String resp = "Transfer to database completed successfully!";
 		response.sendRedirect("/dss/upload.html#"+resp);
 	}
+
+*/
 
 	/**
 	 * Extracts file name from HTTP header content-disposition

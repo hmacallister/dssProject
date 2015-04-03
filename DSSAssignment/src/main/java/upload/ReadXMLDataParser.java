@@ -35,25 +35,26 @@ public class ReadXMLDataParser implements ReadXML {
 
 	private String inputFile;
 
-	private static UserDAO userDao;
-	private static TrackDAO trackDAO;
-	private static PlaylistDAO playlistDAO;
+	private UserDAO userDao;
+	private TrackDAO trackDAO;
+	private PlaylistDAO playlistDAO;
 
-	private static String libraryPersistentID;
-	private static String title;
-	private static String album;
-	private static String artist;
-	private static String genre;
-	private static String trackID;
-	private static String playListTitle;
-	private static String playListTracks;
-	private static User user = new User();
+	private String libraryPersistentID;
+	private String title;
+	private String album;
+	private String artist;
+	private String genre;
+	private String trackID;
+	private String playListTitle;
+	private String playListTracks;
+	private User user = new User();
+	private List<Track> trackList = new ArrayList<Track>();
 	//private static List<Playlist> allPlaylists = new ArrayList<Playlist>();
-	private static Map<Playlist, List<String> > playlistsMap = new HashMap<Playlist, List<String> >();
-	static boolean searchTracks;
-	static boolean searchPlaylists;
+	private Map<Playlist, List<String> > playlistsMap = new HashMap<Playlist, List<String> >();
+	private boolean searchTracks;
+	private boolean searchPlaylists;
 
-	private static final Logger log = LoggerFactory.getLogger(JPAFileDAO.class);
+	private final Logger log = LoggerFactory.getLogger(JPAFileDAO.class);
 
 	public ReadXMLDataParser() {
 	}
@@ -83,16 +84,16 @@ public class ReadXMLDataParser implements ReadXML {
 		log.info("root of xml file: " + doc.getDocumentElement().getNodeName());
 
 		if (doc.hasChildNodes()) {
-			printNote(doc.getChildNodes());
+			addData(doc.getChildNodes());
 		}
 		addPlaylists(playlistsMap);
 
 	}
 
-	private static void printNote(NodeList nodeList) {
+	private void addData(NodeList nodeList) {
 
 		Track track = new Track();
-		List<Track> trackList = new ArrayList<Track>();
+		
 		
 
 		for (int count = 0; count < nodeList.getLength(); count++) {
@@ -210,11 +211,11 @@ public class ReadXMLDataParser implements ReadXML {
 //					allPlaylists.add(playlist);
 //					//playlistsMap.put(playlist,playlistTrackList);
 //				}
-				
-				
-				track.setUser(user);
-				if(track.getArtist() != null && !trackList.contains(track)){
-					trackList.add(track);
+				if(user != null){
+					track.setUser(user);
+					if(track.getArtist() != null && !trackList.contains(track)){
+						trackList.add(track);
+					}
 				}
 
 				if (tempNode.hasAttributes()) {
@@ -228,7 +229,7 @@ public class ReadXMLDataParser implements ReadXML {
 				}// end print node values if
 				if (tempNode.hasChildNodes()) {
 					// loop again if has child nodes
-					printNote(tempNode.getChildNodes());
+					addData(tempNode.getChildNodes());
 				}// end has children if
 					// log.info("Node Name =" + tempNode.getNodeName() +
 					// " [CLOSE]");
@@ -276,11 +277,20 @@ public class ReadXMLDataParser implements ReadXML {
 		
 		
 		
-		trackDAO.addTracks(trackList);
+		
 		//playlistDAO.addAllPlaylists(allPlaylists);
 	}// end print note
 
-	public static void addPlaylists(Map<Playlist, List<String> > allPlaylists) {
+	public void addPlaylists(Map<Playlist, List<String> > allPlaylists) {
+		//trackDAO.addTracks(trackList);
+		for(Track t:trackList){
+			try{
+				trackDAO.addTrack(t);
+			}
+			catch(Exception e){
+				log.info("can't add track " + t.getTitle());
+			}
+		}
 		List<Playlist> allPlaylistsData = new ArrayList<Playlist>();
 		for(Entry<Playlist, List<String>> entry : allPlaylists.entrySet()){
 			try{
@@ -292,8 +302,12 @@ public class ReadXMLDataParser implements ReadXML {
 				for(String s: playlistTrackIDs){
 					try{
 						Track track = trackDAO.getTrack(s);
-						track.setUser(user);		
-						playlistTracks.add(track);
+						if(track != null){
+							track.setUser(user);
+							if(!playlistTracks.contains(track)){
+								playlistTracks.add(track);
+							}	
+						}
 					}	
 					catch(Exception e){
 						log.info("no record of this track" + s);
@@ -308,6 +322,9 @@ public class ReadXMLDataParser implements ReadXML {
 			}
 		}
 		playlistDAO.addAllPlaylists(allPlaylistsData);
+		user = new User();
+		trackList = new ArrayList<Track>();
+		playlistsMap = new HashMap<Playlist, List<String> >();
 		
 	}
 

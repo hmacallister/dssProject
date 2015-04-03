@@ -31,7 +31,7 @@ public class JPAUserDAO implements UserDAO{
 		List<User> res = q.getResultList();
 		if(res.isEmpty()){
 			User admin = new User("admin", "admin", "0");
-			em.merge(admin);
+			em.persist(admin);
 		}
 		Query query = em.createQuery("from User u where u.username = :username and u.password = :password");
 		query.setParameter("username", user.getUsername());
@@ -49,7 +49,7 @@ public class JPAUserDAO implements UserDAO{
 		Query query = em.createQuery("from User");
 		List<User> users = query.getResultList();
 		if (!users.contains(user)){
-			em.merge(user);
+			em.persist(user);
 			return user;
 		}
 		return null;
@@ -69,7 +69,7 @@ public class JPAUserDAO implements UserDAO{
 				u.setPassword(user.getPassword());
 				u.setUsername(user.getUsername());
 				u.setLibraryPersistentID(user.getLibraryPersistentID());
-				em.merge(u);
+				em.persist(u);
 				break;
 			}
 		}
@@ -100,7 +100,7 @@ public class JPAUserDAO implements UserDAO{
 		List<User> result = query.getResultList();
 		if(result.isEmpty()){
 			User tempUser = new User("TEMP", "TEMP", "-1");
-			em.merge(tempUser);
+			em.persist(tempUser);
 			return tempUser;
 		}
 		return result.get(0);

@@ -11,6 +11,7 @@ import javax.persistence.Query;
 
 import dao.PlaylistDAO;
 import entities.Playlist;
+import entities.Track;
 import entities.User;
 
 @Stateless
@@ -35,7 +36,10 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 		Query query = em.createQuery("from Playlist cd where cd.title = :title");
 		query.setParameter("title", title);
 		List<Playlist> result = query.getResultList();
-
+		if(result.isEmpty()){
+			Playlist t = new Playlist("empty");
+			return  t;
+		}
 		return result.get(0);
 	}
 
@@ -44,7 +48,10 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 		Query query = em.createQuery("from Playlist cd where cd.id = :id");
 		query.setParameter("id", id);
 		List<Playlist> result = query.getResultList();
-
+		if(result.isEmpty()){
+			Playlist t = new Playlist("empty");
+			return  t;
+		}
 		return result.get(0);
 	}
 

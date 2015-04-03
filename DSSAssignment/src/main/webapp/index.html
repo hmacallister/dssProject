@@ -60,7 +60,7 @@
 							<div class="form-group">
 								<label>View Playlist</label>
 								<select id="querySelection" class="form-control">
-									<option ng-repeat="query in queries" value={{query.title}}>{{query.title}}</option>
+									<option ng-repeat="query in queries" value={{query.id}}>{{query.title}}</option>
 								</select>
 							</div>
 							<div class="form-group">
@@ -95,27 +95,9 @@
 			}
 			else{
 				var ID = x.charAt(x.length-3)
-				//alert("USER ID: "+userID);
 					if(ID==-1 || ID==0){
 						eraseCookie('usercookie');
 					}
-					/*
-					if(ID=='D'){
-						var libraryPersistentID="";
-						var username = x.split('username":"');		
-						var usersplit = username[1].substring(0,username[1].length-2);
-						var passwordsplit = (usersplit.split('","password'));
-						var userID = passwordsplit[0];
-						//alert(userID);
-						
-						$http.get('/dss/rest/users/getuserbyname/'+userID).success(function(data) {
-							libraryPersistentID = data;
-						});
-						alert(libraryPersistentID);
-						//alert(x);
-						
-					}
-					*/
 										
 			}
 
@@ -123,7 +105,7 @@
 				var x = readCookie('usercookie')
 				var libraryPersistentID = x.split('libraryPersistentID":"');		
 				var userID = libraryPersistentID[1].substring(0,libraryPersistentID[1].length-2);
-				alert(userID);
+				//alert(userID);
 				$http.get('/dss/rest/playlists/playlistsbyuser/'+userID).success(function(data) {
 					$scope.queries = data;
 				});
@@ -159,24 +141,14 @@
 			}
 
 			function viewLibrary() {
-				//window.name = "all";
-				createCookie('choicecookie', 1, 0);
+				var formFrame = document.getElementById('formFrame');
+				createCookie('choicecookie', "all", 0);
 				formFrame.src = "querytable.html";
 			}
 
 			function alterQuery() {
 				var choice = document.getElementById('querySelection').value;
 				var formFrame = document.getElementById('formFrame');
-				var elem = document.getElementById("result")
-				/*
-				elem.innerHTML = "Choose Another Query: <form role='form' action='index.html'><div class='form-group'><button type='submit' class='btn btn-default'>Queries</button></div></form>";
-				elem.style.color = 'black';
-				var queryDiv = document.getElementById("selectQueryVisibility");
-				queryDiv.className = 'hidden';
-				var tableDiv = document.getElementById("parametersAndTableVisibility");
-				tableDiv.className = 'unhidden';
-				*/
-				//window.name = choice;
 				createCookie('choicecookie', choice, 0);
 				formFrame.src = "querytable.html";
 

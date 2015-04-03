@@ -34,7 +34,6 @@
 					<th class="genre">Genre</th>
 					<th class="trackId">Track Id</th>
 					<th class="userID">User Id</th>
-					<th class="noCode">Query Result Table</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -56,14 +55,14 @@
 
 		<script>
 			function errorLoader($scope, $http) {
-				console.log("name is: "+name);
 				var choice = readCookie('choicecookie')
-				//alert(choice);
-				if(choice == 1){
+				alert(choice);
+				if(choice == "all"){
+					//alert("found match for all")
 					var x = readCookie('usercookie')
 					var libraryPersistentID = x.split('libraryPersistentID":"');		
 					var userID = libraryPersistentID[1].substring(0,libraryPersistentID[1].length-2);
-					//alert(userID);
+					//alert("view all by user id = "+userID);
 					$http.get('/dss/rest/tracks/getlibrary/'+ userID).
 			        success(function(data) {
 			            $scope.records = data;
@@ -72,18 +71,15 @@
 				   // window.top.name = "";	
 				}				
 				else{
-					$http.get('/dss/rest/playlists/getplaylistbytitle/' + choice).
+					//alert("choice = "+choice)
+					$http.get('/dss/rest/playlists/getplaylistbyId/' + choice).
 			        success(function(data) {
 			            $scope.records = data;
 			        });
-			        
-				  //  window.top.name = "";
+
 				}
 				
 			}
-		</script>
-
-		<script>
 							
 			var x = readCookie('usercookie')
 			if (!x) {

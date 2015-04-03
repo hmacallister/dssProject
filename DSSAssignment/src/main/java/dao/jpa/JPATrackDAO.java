@@ -25,8 +25,15 @@ public class JPATrackDAO implements TrackDAO{
 	public void addTracks(List<Track> tracks) {
 		for(Track track: tracks){
 			em.merge(track);
+		}	
+	}
+	@Override
+	public void addTrack(Track track) {
+		Query query = em.createQuery("from Track");
+		List<User> result = query.getResultList();
+		if(!result.contains(track)){
+			em.merge(track);
 		}
-		
 	}
 
 	public Collection<User> getAllTracks() {
@@ -41,9 +48,7 @@ public class JPATrackDAO implements TrackDAO{
 		query.setParameter("trackId", trackId);
 		List<Track> result = query.getResultList();
 		if(result.isEmpty()){
-			Track t = new Track("error", "error", "error", "error", trackId);
-			em.merge(t);
-			return  t;
+			return null;
 		}
 		return result.get(0);
 	}

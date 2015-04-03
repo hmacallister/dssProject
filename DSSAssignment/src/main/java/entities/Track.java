@@ -44,7 +44,7 @@ public class Track implements Serializable {
 	@Column(name="genre")
 	private String genre;
 	
-	@JoinColumn (name="user_id", referencedColumnName="id", nullable = false)
+	@JoinColumn (name="user_id", referencedColumnName="id", nullable = true)
 	@ManyToOne(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
 	private User user;
 	
@@ -127,6 +127,39 @@ public class Track implements Serializable {
 		this.trackId = trackId;
 	}
 
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((trackId == null) ? 0 : trackId.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Track other = (Track) obj;
+		if (trackId == null) {
+			if (other.trackId != null)
+				return false;
+		} else if (!trackId.equals(other.trackId))
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
+			return false;
+		return true;
+	}
+
 	
 	/*
 	public User getLibrary() {
@@ -159,5 +192,7 @@ public class Track implements Serializable {
 		this.playlist = playlist;
 	}
 	*/
+	
+	
 
 }
