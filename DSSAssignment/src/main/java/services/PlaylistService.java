@@ -1,6 +1,6 @@
 package services;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.Local;
 
@@ -22,8 +22,8 @@ public interface PlaylistService {
 	
 	void deleteTrackFromPlaylist(Track track);
 
-	Collection<Playlist> getPlaylistsByUser(String user);
+	List<Playlist> getPlaylistsByUser(String user);
 
-	Collection<Playlist> getAllPlaylists();
+	List<Playlist> getAllPlaylists();
 
 }

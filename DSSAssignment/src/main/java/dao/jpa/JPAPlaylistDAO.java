@@ -1,5 +1,6 @@
 package dao.jpa;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -64,12 +65,28 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 
 	@Override
 	public void updatePlaylist(Playlist playlist) {
-		// TODO Auto-generated method stub
+		Query query = em.createQuery("from Playlist");
+		List<Playlist> playlists = query.getResultList();
+		List<Track> playlistTracks = new ArrayList<Track>();
+		for(Track t:playlist.getTrackTitles()){
+			Query trackQuery = em.createQuery("from Track t where t.id = :trackId");
+			trackQuery.setParameter("trackId", t.getId());
+			List<Track> result = trackQuery.getResultList();
+			playlistTracks.add(result.get(0));
+		}
+		for(Playlist p : playlists){
+			if(p.getId() == playlist.getId()){
+				p.setTitle(playlist.getTitle());
+				p.setTrackTitles(playlistTracks);
+				em.merge(p);
+				break;
+			}
+		}
 		
 	}
 
 	@Override
-	public Collection<Playlist> getPlaylistsByUser(String userID) {
+	public List<Playlist> getPlaylistsByUser(String userID) {
 		Query userQuery = em.createQuery("from User u where u.libraryPersistentID = :userID");
 		userQuery.setParameter("userID", userID);
 		List<User> userresult = userQuery.getResultList();
@@ -81,7 +98,7 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 	}
 
 	@Override
-	public Collection<Playlist> getAllPlaylists() {
+	public List<Playlist> getAllPlaylists() {
 		Query query = em.createQuery("from Playlist");
 		List<Playlist> result = query.getResultList();
 

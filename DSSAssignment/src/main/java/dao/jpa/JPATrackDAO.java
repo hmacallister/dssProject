@@ -80,6 +80,7 @@ public class JPATrackDAO implements TrackDAO{
 		
 		List<Track> allTracks = new ArrayList<Track>();
 		log.info("track being deleted is id: "+deletedTrack.getId());
+		/*
 		Query query = em.createQuery("from Playlist");
 		List<Playlist> playlists = query.getResultList();
 		for(Playlist p :playlists){
@@ -120,7 +121,7 @@ public class JPATrackDAO implements TrackDAO{
 			
 			//p.setTrackTitles(tracks);
 			//em.merge(p);
-		}
+		//}
 		
 		try{
 			em.remove(deletedTrack);

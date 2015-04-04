@@ -24,12 +24,15 @@
 		<div id="wrapper">
 		<div id="page-wrapper">
 
-        <h2 align="center">Tracks</h2>
+        <h2 align="center">Tracks</h2>   
+        <form enctype="multipart/form-data" role="form">
+			<input type=submit value ="save order" onclick="saveOrder()">
+		</form>
 		<div class="table-responsive">
 		<table id="trackTable" border=1 class="sortable">
 			<thead>
 				<tr>
-					<th class="id" sorted="1">Id</th>
+					<th class="id">Id</th>
 					<th class="title">Title</th>
 					<th class="artist">Artist</th>
 					<th class="album">Album</th>
@@ -58,15 +61,26 @@
 
 
 		<script>
+
 		$(document).ready(function(){
 			$('#trackTable tbody').sortable();
 		});
 		
+		var sortedOrder = "";
 		
+		//alert("window name = "+window.name);
 		
 			function errorLoader($scope, $http) {
 				var choice = readCookie('choicecookie')
 				alert(choice);
+				var sortedTable = window.name;
+				if(sortedTable.length > 1 && sortedTable != "formFrame"){
+					alert("reached post method with: "+sortedTable);
+					$http.get('/dss/rest/playlists/sort/'+ sortedTable).
+			        success(function(data) {
+			            alert("sorted!")
+			        });
+				}
 				if(choice == "all"){
 					//alert("found match for all")
 					var x = readCookie('usercookie')
@@ -124,7 +138,7 @@
 				var album = document.getElementById("album"+id).value;
 				var artist = document.getElementById("artist"+id).value;
 				var genre = document.getElementById("genre"+id).value;
-				alert("title = "+title+" album = "+album+" artist = "+artist+" genre = "+genre);
+				//alert("title = "+title+" album = "+album+" artist = "+artist+" genre = "+genre);
 
 				(function($) {
 					$.ajax({
@@ -154,7 +168,51 @@
 				})(jQuery);
 				//end anonymous inner function
 			}
-							
+			
+			function saveOrder(){
+				var choice = readCookie('choicecookie');
+				sortedOrder = choice;				
+				var trackIDs = []
+				$('#trackTable tr').each(function(row, tr){
+					sortedOrder = sortedOrder 
+				        + "id"+$(tr).find('td:eq(0)').text()
+
+				});
+				
+				window.name = sortedOrder;
+
+				window.location.reload();
+				/*
+				if(choice != "all"){
+					(function($) {
+						$.ajax({
+							url : '/dss/rest/playlists/updateplaylist',
+							dataType : 'json',
+							type : 'post',
+							contentType : 'application/json',
+							data : JSON.stringify({
+								"id" : choice,
+								"trackTitles" : trackIDs
+							}),
+							processData : false,
+							success : function(data, textStatus, jQxhr) {
+								alert("Edit Successful");
+								window.location.replace("index.html");
+							},
+							error : function(jqXhr, textStatus, errorThrown) {
+								alert("Edit Failed");
+								console.log(errorThrown);
+
+							}
+						});
+
+					})(jQuery);
+					//end anonymous inner function
+				}
+				*/
+			}
+			
+			
 			var x = readCookie('usercookie')
 			if (!x) {
 				window.location.replace("/dss/login.html");

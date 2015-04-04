@@ -1,6 +1,6 @@
 package services;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -46,12 +46,12 @@ public class PlaylistServiceEJB implements PlaylistService{
 	}
 
 	@Override
-	public Collection<Playlist> getPlaylistsByUser(String user) {
+	public List<Playlist> getPlaylistsByUser(String user) {
 		return dao.getPlaylistsByUser(user);
 	}
 
 	@Override
-	public Collection<Playlist> getAllPlaylists() {
+	public List<Playlist> getAllPlaylists() {
 		return dao.getAllPlaylists();
 	}
 

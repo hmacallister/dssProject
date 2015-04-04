@@ -48,7 +48,7 @@ public class ReadXMLDataParser implements ReadXML {
 	private String playListTitle;
 	private String playListTracks;
 	private User user = new User();
-	private Collection<Track> trackList = new ArrayList<Track>();
+	private List<Track> trackList = new ArrayList<Track>();
 	//private static List<Playlist> allPlaylists = new ArrayList<Playlist>();
 	private Map<Playlist, List<String> > playlistsMap = new HashMap<Playlist, List<String> >();
 	private boolean searchTracks;
@@ -291,7 +291,7 @@ public class ReadXMLDataParser implements ReadXML {
 				log.info("can't add track " + t.getTitle());
 			}
 		}
-		Collection<Playlist> allPlaylistsData = new ArrayList<Playlist>();
+		List<Playlist> allPlaylistsData = new ArrayList<Playlist>();
 		for(Entry<Playlist, List<String>> entry : allPlaylists.entrySet()){
 			try{
 				Playlist playlist = entry.getKey();
