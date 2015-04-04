@@ -2,6 +2,7 @@ package upload;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,6 @@ import org.xml.sax.SAXException;
 import dao.PlaylistDAO;
 import dao.TrackDAO;
 import dao.UserDAO;
-import dao.jpa.JPAFileDAO;
 import entities.Playlist;
 import entities.Track;
 import entities.User;
@@ -48,13 +48,13 @@ public class ReadXMLDataParser implements ReadXML {
 	private String playListTitle;
 	private String playListTracks;
 	private User user = new User();
-	private List<Track> trackList = new ArrayList<Track>();
+	private Collection<Track> trackList = new ArrayList<Track>();
 	//private static List<Playlist> allPlaylists = new ArrayList<Playlist>();
 	private Map<Playlist, List<String> > playlistsMap = new HashMap<Playlist, List<String> >();
 	private boolean searchTracks;
 	private boolean searchPlaylists;
 
-	private final Logger log = LoggerFactory.getLogger(JPAFileDAO.class);
+	private final Logger log = LoggerFactory.getLogger(ReadXMLDataParser.class);
 
 	public ReadXMLDataParser() {
 	}
@@ -291,7 +291,7 @@ public class ReadXMLDataParser implements ReadXML {
 				log.info("can't add track " + t.getTitle());
 			}
 		}
-		List<Playlist> allPlaylistsData = new ArrayList<Playlist>();
+		Collection<Playlist> allPlaylistsData = new ArrayList<Playlist>();
 		for(Entry<Playlist, List<String>> entry : allPlaylists.entrySet()){
 			try{
 				Playlist playlist = entry.getKey();

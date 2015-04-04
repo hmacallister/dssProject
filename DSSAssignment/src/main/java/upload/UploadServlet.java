@@ -17,7 +17,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import dao.FileDAO;
 import dao.PlaylistDAO;
 import dao.TrackDAO;
 import dao.UserDAO;
@@ -46,8 +45,6 @@ public class UploadServlet extends HttpServlet {
 	private PlaylistDAO playlistDao;
 	@EJB
 	private UserDAO userDao;
-	@EJB
-	private FileDAO fileDao;
 	@EJB
 	private TrackDAO trackDao;
 	

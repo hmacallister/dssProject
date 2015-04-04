@@ -6,7 +6,10 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -35,6 +38,20 @@ public class TracksRest {
 			aList.add(str);
 		}
 		return aList;	
+	}
+	
+	@POST
+	@Path("/updatetrack")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void updateTrack(Track track) {
+		 service.updateTrack(track);
+	}
+	
+	@DELETE
+	@Path("/deletetrack")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void deleteTrack(Track track){
+		service.deleteTrack(track);
 	}
 	
 

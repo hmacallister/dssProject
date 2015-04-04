@@ -12,5 +12,6 @@ public interface TrackService {
 	void addTracks(List<Track> tracks);
 	Track getTrack(String trackID);
 	List<Track> getTracksByUser(String userID);
-
+	void deleteTrack(Track track);
+	void updateTrack(Track track);
 }

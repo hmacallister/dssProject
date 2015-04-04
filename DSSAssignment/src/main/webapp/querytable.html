@@ -5,9 +5,9 @@
 		<meta charset="ISO-8859-1">
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 		<script src="http://www.shawnolson.net/scripts/public_smo_scripts.js"></script>
-		<script src="//cdn.datatables.net/1.10.6/css/jquery.dataTables.min.css"></script>
-		<script src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+		<script src="sorttable.js"></script>
 
 		<title>Query Viewer</title>
 		<script type="text/javascript" id="me">
@@ -26,10 +26,10 @@
 
         <h2 align="center">Tracks</h2>
 		<div class="table-responsive">
-		<table id="trackTable" class="table table-bordered table-hover table-striped">
+		<table id="trackTable" border=1 class="sortable">
 			<thead>
 				<tr>
-					<th class="id">Id</th>
+					<th class="id" sorted="1">Id</th>
 					<th class="title">Title</th>
 					<th class="artist">Artist</th>
 					<th class="album">Album</th>
@@ -39,14 +39,16 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="record in records">
+				<tr ng-repeat="record in records" id={{record[0]}}>
 					<td class="id">{{record[0]}}</td>
-					<td class="title">{{record[1]}}</td>
-					<td class="artist">{{record[2]}}</td>
-					<td class="album">{{record[3]}}</td>
-					<td class="genre">{{record[4]}}</td>
+					<td class="title"><input type="text" id=title{{record[0]}} value={{record[1]}}></td>
+					<td class="artist"><input type="text" id=artist{{record[0]}} value='{{record[2]}}'></td>
+					<td class="album"><input type="text" id=album{{record[0]}} value="{{record[3]}}"></td>
+					<td class="genre"><input type="text" id=genre{{record[0]}} value={{record[4]}}></td>
 					<td class="trackId">{{record[5]}}</td>
 					<td class="userID">{{record[6]}}</td>
+					<td class="editButton"><input type="submit" value="Edit" onclick="editTrack({{record[0]}})"></td>
+					<td class="deleteButton"><input type="submit" value="Delete" onclick="deleteTrack({{record[0]}})"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -57,8 +59,11 @@
 
 		<script>
 		$(document).ready(function(){
-		    $('#trackTable').DataTable();
+			$('#trackTable tbody').sortable();
 		});
+		
+		
+		
 			function errorLoader($scope, $http) {
 				var choice = readCookie('choicecookie')
 				alert(choice);
@@ -84,6 +89,70 @@
 
 				}
 				
+			}
+			
+			function deleteTrack(id) {
+				alert("id = "+id);
+				(function($) {
+					$.ajax({
+						url : '/dss/rest/tracks/deletetrack',
+						dataType : 'json',
+						type : 'delete',
+						contentType : 'application/json',
+						data : JSON.stringify({
+							"id" : id
+						}),
+						processData : false,
+						success : function(data, textStatus, jQxhr) {
+							alert("Delete Successful");
+							window.location.replace("index.html");
+						},
+						error : function(jqXhr, textStatus, errorThrown) {
+							alert("Delete Failed");
+							console.log(errorThrown);
+
+						}
+					});
+
+				})(jQuery);
+				//end anonymous inner function
+			}
+			
+			function editTrack(id) {
+				alert("id = "+id);
+				var title = document.getElementById("title"+id).value;
+				var album = document.getElementById("album"+id).value;
+				var artist = document.getElementById("artist"+id).value;
+				var genre = document.getElementById("genre"+id).value;
+				alert("title = "+title+" album = "+album+" artist = "+artist+" genre = "+genre);
+
+				(function($) {
+					$.ajax({
+						url : '/dss/rest/tracks/updatetrack',
+						dataType : 'json',
+						type : 'post',
+						contentType : 'application/json',
+						data : JSON.stringify({
+							"id" : id,
+							"title" : title,
+							"album" : album,
+							"artist" : artist,
+							"genre" : genre
+						}),
+						processData : false,
+						success : function(data, textStatus, jQxhr) {
+							alert("Edit Successful");
+							window.location.replace("index.html");
+						},
+						error : function(jqXhr, textStatus, errorThrown) {
+							alert("Edit Failed");
+							console.log(errorThrown);
+
+						}
+					});
+
+				})(jQuery);
+				//end anonymous inner function
 			}
 							
 			var x = readCookie('usercookie')

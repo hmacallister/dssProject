@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -49,12 +51,19 @@ public class PlaylistREST {
 			aList.add(str);
 			return aList;
 		}
-		List<Track> tracklist= playlist.getTrackTitles();
+		Collection<Track> tracklist= playlist.getTrackTitles();
 		for(Track track : tracklist){
 			String[] str = {track.getId().toString(), track.getTitle(), track.getArtist(), track.getAlbum(), track.getGenre(), track.getTrackId(), track.getUser().getUsername()};
 			aList.add(str);
 		}
 		return aList;	
+	}
+	
+	@DELETE
+	@Path("/deletetrackfromplaylist")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void deleteTrack(Track track){
+		service.deleteTrackFromPlaylist(track);
 	}
 
 }

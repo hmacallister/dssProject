@@ -89,11 +89,17 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 	}
 
 	@Override
-	public void addAllPlaylists(List<Playlist> playlists) {
+	public void addAllPlaylists(Collection<Playlist> playlists) {
 		for(Playlist playlist: playlists){
 			playlist.getTrackTitles();
 			em.merge(playlist);
 		}
+		
+	}
+
+	@Override
+	public void deleteTrackFromPlaylist(Track track) {
+		// TODO Auto-generated method stub
 		
 	}
 

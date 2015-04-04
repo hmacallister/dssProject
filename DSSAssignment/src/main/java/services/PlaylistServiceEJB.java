@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 
 import dao.PlaylistDAO;
 import entities.Playlist;
+import entities.Track;
 
 @Stateless
 @Local
@@ -52,6 +53,12 @@ public class PlaylistServiceEJB implements PlaylistService{
 	@Override
 	public Collection<Playlist> getAllPlaylists() {
 		return dao.getAllPlaylists();
+	}
+
+	@Override
+	public void deleteTrackFromPlaylist(Track track) {
+		dao.deleteTrackFromPlaylist(track);
+		
 	}
 
 }

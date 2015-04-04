@@ -1,8 +1,7 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -45,9 +45,12 @@ public class Track implements Serializable {
 	private String genre;
 	
 	@JoinColumn (name="user_id", referencedColumnName="id", nullable = true)
-	@ManyToOne(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
+	@ManyToOne(cascade=CascadeType.ALL,fetch= FetchType.EAGER)
 	private User user;
 	
+	@ManyToMany(cascade =CascadeType.ALL, mappedBy="trackTitles")
+	private Collection<Playlist> playlists;
+
 	/*
 	@JoinColumn(name = "tracks", referencedColumnName = "id", nullable = true)
 	@ManyToOne
@@ -58,13 +61,24 @@ public class Track implements Serializable {
 	}
 	
 
+	public Track(Integer id) {
+		this.id = id;
+	}
+	
 	public Track(String title, String album, String artist, String genre, String trackId) {
-		super();
 		this.title = title;
 		this.album = album;
 		this.artist = artist;
 		this.genre = genre;
 		this.trackId = trackId;
+	}
+	
+	public Track(String title, String album, String artist, String genre, Integer id) {
+		this.title = title;
+		this.album = album;
+		this.artist = artist;
+		this.genre = genre;
+		this.id = id;
 	}
 
 	public Integer getId() {
@@ -160,39 +174,6 @@ public class Track implements Serializable {
 		return true;
 	}
 
-	
-	/*
-	public User getLibrary() {
-		return library;
-	}
-
-	public void setLibrary(User library) {
-		this.library = library;
-	}
-	*/
-	
-	
-
-	/*
-	public Album getDisc() {
-		return disc;
-	}
-
-	public void setDisc(Album disc) {
-		this.disc = disc;
-	}
-	*/
-
-	/*
-	public Playlist getPlaylist() {
-		return playlist;
-	}
-
-	public void setPlaylist(Playlist playlist) {
-		this.playlist = playlist;
-	}
-	*/
-	
 	
 
 }

@@ -1,8 +1,8 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity 
 @Table(name="playlists")
@@ -35,7 +34,7 @@ public class Playlist implements Serializable{
 	private String title;
 	
 	@JoinColumn(name = "users", referencedColumnName = "id", nullable = true)
-	@OneToOne(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
+	@OneToOne(cascade =CascadeType.ALL, fetch= FetchType.EAGER, orphanRemoval=true)
 	private User userFK;
 //	
 //	@Transient
@@ -48,8 +47,8 @@ public class Playlist implements Serializable{
 	
 
 	@JoinColumn(name = "tracks", referencedColumnName = "id", nullable = true)
-	@ManyToMany(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
-	private List<Track> trackTitles = new ArrayList<Track>();
+	@ManyToMany(cascade =CascadeType.ALL,fetch= FetchType.EAGER)
+	private Collection<Track> trackTitles;
 	
 	
 
@@ -100,11 +99,11 @@ public class Playlist implements Serializable{
 	}
 
 
-	public List<Track> getTrackTitles() {
+	public Collection<Track> getTrackTitles() {
 		return trackTitles;
 	}
 
-	public void setTrackTitles(List<Track> trackTitles) {
+	public void setTrackTitles(Collection<Track> trackTitles) {
 		this.trackTitles = trackTitles;
 	}
 	

@@ -34,6 +34,18 @@ public class TrackServiceEJB implements TrackService{
 		return dao.getTracksByUser(userID);
 	}
 
+	@Override
+	public void deleteTrack(Track track) {
+		dao.deleteTrack(track);
+		
+	}
+
+	@Override
+	public void updateTrack(Track track) {
+		dao.updateTrack(track);
+		
+	}
+
 	
 
 
