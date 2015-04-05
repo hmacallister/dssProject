@@ -3,6 +3,14 @@
 	<head>
 
 		<meta charset="ISO-8859-1">
+
+
+		<!-- Bootstrap Core CSS -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- Custom Fonts -->
+		<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">		
+		
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
@@ -38,12 +46,20 @@
 		<div id="wrapper">
 		<div id="page-wrapper">
 
-        <h2 align="center">Tracks</h2>   
-        <form enctype="multipart/form-data" role="form">
-			<input type=submit value ="save order" onclick="saveOrder()">
-		</form>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-6">
+						<h2 align="center">Tracks</h2>
+					</div>
+ 		<div class="col-lg-6">
+			<input type=submit value ="save order" class="btn btn-default" onclick="saveOrder()">
+		</div>
+		<br>
+		<>
+		<hbrr>
+		<div class="col-lg12">
 		<div class="table-responsive">
-		<table id="trackTable" border=1 class="sortable">
+		<table id="trackTable" border=1 class="sortable table table-bordered table-hover table-striped">
 			<thead>
 				<tr>
 					<th class="id">Id</th>
@@ -51,8 +67,10 @@
 					<th class="artist">Artist</th>
 					<th class="album">Album</th>
 					<th class="genre">Genre</th>
-					<th class="trackId">Track Id</th>
-					<th class="userID">User Id</th>
+					<!--  <th class="trackId">Track Id</th>   -->
+					<!--  <th class="userID">User Id</th>  -->
+					<th>Edit Track</th>
+					<th>Delete Track</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -62,14 +80,18 @@
 					<td class="artist"><input type="text" id=artist{{record[0]}} value='{{record[2]}}'></td>
 					<td class="album"><input type="text" id=album{{record[0]}} value="{{record[3]}}"></td>
 					<td class="genre"><input type="text" id=genre{{record[0]}} value={{record[4]}}></td>
-					<td class="trackId">{{record[5]}}</td>
-					<td class="userID">{{record[6]}}</td>
+				<!--	<td class="trackId">{{record[5]}}</td>  -->
+				<!--	<td class="userID">{{record[6]}}</td>  -->
 					<td class="editButton"><input type="submit" value="Edit" onclick="editTrack({{record[0]}})"></td>
 					<td class="deleteButton"><input type="submit" value="Delete" onclick="deleteTrack({{record[0]}})"></td>
 				</tr>
 			</tbody>
 		</table>
 		</div><!-- end table-responsive -->
+		</div>
+		</div>
+		</div>
+		</div>
 		</div>
 		</div>
 
@@ -79,8 +101,8 @@
 		$(document).ready(function(){
 			$('#trackTable tbody').sortable();
 		});
-		var myTH = document.getElementsByTagName("th")[0];
-		sorttable.innerSortFunction.apply(myTH, []);
+		//var myTH = document.getElementsByTagName("th")[0];
+		//sorttable.innerSortFunction.apply(myTH, []);
 		
 		var sortedOrder = "";
 		
@@ -136,7 +158,7 @@
 						processData : false,
 						success : function(data, textStatus, jQxhr) {
 							alert("Delete Successful");
-							window.location.replace("index.html");
+							window.location.reload();
 						},
 						error : function(jqXhr, textStatus, errorThrown) {
 							alert("Delete Failed");
@@ -173,7 +195,7 @@
 						processData : false,
 						success : function(data, textStatus, jQxhr) {
 							alert("Edit Successful");
-							window.location.replace("index.html");
+							window.location.reload();
 						},
 						error : function(jqXhr, textStatus, errorThrown) {
 							alert("Edit Failed");
