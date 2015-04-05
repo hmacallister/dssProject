@@ -16,6 +16,20 @@
 			
 			//var code = name.substring(0, 3);
 		</script>
+		<style>
+		/* Sortable tables */
+		table.sortable thead {
+   		 	background-color:#eee;
+    		color:#666666;
+	    	font-weight: bold;
+    		cursor: default;
+    	}
+    	table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
+    		content: " \25B4\25BE" 
+		}
+    	
+    	</style>
+
 		
     
     
@@ -65,6 +79,8 @@
 		$(document).ready(function(){
 			$('#trackTable tbody').sortable();
 		});
+		var myTH = document.getElementsByTagName("th")[0];
+		sorttable.innerSortFunction.apply(myTH, []);
 		
 		var sortedOrder = "";
 		
@@ -79,6 +95,7 @@
 					$http.get('/dss/rest/playlists/sort/'+ sortedTable).
 			        success(function(data) {
 			            alert("sorted!")
+			            window.name = "";
 			        });
 				}
 				if(choice == "all"){

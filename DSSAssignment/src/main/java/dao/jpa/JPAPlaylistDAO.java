@@ -2,6 +2,7 @@ package dao.jpa;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -10,6 +11,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import rest.PlaylistREST;
 import dao.PlaylistDAO;
 import entities.Playlist;
 import entities.Track;
@@ -21,6 +26,8 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 	
 	@PersistenceContext
 	private EntityManager em;
+	
+	private final Logger log = LoggerFactory.getLogger(JPAPlaylistDAO.class);
 
 	@Override
 	public void addPlaylist(Playlist playlist) {
@@ -53,7 +60,23 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 			Playlist t = new Playlist("empty");
 			return  t;
 		}
-		return result.get(0);
+		Playlist playlist = result.get(0);
+		List<Track> tracks = playlist.getTrackTitles();
+		List<String> ids = new ArrayList<String>();
+		for(Track t: tracks){
+			ids.add(t.getTrackId());
+		}
+		Collections.sort(ids);
+		List<Track> orderedTracks = new ArrayList<Track>();
+		for(int i=0; i< ids.size(); i++){
+			for(Track t: tracks){
+				if(t.getTrackId().equals(ids.get(i))){
+					orderedTracks.add(t);
+				}
+			}
+		}
+		playlist.setTrackTitles(orderedTracks);
+		return playlist;
 	}
 
 	@Override
@@ -68,17 +91,25 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 		Query query = em.createQuery("from Playlist");
 		List<Playlist> playlists = query.getResultList();
 		List<Track> playlistTracks = new ArrayList<Track>();
+		List<String> trackIds = new ArrayList<String>();
 		for(Track t:playlist.getTrackTitles()){
 			Query trackQuery = em.createQuery("from Track t where t.id = :trackId");
 			trackQuery.setParameter("trackId", t.getId());
 			List<Track> result = trackQuery.getResultList();
-			playlistTracks.add(result.get(0));
+			Track track = result.get(0);
+			trackIds.add(track.getTrackId());
+			playlistTracks.add(track);
+		}
+		
+		Collections.sort(trackIds);
+		for(int i=0; i< trackIds.size(); i++){
+			playlistTracks.get(i).setTrackId(trackIds.get(i));
 		}
 		for(Playlist p : playlists){
 			if(p.getId() == playlist.getId()){
-				p.setTitle(playlist.getTitle());
+				//p.setTitle(playlist.getTitle());
 				p.setTrackTitles(playlistTracks);
-				em.merge(p);
+				em.persist(p);
 				break;
 			}
 		}
