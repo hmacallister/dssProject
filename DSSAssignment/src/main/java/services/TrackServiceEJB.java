@@ -46,6 +46,11 @@ public class TrackServiceEJB implements TrackService{
 		
 	}
 
+	@Override
+	public List<Track> getTracksSearch(String searchAndId) {
+		return dao.getTracksSearch(searchAndId);
+	}
+
 	
 
 

@@ -40,6 +40,25 @@ public class TracksRest {
 		return aList;	
 	}
 	
+	@GET
+	@Path("/getsearch/{searchTerm}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String[]> getTracksSearch(@PathParam("searchTerm") String searchTerm) throws ParseException{
+		List<Track> tracklist = service.getTracksSearch(searchTerm);
+		ArrayList<String[]> aList = new ArrayList<String[]>();
+		if(tracklist.isEmpty()){
+			String[] str = {"No Match Found", "", "", "", "", "", ""};
+			aList.add(str);
+			return aList;
+		}
+
+		for(Track track : tracklist){
+			String[] str = {track.getId().toString(), track.getTitle(), track.getArtist(), track.getAlbum(), track.getGenre(), track.getTrackId(), track.getUser().getUsername()};
+			aList.add(str);
+		}
+		return aList;	
+	}
+	
 	@POST
 	@Path("/updatetrack")
 	@Consumes(MediaType.APPLICATION_JSON)

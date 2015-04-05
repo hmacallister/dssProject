@@ -15,4 +15,5 @@ public interface TrackDAO {
 	void deleteTrack(Track track);
 	void updateTrack(Track track);
 	List<Track> getTracksByUser(String userID);
+	List<Track> getTracksSearch(String searchAndId);
 }

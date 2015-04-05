@@ -51,21 +51,21 @@ public class PlaylistREST {
 	//@Produces(MediaType.APPLICATION_JSON)
 	public void sortPlaylist(@PathParam("order") String order) {
 		Playlist playlist = new Playlist();
-		log.info("received from json: "+order);
+		//log.info("received from json: "+order);
 		List<Track> trackList = new ArrayList<Track>(); 
 		int id = Integer.parseInt(order.substring(0, 1));
-		log.info("playlist id is: "+id);
+		//log.info("playlist id is: "+id);
 		playlist.setId(id);
 		String[] trackIds = order.split("id");
 		for(int i=2; i<trackIds.length;i++){
 			try{
 				int trackId = Integer.parseInt(trackIds[i]);
-				log.info("track id is: "+trackId);
+				//log.info("track id is: "+trackId);
 				Track track = new Track(trackId);
 				trackList.add(track);
 			}
 			catch(Exception e){
-				log.info("skipped: "+trackIds[i]);
+				log.info("couldn't sort: "+trackIds[i]);
 			}
 
 		}

@@ -148,69 +148,39 @@ public class JPATrackDAO implements TrackDAO{
 			}
 		}
 	}
-
-	/*
 	
-	public User getUser(User user) {
-		Query q = em.createQuery("from User");
-		List<User> res = q.getResultList();
-		if(res.isEmpty()){
-			User admin = new User("admin", "admin", "0");
-			em.merge(admin);
-		}
-		Query query = em.createQuery("from User u where u.username = :username and u.password = :password");
-		query.setParameter("username", user.getUsername());
-		query.setParameter("password", user.getPassword());
-		List<User> result = query.getResultList();
-		
-		if(result.isEmpty()){
-			return new User("ERROR", "ERROR", "-1");
-		}
-		
-		return result.get(0);
-	}
-	
-	public User addUser(User user){
-		Query query = em.createQuery("from User");
-		List<User> users = query.getResultList();
-		if (!users.contains(user)){
-			em.merge(user);
-			return user;
-		}
-		return null;
-		//return "User Not Added";
-	}
-
-
-	public void updateUser(User user) {
-
-		Query query = em.createQuery("from User");
-		List<User> users = query.getResultList();
-		for(User u : users){
-			if(u.getId().equals(user.getId())){
-				u.setPassword(user.getPassword());
-				u.setUsername(user.getUsername());
-				u.setLibraryPersistentID(user.getLibraryPersistentID());
-				em.merge(u);
-				break;
+	@Override
+	public List<Track> getTracksSearch(String searchAndId) {
+		String[] split = searchAndId.split("--user--");
+		String userID = split[0];
+		String searchTerm = split[1].toLowerCase();
+		List<Track> searchResults = new ArrayList<Track>();
+		log.info("******** get tracks user id is: "+ userID + " searchTerm is: "+searchTerm);
+		Query userQuery = em.createQuery("from User u where u.libraryPersistentID = :userID");
+		userQuery.setParameter("userID", userID);
+		List<User> userresult = userQuery.getResultList();
+		User user = userresult.get(0);
+		Query query = em.createQuery("from Track t where t.user = :user");
+		query.setParameter("user", user);
+		List<Track> result = query.getResultList();
+		for(Track track: result){
+			if(track.getTitle().toLowerCase().contains(searchTerm)){
+				searchResults.add(track);
+			}
+			else if(track.getArtist().toLowerCase().contains(searchTerm)){
+				searchResults.add(track);
+			}
+			else if(track.getAlbum().toLowerCase().contains(searchTerm)){
+				searchResults.add(track);
+			}
+			else if(track.getGenre().toLowerCase().contains(searchTerm)){
+				searchResults.add(track);
 			}
 		}
+		if(result.isEmpty() || searchResults.isEmpty()){
+			return null;
+		}
+		return searchResults;
 	}
-
-
-
-
-
-	@Override
-	public User getUserById(User user) {
-		Query query = em.createQuery("from User u where u.id = :id");
-		query.setParameter("id", user.getId());
-		List<User> result = query.getResultList();
-		return result.get(0);
-	}
-
-
-	*/
-	
 
 }

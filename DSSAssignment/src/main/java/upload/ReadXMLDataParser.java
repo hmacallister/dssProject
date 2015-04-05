@@ -170,10 +170,10 @@ public class ReadXMLDataParser implements ReadXML {
 							playlistInfo = playlistInfo.substring(4);
 							String[] splitTitle = playlistInfo.split("Playlist ID");
 							playListTitle = splitTitle[0];
-							log.info("playlist title = "+ playListTitle);
+							//log.info("playlist title = "+ playListTitle);
 							String[] splitTracks  = playlistInfo.split("All ItemsPlaylist Items");
 							playListTracks = splitTracks[1];
-							log.info("playlist tracks = "+ playListTracks);
+							//log.info("playlist tracks = "+ playListTracks);
 							//tracks
 							/*
 							String[] splitTracks = playListTracks.split("Track ID");

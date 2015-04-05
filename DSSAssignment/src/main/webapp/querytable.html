@@ -35,6 +35,30 @@
     	table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
     		content: " \25B4\25BE" 
 		}
+		
+		
+		/* Appearance 
+    	body, table { font-family: sans-serif; }
+    	table { border-collapse: collapse; }
+    	td, th { padding: 6px; }
+    	th { background: #333; color: white; }
+    	tbody tr:nth-child(odd) { background: #dfdfdf; }
+    	table { border: 1px solid red; }
+    	
+    	*/
+    
+   		 /* Scrollability of table */
+    	table { width: 800px; } /* fixed width table */
+    	thead tr { display: block; } /* makes it sizeable */
+    	tbody { 
+    	  display: block; /* makes it sizeable */
+    	  height: 300px; /* height of scrollable area */
+    	  overflow: auto; /* scroll rather than overflow */
+    	  width: 100%; /* fill the box */
+    	}
+    	thead th { width: 400px; } /* fixed width for THs */
+    	tbody td { width: 368px; } /* fixed width for TDs */
+    	/* the tbody needs to be 16px less than the thead, for the scrollbar */
     	
     	</style>
 
@@ -52,9 +76,8 @@
 						<h2 align="center">Tracks</h2>
 					</div>
  		<div class="col-lg-6">
-			<input type=submit value ="save order" class="btn btn-default" onclick="saveOrder()">
+			<input type=submit value ="Save Playlist Order" class="btn btn-default" onclick="saveOrder()">
 		</div>
-		<br>
 		<hr>
 		<div class="col-lg12">
 		<div class="table-responsive">
@@ -68,14 +91,15 @@
 					<th class="genre">Genre</th>
 					<!--  <th class="trackId">Track Id</th>   -->
 					<!--  <th class="userID">User Id</th>  -->
-					<th>Edit Track</th>
-					<th>Delete Track</th>
+					<th class="sorttable_nosort">Edit Track</th>
+					<th class="sorttable_nosort">Delete Track</th>
+					<th class="sorttable_nosort">Move Track</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="record in records" id={{record[0]}}>
 					<td class="id">{{record[0]}}</td>
-					<td class="title"><input type="text" id=title{{record[0]}} value={{record[1]}}></td>
+					<td class="title"><input type="text" size="" id=title{{record[0]}} value={{record[1]}}></td>
 					<td class="artist"><input type="text" id=artist{{record[0]}} value='{{record[2]}}'></td>
 					<td class="album"><input type="text" id=album{{record[0]}} value="{{record[3]}}"></td>
 					<td class="genre"><input type="text" id=genre{{record[0]}} value={{record[4]}}></td>
@@ -83,6 +107,7 @@
 				<!--	<td class="userID">{{record[6]}}</td>  -->
 					<td class="editButton"><input type="submit" value="Edit" onclick="editTrack({{record[0]}})"></td>
 					<td class="deleteButton"><input type="submit" value="Delete" onclick="deleteTrack({{record[0]}})"></td>
+					<td>Drag to Move</td>
 				</tr>
 			</tbody>
 		</table>
@@ -117,6 +142,19 @@
 			        success(function(data) {
 			            alert("sorted!")
 			            window.name = "";
+			        });
+				}
+				if(choice.indexOf("searchTerm") != -1){
+					var x = readCookie('usercookie')
+					var libraryPersistentID = x.split('libraryPersistentID":"');		
+					var userID = libraryPersistentID[1].substring(0,libraryPersistentID[1].length-2);
+					var searchTerm = choice.split("searchTerm");
+					searchTerm = searchTerm[1];
+					searchTerm = searchTerm + "--user--"+userID;
+					alert("sending: "+searchTerm);
+					$http.get('/dss/rest/tracks/getsearch/'+ searchTerm).
+			        success(function(data) {
+			            $scope.records = data;
 			        });
 				}
 				if(choice == "all"){

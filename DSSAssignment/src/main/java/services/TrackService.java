@@ -14,4 +14,5 @@ public interface TrackService {
 	List<Track> getTracksByUser(String userID);
 	void deleteTrack(Track track);
 	void updateTrack(Track track);
+	List<Track> getTracksSearch(String searchAndId);
 }
