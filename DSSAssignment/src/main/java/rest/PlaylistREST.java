@@ -78,20 +78,28 @@ public class PlaylistREST {
 	@Path("/getplaylistbyId/{title}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String[]> getPlaylistByTitle(@PathParam("title") String title) {
-		int id = Integer.parseInt(title);
-		Playlist playlist =  service.getPlaylistById(id);
 		ArrayList<String[]> aList = new ArrayList<String[]>();
-		if(playlist.getTitle().equals("empty")){
-			String[] str = {"Playlist empty", "", "", "", "", "", ""};
-			aList.add(str);
+		try{
+			int id = Integer.parseInt(title);
+			Playlist playlist =  service.getPlaylistById(id);
+			if(playlist.getTitle().equals("empty")){
+				String[] str = {"Playlist empty", "", "", "", "", "", ""};
+				aList.add(str);
+				return aList;
+			}
+			List<Track> tracklist= playlist.getTrackTitles();
+			for(Track track : tracklist){
+				String[] str = {track.getId().toString(), track.getTitle(), track.getArtist(), track.getAlbum(), track.getGenre(), track.getTrackId(), track.getUser().getUsername()};
+				aList.add(str);
+			}
 			return aList;
 		}
-		List<Track> tracklist= playlist.getTrackTitles();
-		for(Track track : tracklist){
-			String[] str = {track.getId().toString(), track.getTitle(), track.getArtist(), track.getAlbum(), track.getGenre(), track.getTrackId(), track.getUser().getUsername()};
-			aList.add(str);
+		catch(Exception e){
+			log.info("number exception: "+title);
 		}
-		return aList;	
+		String[] str = {"Playlist empty", "", "", "", "", "", ""};
+		aList.add(str);
+		return aList;
 	}
 	
 	@POST

@@ -57,7 +57,7 @@
     	  width: 100%; /* fill the box */
     	}
     	thead th { width: 400px; } /* fixed width for THs */
-    	tbody td { width: 368px; } /* fixed width for TDs */
+    	tbody td { width: 384px; } /* fixed width for TDs */
     	/* the tbody needs to be 16px less than the thead, for the scrollbar */
     	
     	</style>
@@ -143,6 +143,7 @@
 			            alert("sorted!")
 			            window.name = "";
 			        });
+					createCookie('choicecookie', "", 0);
 				}
 				if(choice.indexOf("searchTerm") != -1){
 					var x = readCookie('usercookie')
@@ -156,6 +157,7 @@
 			        success(function(data) {
 			            $scope.records = data;
 			        });
+					createCookie('choicecookie', "", 0);
 				}
 				if(choice == "all"){
 					//alert("found match for all")
@@ -167,6 +169,7 @@
 			        success(function(data) {
 			            $scope.records = data;
 			        });
+					createCookie('choicecookie', "", 0);
 			        
 				   // window.top.name = "";	
 				}				
@@ -176,6 +179,7 @@
 			        success(function(data) {
 			            $scope.records = data;
 			        });
+					createCookie('choicecookie', "", 0);
 
 				}
 				

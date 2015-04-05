@@ -46,7 +46,7 @@ public class TracksRest {
 	public List<String[]> getTracksSearch(@PathParam("searchTerm") String searchTerm) throws ParseException{
 		List<Track> tracklist = service.getTracksSearch(searchTerm);
 		ArrayList<String[]> aList = new ArrayList<String[]>();
-		if(tracklist.isEmpty()){
+		if(tracklist.isEmpty() || tracklist == null){
 			String[] str = {"No Match Found", "", "", "", "", "", ""};
 			aList.add(str);
 			return aList;
