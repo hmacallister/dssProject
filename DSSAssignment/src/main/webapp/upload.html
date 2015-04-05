@@ -163,7 +163,7 @@
 				var usersplit = username[1].substring(0, username[1].length - 2);
 				var passwordsplit = (usersplit.split('","password'));
 				var userID = passwordsplit[0];
-				alert(userID);
+				//alert(userID);
 
 				(function($) {
 					$.ajax({
@@ -183,7 +183,7 @@
 								createCookie('usercookie', JSON.stringify(data), 0);
 								var key = 'libraryPersistentID';
 								if (data[key] != -1) {
-									alert("Registration Successful");
+									//alert("User Profile Complete!");
 									window.location.replace("index.html");
 								} else {
 									elem.innerHTML = "Login Failed: wrong username or password";

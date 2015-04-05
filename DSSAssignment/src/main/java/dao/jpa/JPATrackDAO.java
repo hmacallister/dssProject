@@ -67,7 +67,7 @@ public class JPATrackDAO implements TrackDAO{
 		User user = userresult.get(0);
 		Query query = em.createQuery("from Track t where t.user = :user");
 		query.setParameter("user", user);
-		List<Track> result = query.setMaxResults(100).getResultList();
+		List<Track> result = query.getResultList();
 		if(result.isEmpty()){
 			return null;
 		}

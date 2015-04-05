@@ -55,8 +55,7 @@
 			<input type=submit value ="save order" class="btn btn-default" onclick="saveOrder()">
 		</div>
 		<br>
-		<>
-		<hbrr>
+		<hr>
 		<div class="col-lg12">
 		<div class="table-responsive">
 		<table id="trackTable" border=1 class="sortable table table-bordered table-hover table-striped">
@@ -110,10 +109,10 @@
 		
 			function errorLoader($scope, $http) {
 				var choice = readCookie('choicecookie')
-				alert(choice);
+				//alert(choice);
 				var sortedTable = window.name;
 				if(sortedTable.length > 1 && sortedTable != "formFrame"){
-					alert("reached post method with: "+sortedTable);
+					//alert("reached post method with: "+sortedTable);
 					$http.get('/dss/rest/playlists/sort/'+ sortedTable).
 			        success(function(data) {
 			            alert("sorted!")

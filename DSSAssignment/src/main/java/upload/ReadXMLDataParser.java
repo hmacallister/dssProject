@@ -163,25 +163,75 @@ public class ReadXMLDataParser implements ReadXML {
 					}
 				}
 				if (searchPlaylists == true) {
-					//log.info("while playlists true temp noe is: "+ nodeList.item(count).getTextContent());
+					//log.info("while playlists true temp node is: "+ nodeList.item(count).getTextContent());
+					String playlistInfo = tempNode.getTextContent();
+					if (playlistInfo.contains("ItemsPlaylist")) {
+						try{
+							playlistInfo = playlistInfo.substring(4);
+							String[] splitTitle = playlistInfo.split("Playlist ID");
+							playListTitle = splitTitle[0];
+							log.info("playlist title = "+ playListTitle);
+							String[] splitTracks  = playlistInfo.split("All ItemsPlaylist Items");
+							playListTracks = splitTracks[1];
+							log.info("playlist tracks = "+ playListTracks);
+							//tracks
+							/*
+							String[] splitTracks = playListTracks.split("Track ID");
+							for (int i = 0; i < splitTracks.length; i++) {
+								playlistTrackList.add(splitTracks[i]);
+								//log.info("playlist track: "+splitTracks[i]);
+							}
+							*/
+						}
+						catch(Exception e){
+							log.info("++++++++++++++ exception in playlist parse +++++++++++++++");
+							playListTitle = null;
+							playListTracks = null;
+						}
+						
+					}
+					/*
 					if (tempNode.getTextContent().equals("Playlist ID")) {
 						// Node tempNodePlaylistName = nodeList.item(count-1);
+						try{
 						playListTitle = nodeList.item(count - 2)
 								.getTextContent();
-						// log.info("playlist title:  = " + playListTitle);
+						//log.info("************ playlist title:  = " + playListTitle);
 						playlist.setTitle(playListTitle);
+						}
+						catch(Exception e){
+							log.info("++++++++++++++ exception in playlist title parse +++++++++++++++");
+							playListTitle = null;
+							playListTracks = null;
+						}
 					}
+					
 					if (tempNode.getTextContent().equals("Playlist Items")) {
 						// Node tempNodePlaylistTracks = nodeList.item(count+1);
+						try{
+							/*
+						playListTitle = nodeList.item(count - 8).getTextContent();
+						log.info("************ playlist title:  = " + playListTitle);
+						playlist.setTitle(playListTitle);
+						*/
+					
+					/*
 						playListTracks = nodeList.item(count + 2)
 								.getTextContent();
-						// log.info("all tracks on playlist: "+playListTracks);
+						//log.info("************* all tracks on playlist: "+playListTracks);
 						String[] splitTracks = playListTracks.split("Track ID");
 						for (int i = 0; i < splitTracks.length; i++) {
 							playlistTrackList.add(splitTracks[i]);
 							 //log.info("playlist track: "+splitTracks[i]);
 						}
+						}
+						catch(Exception e){
+							log.info("++++++++++++++ exception in playlist tracks parse +++++++++++++++");
+							playListTitle = null;
+							playListTracks = null;
+						}
 					}
+				*/
 					if(playListTitle != null && !playListTitle.equals("")){
 						if(playListTracks !=null && user != null){
 							Playlist plist = new Playlist(playListTitle);
