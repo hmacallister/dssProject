@@ -53,25 +53,30 @@ public class PlaylistREST {
 		Playlist playlist = new Playlist();
 		//log.info("received from json: "+order);
 		List<Track> trackList = new ArrayList<Track>(); 
-		int id = Integer.parseInt(order.substring(0, 1));
-		//log.info("playlist id is: "+id);
-		playlist.setId(id);
-		String[] trackIds = order.split("id");
-		for(int i=2; i<trackIds.length;i++){
-			try{
-				int trackId = Integer.parseInt(trackIds[i]);
-				//log.info("track id is: "+trackId);
-				Track track = new Track(trackId);
-				trackList.add(track);
-			}
-			catch(Exception e){
-				log.info("couldn't sort: "+trackIds[i]);
-			}
+		try{
+			int id = Integer.parseInt(order.substring(0, 1));
+			playlist.setId(id);
+			//log.info("playlist id is: "+id);;
+			String[] trackIds = order.split("id");
+			for(int i=2; i<trackIds.length;i++){
+				try{
+					int trackId = Integer.parseInt(trackIds[i]);
+					//log.info("track id is: "+trackId);
+					Track track = new Track(trackId);
+					trackList.add(track);
+				}
+				catch(Exception e){
+					log.info("couldn't sort: "+trackIds[i]);
+				}
 
+			}
+			playlist.setTrackTitles(trackList);
+			//return service.getPlaylistsByUser(user);
+			service.updatePlaylist(playlist);
 		}
-		playlist.setTrackTitles(trackList);
-		//return service.getPlaylistsByUser(user);
-		service.updatePlaylist(playlist);
+		catch(Exception e){
+			
+		}
 	}
 	
 	@GET
@@ -83,7 +88,7 @@ public class PlaylistREST {
 			int id = Integer.parseInt(title);
 			Playlist playlist =  service.getPlaylistById(id);
 			if(playlist.getTitle().equals("empty")){
-				String[] str = {"Playlist empty", "", "", "", "", "", ""};
+				String[] str = {"", "Playlist empty", "", "", "", "", ""};
 				aList.add(str);
 				return aList;
 			}
@@ -97,7 +102,7 @@ public class PlaylistREST {
 		catch(Exception e){
 			log.info("number exception: "+title);
 		}
-		String[] str = {"Playlist empty", "", "", "", "", "", ""};
+		String[] str = {"", "Playlist empty", "", "", "", "", ""};
 		aList.add(str);
 		return aList;
 	}

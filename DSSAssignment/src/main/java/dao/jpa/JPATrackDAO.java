@@ -81,7 +81,8 @@ public class JPATrackDAO implements TrackDAO {
 		Track deletedTrack = em.find(Track.class, track.getId());
 
 		List<Track> allTracks = new ArrayList<Track>();
-		log.info("track being deleted is id: " + deletedTrack.getId());
+		log.info("***** track about to be deleted is id: " + deletedTrack.getId());
+		
 		/*
 		 * Query query = em.createQuery("from Playlist"); List<Playlist>
 		 * playlists = query.getResultList(); for(Playlist p :playlists){
@@ -111,9 +112,13 @@ public class JPATrackDAO implements TrackDAO {
 		// }
 
 		try {
-			em.remove(deletedTrack);
+			Query deleteQuery = em.createQuery("DELETE FROM Track t WHERE t.id = :id");
+			int deletedCount = deleteQuery.setParameter("id", track.getId()).executeUpdate();
+			log.info("***** track being deleted in playlist is id: "+track.getId() + " deleted tracks count: "+deletedCount);
+			//em.remove(deletedTrack);
 		} catch (Exception e) {
 			log.info("track couldn't remove track" + deletedTrack.getId());
+			e.printStackTrace();
 		}
 		// addTracks(allTracks);
 	}

@@ -48,16 +48,16 @@
     	*/
     
    		 /* Scrollability of table */
-    	table { width: 800px; } /* fixed width table */
-    	thead tr { display: block; } /* makes it sizeable */
-    	tbody { 
+    	table.sortable { width: 1260px; } /* fixed width table */
+    	table.sortable thead tr { display: block; } /* makes it sizeable */
+    	table.sortable tbody { 
     	  display: block; /* makes it sizeable */
-    	  height: 300px; /* height of scrollable area */
+    	  height: 600px; /* height of scrollable area */
     	  overflow: auto; /* scroll rather than overflow */
     	  width: 100%; /* fill the box */
     	}
-    	thead th { width: 400px; } /* fixed width for THs */
-    	tbody td { width: 384px; } /* fixed width for TDs */
+    	table.sortable thead th { width: 180px; } /* fixed width for THs */
+    	table.sortable tbody td { width: 178px; } /* fixed width for TDs */
     	/* the tbody needs to be 16px less than the thead, for the scrollbar */
     	
     	</style>
@@ -80,7 +80,6 @@
 		</div>
 		<hr>
 		<div class="col-lg12">
-		<div class="table-responsive">
 		<table id="trackTable" border=1 class="sortable table table-bordered table-hover table-striped">
 			<thead>
 				<tr>
@@ -89,25 +88,21 @@
 					<th class="artist">Artist</th>
 					<th class="album">Album</th>
 					<th class="genre">Genre</th>
-					<!--  <th class="trackId">Track Id</th>   -->
-					<!--  <th class="userID">User Id</th>  -->
-					<th class="sorttable_nosort">Edit Track</th>
-					<th class="sorttable_nosort">Delete Track</th>
-					<th class="sorttable_nosort">Move Track</th>
+					<th class="trackId">Track Id</th>
+					<th>Edit/Delete Track</th>
+
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="record in records" id={{record[0]}}>
+<tr ng-repeat="record in records" id={{record[0]}}>
 					<td class="id">{{record[0]}}</td>
-					<td class="title"><input type="text" size="" id=title{{record[0]}} value={{record[1]}}></td>
+					<td class="title"><input type="text" id=title{{record[0]}} value={{record[1]}}></td>
 					<td class="artist"><input type="text" id=artist{{record[0]}} value='{{record[2]}}'></td>
 					<td class="album"><input type="text" id=album{{record[0]}} value="{{record[3]}}"></td>
 					<td class="genre"><input type="text" id=genre{{record[0]}} value={{record[4]}}></td>
-				<!--	<td class="trackId">{{record[5]}}</td>  -->
-				<!--	<td class="userID">{{record[6]}}</td>  -->
-					<td class="editButton"><input type="submit" value="Edit" onclick="editTrack({{record[0]}})"></td>
-					<td class="deleteButton"><input type="submit" value="Delete" onclick="deleteTrack({{record[0]}})"></td>
-					<td>Drag to Move</td>
+					<td class="trackId">{{record[5]}}</td>
+					<td class="editButton"><input type="submit" value="Edit" onclick="editTrack({{record[0]}})">
+					<input type="submit" value="Delete" onclick="deleteTrack({{record[0]}})"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -116,8 +111,7 @@
 		</div>
 		</div>
 		</div>
-		</div>
-		</div>
+
 
 
 		<script>
@@ -134,17 +128,18 @@
 		
 			function errorLoader($scope, $http) {
 				var choice = readCookie('choicecookie')
-				//alert(choice);
+				//alert("playlist id= "+choice);
 				var sortedTable = window.name;
 				if(sortedTable.length > 1 && sortedTable != "formFrame"){
 					//alert("reached post method with: "+sortedTable);
 					$http.get('/dss/rest/playlists/sort/'+ sortedTable).
 			        success(function(data) {
-			            alert("sorted!")
+			            alert("track order saved!")
 			            window.name = "";
 			        });
 					createCookie('choicecookie', "", 0);
 				}
+				/*
 				if(choice.indexOf("searchTerm") != -1){
 					var x = readCookie('usercookie')
 					var libraryPersistentID = x.split('libraryPersistentID":"');		
@@ -159,6 +154,7 @@
 			        });
 					createCookie('choicecookie', "", 0);
 				}
+				*/
 				if(choice == "all"){
 					//alert("found match for all")
 					var x = readCookie('usercookie')
@@ -179,7 +175,6 @@
 			        success(function(data) {
 			            $scope.records = data;
 			        });
-					createCookie('choicecookie', "", 0);
 
 				}
 				
@@ -198,7 +193,7 @@
 						}),
 						processData : false,
 						success : function(data, textStatus, jQxhr) {
-							alert("Delete Successful");
+							alert("Track Deleted");
 							window.location.reload();
 						},
 						error : function(jqXhr, textStatus, errorThrown) {
@@ -235,11 +230,11 @@
 						}),
 						processData : false,
 						success : function(data, textStatus, jQxhr) {
-							alert("Edit Successful");
+							alert("Track Edit Successful");
 							window.location.reload();
 						},
 						error : function(jqXhr, textStatus, errorThrown) {
-							alert("Edit Failed");
+							alert("Track Edit Failed");
 							console.log(errorThrown);
 
 						}
