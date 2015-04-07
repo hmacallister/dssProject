@@ -52,7 +52,7 @@
     	table.sortable thead tr { display: block; } /* makes it sizeable */
     	table.sortable tbody { 
     	  display: block; /* makes it sizeable */
-    	  height: 600px; /* height of scrollable area */
+    	  height: 300px; /* height of scrollable area */
     	  overflow: auto; /* scroll rather than overflow */
     	  width: 100%; /* fill the box */
     	}
@@ -67,16 +67,16 @@
     
 	</head>
 	<body ng-controller="errorLoader">
+	<hr>
 		<div id="wrapper">
 		<div id="page-wrapper">
 
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-lg-6">
-						<h2 align="center">Tracks</h2>
-					</div>
  		<div class="col-lg-6">
-			<input type=submit value ="Save Playlist Order" class="btn btn-default" onclick="saveOrder()">
+ 		<h2 align="center">Tracks</h2>
+			<h4>Drag Tracks to Change Order in Playlist     
+			<input type=submit value ="Confirm Track Order" class="btn btn-default" onclick="saveOrder()"></h4>
 		</div>
 		<hr>
 		<div class="col-lg12">
@@ -256,34 +256,6 @@
 				window.name = sortedOrder;
 
 				window.location.reload();
-				/*
-				if(choice != "all"){
-					(function($) {
-						$.ajax({
-							url : '/dss/rest/playlists/updateplaylist',
-							dataType : 'json',
-							type : 'post',
-							contentType : 'application/json',
-							data : JSON.stringify({
-								"id" : choice,
-								"trackTitles" : trackIDs
-							}),
-							processData : false,
-							success : function(data, textStatus, jQxhr) {
-								alert("Edit Successful");
-								window.location.replace("index.html");
-							},
-							error : function(jqXhr, textStatus, errorThrown) {
-								alert("Edit Failed");
-								console.log(errorThrown);
-
-							}
-						});
-
-					})(jQuery);
-					//end anonymous inner function
-				}
-				*/
 			}
 			
 			

@@ -65,7 +65,7 @@ public class JPAUserDAO implements UserDAO{
 		Query query = em.createQuery("from User");
 		List<User> users = query.getResultList();
 		for(User u : users){
-			if(u.getId().equals(user.getId())){
+			if(u.getLibraryPersistentID().equals(user.getLibraryPersistentID())){
 				u.setPassword(user.getPassword());
 				u.setUsername(user.getUsername());
 				u.setLibraryPersistentID(user.getLibraryPersistentID());

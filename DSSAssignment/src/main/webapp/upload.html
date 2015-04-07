@@ -1,46 +1,66 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
+<head>
 
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="">
-		<meta name="author" content="">
-		
-		<!-- Bootstrap Core CSS -->
-		<link href="css/bootstrap.min.css" rel="stylesheet">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
 
-		<!-- Custom CSS -->
-		<link href="css/sb-admin.css" rel="stylesheet">
+<!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
 
-		<!-- Morris Charts CSS -->
-		<link href="css/plugins/morris.css" rel="stylesheet">
+<!-- Custom CSS -->
+<link href="css/sb-admin.css" rel="stylesheet">
 
-		<!-- Custom Fonts -->
-		<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<!-- Morris Charts CSS -->
+<link href="css/plugins/morris.css" rel="stylesheet">
 
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-		<title>Library Upload</title>
+<!-- Custom Fonts -->
+<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet"
+	type="text/css">
 
-	</head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+<title>Library Upload</title>
 
-	<body>
+<style>
+.hidden {
+	display: none;
+}
+
+.unhidden {
+	display: block;
+}
+</style>
+<script>
+	function unhide() {
+		document.getElementById("userNav").className = 'hidden';
+		document.getElementById("newNav").className = 'unhidden';
+	}
+</script>
+
+</head>
+
+<body>
 
 	<div id="wrapper">
 
-			<!-- Navigation -->
+		<!-- Navigation -->
+		<div id="newNav" class="hidden">
 			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target=".navbar-ex1-collapse">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="alt_index.html" id = "userDashboardTitle"></a>
+					<a class="navbar-brand" href="alt_index.html"
+						id="userDashboardTitle"></a>
 				</div>
 				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
@@ -53,161 +73,280 @@
 				</div>
 				<!-- /.navbar-collapse -->
 			</nav>
+		</div>
 
-			<div id="page-wrapper">
 
-				<div class="container-fluid">
 
-					<!-- Page Heading -->
-					<div class="row">
+
+		<!-- Navigation -->
+		<div id="userNav">
+			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target=".navbar-ex1-collapse">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html">Home</a>
+				</div>
+				<!-- Top Menu Items -->
+				<ul class="nav navbar-right top-nav">
+					<li class="dropdown">
+					<li class="dropdown"><a href="login.html"
+						onclick="eraseCookie('usercookie')"><i
+							class="fa fa-fw fa-power-off"></i> Log Out</a></li>
+				</ul>
+				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+				<div class="collapse navbar-collapse navbar-ex1-collapse">
+					<ul class="nav navbar-nav side-nav">
+						<li><a href="index.html"><i class="fa fa-fw fa-music"></i>
+								Home</a></li>
+						<li class="active"><a href="upload.html"><i
+								class="fa fa-fw fa-upload"></i> Upload New Library</a></li>
+						<li><a href="editUser.html"><i class="fa fa-fw fa-user"></i>
+								Profile</a></li>
+
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</nav>
+		</div>
+
+
+
+
+		<div id="page-wrapper">
+
+			<div class="container-fluid">
+
+				<!-- Page Heading -->
+				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Registration Successful! Welcome new user</h1>
-					</div>		
-						<div class="col-lg-12" align="center">
+						<h1 class="page-header" id="header"></h1>
+					</div>
+					<div class="col-lg-12" align="center">
 
-	
 
-		<div id="uploadPanel" align="center">
-			<h2> Import Your Library</h2>
-			<!--<h1>File Upload</h1>-->
-			<form method="post" role="form" action="UploadServlet" enctype="multipart/form-data" style="display: inline-block">
-				<div class="form-group">
-				<label>Select xml file to import: </label>
-				<input type="file" class="btn btn-default" name="file" size="60" accept=".xml" style="background-color: gray;"/>
+
+						<div id="uploadPanel" align="center">
+							<h2>Import Your Library</h2>
+							<!--<h1>File Upload</h1>-->
+							<form method="post" role="form" action="UploadServlet"
+								enctype="multipart/form-data" style="display: inline-block">
+								<div class="form-group">
+									<label>Select xml file to import: </label> <input type="file"
+										class="btn btn-default" name="file" size="60" accept=".xml"
+										style="background-color: gray;" />
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn btn-default">Import</button>
+								</div>
+							</form>
+							<hr>
+							<h4 id="server-reponse"></h4>
+							<br> <input id="homeButton" value="Continue" type="hidden"
+								class="btn btn-default" onclick="createUserCookie()" />
+						</div>
+					</div>
 				</div>
-				<div class="form-group">
-				<button type="submit" class="btn btn-default">
-					Import
-				</button>
-				</div>
-			</form>
-			<hr>
-			<h4 id="server-reponse"></h4>
-			<br>
-				<input id="homeButton" value ="Continue" type="hidden" class="btn btn-default" onclick="createUserCookie()"/>
+			</div>
 		</div>
-		</div>
-		</div>
-		</div>
-		</div>
-		</div>
+	</div>
 
-		<!-- jQuery -->
-		<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+	<!-- jQuery -->
+	<script type="text/javascript"
+		src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
 
-		<script>
-			var x = readCookie('usercookie')
-			if (!x) {
-				window.location.replace("/dss/login.html");
+	<script>
+		var newUser;
+		var x = readCookie('usercookie')
+		if (!x) {
+			window.location.replace("/dss/login.html");
+		} else {
+			var ID = x.charAt(x.length - 3)
+			//alert(ID);
+			alert(x);
+			if (ID == -1 || ID == "D") {
+				newUser = true;
+				document.getElementById('header').innerHTML = "Registration Successful! Welcome new user";
+				unhide();
+			} else {
+				newUser = false;
+				var elem = document.getElementById('header');
+				elem.innerHTML = " Warning Uploading a New Library Will Overwrite Your Existing Library!";
+				elem.style.color = 'red';
 			}
 
-			function hideButton() {
-				var buttn = document.getElementById("submitButton");
-				var parent = buttn.parentNode;
-				parent.removeChild(buttn);
+		}
 
-				var temp = jQuery('#form').submit();
-				return true;
-			}
+		/*
+		function hideButton() {
+			var buttn = document.getElementById("submitButton");
+			var parent = buttn.parentNode;
+			parent.removeChild(buttn);
 
-			function createCookie(name, value, days) {
-				if (days) {
-					var date = new Date();
-					date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-					var expires = "; expires=" + date.toGMTString();
-				} else
-					var expires = "";
-				document.cookie = name + "=" + value + expires + "; path=/";
-			}
+			var temp = jQuery('#form').submit();
+			return true;
+		}
+		 */
 
-			function readCookie(name) {
-				var nameEQ = name + "=";
-				var ca = document.cookie.split(';');
-				for (var i = 0; i < ca.length; i++) {
-					var c = ca[i];
-					while (c.charAt(0) == ' ')
+		function createCookie(name, value, days) {
+			if (days) {
+				var date = new Date();
+				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+				var expires = "; expires=" + date.toGMTString();
+			} else
+				var expires = "";
+			document.cookie = name + "=" + value + expires + "; path=/";
+		}
+
+		function readCookie(name) {
+			var nameEQ = name + "=";
+			var ca = document.cookie.split(';');
+			for (var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ')
 					c = c.substring(1, c.length);
-					if (c.indexOf(nameEQ) == 0)
-						return c.substring(nameEQ.length, c.length);
-				}
-				return null;
+				if (c.indexOf(nameEQ) == 0)
+					return c.substring(nameEQ.length, c.length);
 			}
+			return null;
+		}
 
-			function eraseCookie(name) {
-				createCookie(name, "", -1);
-				window.location.replace("/dss/login.html");
-			}
+		function eraseCookie(name) {
+			createCookie(name, "", -1);
+			window.location.replace("/dss/login.html");
+		}
 
-			/*
-			function fileLoader($scope, $http) {
-				$http.get('/dss/rest/file').success(function(data) {
-					$scope.files = data;
-				});
-			}
-			*/
+		//alert(window.location.hash);
+		var response = window.location.hash;
+		var len = response.length;
+		var elem = document.getElementById("server-reponse");
+		if (len > 2) {
+			elem.innerHTML = "Server Response:" + response
+					+ "<br>User Profile now complete!";
+			document.getElementById("homeButton").type = "submit";
+		}
 
-			//alert(window.location.hash);
-			var response = window.location.hash;
-			var len = response.length;
-			var elem = document.getElementById("server-reponse");
-			if (len > 2) {
-				elem.innerHTML = "Server Response:" + response + "<br>User Profile now complete!";
-				document.getElementById("homeButton").type = "submit";
-			}
-
-			function createUserCookie() {
+		function createUserCookie() {
+			if (newUser) {
+				var x = readCookie('usercookie')
+				alert(x);
 				var libraryPersistentID = "";
 				var username = x.split('username":"');
-				var usersplit = username[1].substring(0, username[1].length - 2);
+				var usersplit = username[1]
+						.substring(0, username[1].length - 2);
 				var passwordsplit = (usersplit.split('","password'));
 				var userID = passwordsplit[0];
-				//alert(userID);
+				//alert("username"+userID);
 
 				(function($) {
-					$.ajax({
-						url : '/dss/rest/users/getuserbyname',
-						dataType : 'json',
-						type : 'post',
-						contentType : 'application/json',
-						data : JSON.stringify({
-							"username" : userID,
-							"password" : "hhh",
-							"libraryPersistentID" : "TEMPORARY ID"
-						}),
-						processData : false,
-						success : function(data, textStatus, jQxhr) {
-							var elem = document.getElementById("server-reponse");
-							if (data != null) {
-								createCookie('usercookie', JSON.stringify(data), 0);
-								var key = 'libraryPersistentID';
-								if (data[key] != -1) {
-									//alert("User Profile Complete!");
-									window.location.replace("index.html");
-								} else {
-									elem.innerHTML = "Login Failed: wrong username or password";
-									elem.style.color = 'red';
+					$
+							.ajax({
+								url : '/dss/rest/users/getuserbyname',
+								dataType : 'json',
+								type : 'post',
+								contentType : 'application/json',
+								data : JSON.stringify({
+									"username" : userID,
+									"password" : "hhh",
+									"libraryPersistentID" : "TEMPORARY ID"
+								}),
+								processData : false,
+								success : function(data, textStatus, jQxhr) {
+									var elem = document
+											.getElementById("server-reponse");
+									if (data != null) {
+										createCookie('usercookie', JSON
+												.stringify(data), 0);
+										var key = 'libraryPersistentID';
+										if (data[key] != -1) {
+											//alert("User Profile Complete!");
+											window.location
+													.replace("index.html");
+										} else {
+											elem.innerHTML = "Login Failed: wrong username or password";
+											elem.style.color = 'red';
+										}
+									} else {
+										elem.innerHTML = "Username already exists! Please try another!";
+										elem.style.color = 'red';
+										console.log(errorThrown);
+									}
+								},
+								error : function(jqXhr, textStatus, errorThrown) {
+									createCookie('usercookie', "", 0);
+									document
+											.write('<p>Unknown Error!!!! This should not happen</p><a href ="login.html">Continue</a>');
+									console.log(errorThrown);
 								}
-							} else {
-								elem.innerHTML = "Username already exists! Please try another!";
-								elem.style.color = 'red';
-								console.log(errorThrown);
-							}
-						},
-						error : function(jqXhr, textStatus, errorThrown) {
-							createCookie('usercookie', "", 0);
-							document.write('<p>Unknown Error!!!! This should not happen</p><a href ="login.html">Continue</a>');
-							console.log(errorThrown);
+							});
+				})(jQuery);
+				//end anonymous inner function
+			} else {
+				var x = readCookie('usercookie')
+				var libraryPersistentID = "";
+				var username = x.split('username":"');
+				username = username[1].split('","');
+				usernameMain = username[0];
+				var passwordsplit = (username[1].split('password":"'));
+				var password = passwordsplit[1];
+				var libraryPersistentID = x.split('libraryPersistentID":"');
+				libraryPersistentID = libraryPersistentID[1].substring(0,
+						libraryPersistentID[1].length - 2);
 
-						}
-					});
-
+				(function($) {
+					$
+							.ajax({
+								url : '/dss/rest/users/getuserbyname',
+								dataType : 'json',
+								type : 'post',
+								contentType : 'application/json',
+								data : JSON.stringify({
+									"username" : usernameMain,
+									"password" : password,
+									"libraryPersistentID" : libraryPersistentID
+								}),
+								processData : false,
+								success : function(data, textStatus, jQxhr) {
+									var elem = document
+											.getElementById("server-reponse");
+									if (data != null) {
+										createCookie('usercookie', JSON
+												.stringify(data), 0);
+										var key = 'libraryPersistentID';
+										if (data[key] != -1) {
+											//alert("User Profile Complete!");
+											window.location
+													.replace("index.html");
+										} else {
+											elem.innerHTML = "Login Failed: wrong username or password";
+											elem.style.color = 'red';
+										}
+									} else {
+										elem.innerHTML = "Username already exists! Please try another!";
+										elem.style.color = 'red';
+										console.log(errorThrown);
+									}
+								},
+								error : function(jqXhr, textStatus, errorThrown) {
+									createCookie('usercookie', "", 0);
+									document
+											.write('<p>Unknown Error!!!! This should not happen</p><a href ="login.html">Continue</a>');
+									console.log(errorThrown);
+								}
+							});
 				})(jQuery);
 				//end anonymous inner function
 			}
-		</script>
+		}
+	</script>
 
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-	</body>
+</body>
 
 </html>

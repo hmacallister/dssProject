@@ -128,12 +128,14 @@ public class JPATrackDAO implements TrackDAO {
 
 		Query query = em.createQuery("from Track");
 		List<Track> tracks = query.getResultList();
+		log.info("editing: "+track.getId());
 		for (Track t : tracks) {
-			if (t.getId() == (track.getId())) {
+			if (t.getId() == track.getId()) {
 				t.setTitle(track.getTitle());
 				t.setArtist(track.getArtist());
 				t.setAlbum(track.getAlbum());
 				t.setGenre(track.getGenre());
+				log.info("edited title: "+track.getTitle());
 				em.merge(t);
 				break;
 			}
