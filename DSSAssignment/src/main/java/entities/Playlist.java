@@ -92,14 +92,13 @@ public class Playlist implements Serializable{
 	public void setTrackTitles(List<Track> trackTitles) {
 		this.trackTitles = trackTitles;
 	}
-	
-	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + ((userFK == null) ? 0 : userFK.hashCode());
 		return result;
 	}
 
@@ -117,8 +116,17 @@ public class Playlist implements Serializable{
 				return false;
 		} else if (!title.equals(other.title))
 			return false;
+		if (userFK == null) {
+			if (other.userFK != null)
+				return false;
+		} else if (!userFK.equals(other.userFK))
+			return false;
 		return true;
 	}
+
+	
+
+	
 //
 //	public List<String> getTrackIDs() {
 //		return trackIDs;

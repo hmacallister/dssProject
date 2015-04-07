@@ -88,8 +88,8 @@
 					<th class="artist">Artist</th>
 					<th class="album">Album</th>
 					<th class="genre">Genre</th>
-					<th class="trackId">Track Id</th>
-					<th>Edit/Delete Track</th>
+					<th>Edit Track</th>
+					<th>Delete Track</th>
 
 				</tr>
 			</thead>
@@ -100,9 +100,8 @@
 					<td class="artist"><input type="text" id=artist{{record[0]}} value='{{record[2]}}'></td>
 					<td class="album"><input type="text" id=album{{record[0]}} value="{{record[3]}}"></td>
 					<td class="genre"><input type="text" id=genre{{record[0]}} value={{record[4]}}></td>
-					<td class="trackId">{{record[5]}}</td>
-					<td class="editButton"><input type="submit" value="Edit" onclick="editTrack({{record[0]}})">
-					<input type="submit" value="Delete" onclick="deleteTrack({{record[0]}})"></td>
+					<td class="editButton"><input type="submit" value="Edit" onclick="editTrack({{record[0]}})"></td>
+					<td class="deleteButton"><input type="submit" value="Delete" onclick="deleteTrack({{record[0]}})"></td>
 				</tr>
 			</tbody>
 		</table>

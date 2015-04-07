@@ -112,13 +112,13 @@ public class JPATrackDAO implements TrackDAO {
 		// }
 
 		try {
-			Query deleteQuery = em.createQuery("DELETE FROM Track t WHERE t.id = :id");
-			int deletedCount = deleteQuery.setParameter("id", track.getId()).executeUpdate();
-			log.info("***** track being deleted in playlist is id: "+track.getId() + " deleted tracks count: "+deletedCount);
-			//em.remove(deletedTrack);
+			//Query deleteQuery = em.createQuery("DELETE FROM Track t WHERE t.id = :id");
+			//int deletedCount = deleteQuery.setParameter("id", track.getId()).executeUpdate();
+			//log.info("***** track being deleted in playlist is id: "+track.getId() + " deleted tracks count: "+deletedCount);
+			em.remove(deletedTrack);
 		} catch (Exception e) {
-			log.info("track couldn't remove track" + deletedTrack.getId());
-			e.printStackTrace();
+			log.info("couldn't remove track" + deletedTrack.getId());
+			//e.printStackTrace();
 		}
 		// addTracks(allTracks);
 	}
