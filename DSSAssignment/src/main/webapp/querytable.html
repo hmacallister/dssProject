@@ -35,17 +35,7 @@
     	table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
     		content: " \25B4\25BE" 
 		}
-		
-		
-		/* Appearance 
-    	body, table { font-family: sans-serif; }
-    	table { border-collapse: collapse; }
-    	td, th { padding: 6px; }
-    	th { background: #333; color: white; }
-    	tbody tr:nth-child(odd) { background: #dfdfdf; }
-    	table { border: 1px solid red; }
-    	
-    	*/
+
     
    		 /* Scrollability of table */
     	table.sortable { width: 1260px; } /* fixed width table */
@@ -63,10 +53,8 @@
     	</style>
 
 		
-    
-    
 	</head>
-	<body ng-controller="errorLoader">
+	<body ng-controller="tableLoader">
 		<div id="wrapper">
 		<div id="page-wrapper">
 
@@ -116,19 +104,12 @@
 		$(document).ready(function(){
 			$('#trackTable tbody').sortable();
 		});
-		//var myTH = document.getElementsByTagName("th")[0];
-		//sorttable.innerSortFunction.apply(myTH, []);
-		
 		var sortedOrder = "";
-		
-		//alert("window name = "+window.name);
-		
-			function errorLoader($scope, $http) {
+	
+		function tableLoader($scope, $http) {
 				var choice = readCookie('choicecookie')
-				//alert("playlist id= "+choice);
 				var sortedTable = window.name;
 				if(sortedTable.length > 1 && sortedTable != "formFrame"){
-					//alert("reached post method with: "+sortedTable);
 					$http.get('/dss/rest/playlists/sort/'+ sortedTable).
 			        success(function(data) {
 			            alert("track order saved!")
@@ -136,49 +117,26 @@
 			        });
 					createCookie('choicecookie', "", 0);
 				}
-				/*
-				if(choice.indexOf("searchTerm") != -1){
-					var x = readCookie('usercookie')
-					var libraryPersistentID = x.split('libraryPersistentID":"');		
-					var userID = libraryPersistentID[1].substring(0,libraryPersistentID[1].length-2);
-					var searchTerm = choice.split("searchTerm");
-					searchTerm = searchTerm[1];
-					searchTerm = searchTerm + "--user--"+userID;
-					alert("sending: "+searchTerm);
-					$http.get('/dss/rest/tracks/getsearch/'+ searchTerm).
-			        success(function(data) {
-			            $scope.records = data;
-			        });
-					createCookie('choicecookie', "", 0);
-				}
-				*/
 				if(choice == "all"){
-					//alert("found match for all")
 					var x = readCookie('usercookie')
 					var libraryPersistentID = x.split('libraryPersistentID":"');		
 					var userID = libraryPersistentID[1].substring(0,libraryPersistentID[1].length-2);
-					//alert("view all by user id = "+userID);
 					$http.get('/dss/rest/tracks/getlibrary/'+ userID).
 			        success(function(data) {
 			            $scope.records = data;
 			        });
 					createCookie('choicecookie', "", 0);
-			        
-				   // window.top.name = "";	
 				}				
 				else{
-					//alert("choice = "+choice)
 					$http.get('/dss/rest/playlists/getplaylistbyId/' + choice).
 			        success(function(data) {
 			            $scope.records = data;
 			        });
-
 				}
 				
 			}
 			
 			function deleteTrack(id) {
-				//alert("id = "+id);
 				(function($) {
 					$.ajax({
 						url : '/dss/rest/tracks/deletetrack',
@@ -191,7 +149,7 @@
 						processData : false,
 						success : function(data, textStatus, jQxhr) {
 							alert("Track Deleted");
-							window.location.reload();
+							window.top.location.reload();
 							window.top.document.getElementById("parametersAndTableVisibility").className = 'hidden';
 							//window.top.location.replace("/dss/index.html");
 						},
@@ -207,12 +165,10 @@
 			}
 			
 			function editTrack(id) {
-				//alert("id = "+id);
 				var title = document.getElementById("title"+id).value;
 				var album = document.getElementById("album"+id).value;
 				var artist = document.getElementById("artist"+id).value;
 				var genre = document.getElementById("genre"+id).value;
-				//alert("title = "+title+" album = "+album+" artist = "+artist+" genre = "+genre);
 
 				(function($) {
 					$.ajax({
@@ -258,7 +214,6 @@
 				window.name = sortedOrder;
 				window.location.reload();
 				window.top.document.getElementById("parametersAndTableVisibility").className = 'hidden';
-				//window.top.location.replace("/dss/index.html");
 			}
 			
 			

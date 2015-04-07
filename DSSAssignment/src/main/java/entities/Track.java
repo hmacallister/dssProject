@@ -19,61 +19,56 @@ import javax.persistence.Table;
 @Table(name = "tracks")
 public class Track implements Serializable {
 
-  	/**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-  	@Column(name="id")
+	@Column(name = "id")
 	private Integer id;
-	
-  	@Column(name="track_id")
+
+	@Column(name = "track_id")
 	private String trackId;
 
 	@Column(name = "title")
 	private String title;
-	
-	@Column(name="album")
-	private String album;
-	
-	@Column(name="artist")
-	private String artist;
-	
-	@Column(name="genre")
-	private String genre;
-	
-	@JoinColumn (name="user_id", referencedColumnName="id", nullable = true)
-	@ManyToOne(cascade=CascadeType.ALL,fetch= FetchType.EAGER)
-	private User user;
-	
-	@ManyToMany(cascade =CascadeType.ALL, mappedBy="trackTitles")
-	private Collection<Playlist> playlists;
 
-	/*
-	@JoinColumn(name = "tracks", referencedColumnName = "id", nullable = true)
-	@ManyToOne
-	private List<Track> trackTitles = new ArrayList<Track>();
-	*/
+	@Column(name = "album")
+	private String album;
+
+	@Column(name = "artist")
+	private String artist;
+
+	@Column(name = "genre")
+	private String genre;
+
+	@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private User user;
+
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "trackTitles")
+	private Collection<Playlist> playlists;
 
 	public Track() {
 	}
-	
 
 	public Track(Integer id) {
 		this.id = id;
 	}
-	
-	public Track(String title, String album, String artist, String genre, String trackId) {
+
+	public Track(String title, String album, String artist, String genre,
+			String trackId) {
 		this.title = title;
 		this.album = album;
 		this.artist = artist;
 		this.genre = genre;
 		this.trackId = trackId;
 	}
-	
-	public Track(String title, String album, String artist, String genre, Integer id) {
+
+	public Track(String title, String album, String artist, String genre,
+			Integer id) {
 		this.title = title;
 		this.album = album;
 		this.artist = artist;
@@ -121,26 +116,21 @@ public class Track implements Serializable {
 		this.genre = genre;
 	}
 
-
 	public User getUser() {
 		return user;
 	}
-
 
 	public void setUser(User user) {
 		this.user = user;
 	}
 
-
 	public String getTrackId() {
 		return trackId;
 	}
 
-
 	public void setTrackId(String trackId) {
 		this.trackId = trackId;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -150,7 +140,6 @@ public class Track implements Serializable {
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -173,7 +162,4 @@ public class Track implements Serializable {
 			return false;
 		return true;
 	}
-
-	
-
 }

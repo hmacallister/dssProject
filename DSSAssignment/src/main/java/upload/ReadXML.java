@@ -13,10 +13,11 @@ import dao.UserDAO;
 public interface ReadXML {
 
 	void setInputFile(String inputFile);
-	
+
 	void read() throws IOException, ParserConfigurationException, SAXException;
 
 	void setUserDao(UserDAO dao);
+
 	void setTrackDao(TrackDAO dao);
 
 	void setPlaylistDao(PlaylistDAO dao);

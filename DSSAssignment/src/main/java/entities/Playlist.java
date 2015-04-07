@@ -52,14 +52,6 @@ public class Playlist implements Serializable{
 		this.title = title;
 	}
 
-
-	/*
-	public void addTrack(Track t) {
-		t.setPlaylist(this);
-		trackTitles.add(t);
-	}
-	*/
-
 	public Playlist(Integer id, String title, User userFK, List<Track> trackTitles) {
 		this.id = id;
 		this.title = title;
@@ -130,20 +122,5 @@ public class Playlist implements Serializable{
 			return false;
 		return true;
 	}
-
-	
-
-	
-//
-//	public List<String> getTrackIDs() {
-//		return trackIDs;
-//	}
-//
-//	public void setTrackIDs(List<String> trackIDs) {
-//		this.trackIDs = trackIDs;
-//	}
-//	
-//	
-	
 
 }

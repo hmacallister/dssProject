@@ -1,6 +1,5 @@
 package services;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -9,19 +8,18 @@ import javax.ejb.Stateless;
 
 import dao.TrackDAO;
 import entities.Track;
-import entities.User;
 
 @Stateless
 @Local
-public class TrackServiceEJB implements TrackService{
-	
+public class TrackServiceEJB implements TrackService {
+
 	@EJB
 	private TrackDAO dao;
 
 	@Override
 	public void addTracks(List<Track> tracks) {
 		dao.addTracks(tracks);
-		
+
 	}
 
 	@Override
@@ -37,27 +35,18 @@ public class TrackServiceEJB implements TrackService{
 	@Override
 	public boolean deleteTrack(Track track) {
 		return dao.deleteTrack(track);
-		
+
 	}
 
 	@Override
 	public void updateTrack(Track track) {
 		dao.updateTrack(track);
-		
-	}
 
-	@Override
-	public List<Track> getTracksSearch(String searchAndId) {
-		return dao.getTracksSearch(searchAndId);
 	}
 
 	@Override
 	public Track getTrackById(int id) {
 		return dao.getTrackById(id);
 	}
-
-	
-
-
 
 }

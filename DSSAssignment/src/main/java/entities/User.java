@@ -1,22 +1,18 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity 
-@Table(name="users")
-public class User implements Serializable{
-	
+@Entity
+@Table(name = "users")
+public class User implements Serializable {
+
 	/**
 	 * 
 	 */
@@ -24,18 +20,17 @@ public class User implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private Integer id;
-	
-	@Column(name="username")
+
+	@Column(name = "username")
 	private String username;
-	
-	@Column(name="password")
+
+	@Column(name = "password")
 	private String password;
-	
-	@Column(name="libraryPersistentID")
+
+	@Column(name = "libraryPersistentID")
 	private String libraryPersistentID;
-	
 
 	public User() {
 	}
@@ -46,25 +41,18 @@ public class User implements Serializable{
 		this.password = password;
 		this.libraryPersistentID = libraryPersistentID;
 	}
-	
+
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
 	}
-	
+
 	public User(String username) {
 		this.username = username;
 	}
-	
-	/*
-	public void addTrack(Track t) {
-		t.setLibrary(this);
-		trackTitles.add(t);
-	}
-	*/
-	
+
 	public User(int id) {
-		this.id=id;
+		this.id = id;
 	}
 
 	public Integer getId() {
@@ -90,7 +78,6 @@ public class User implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 
 	public String getLibraryPersistentID() {
 		return libraryPersistentID;
@@ -125,22 +112,5 @@ public class User implements Serializable{
 			return false;
 		return true;
 	}
-
-	
-	/*
-
-	public List<Track> getTrackTitles() {
-		return trackTitles;
-	}
-
-	public void setTrackTitles(List<Track> trackTitles) {
-		this.trackTitles = trackTitles;
-	}
-	
-	*/
-
-
-
-	
 
 }

@@ -1,221 +1,214 @@
 <!DOCTYPE html>
 <html ng-app>
 
-	<head>
+<head>
 
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="">
-		<meta name="author" content="">
-		
-		<!-- Bootstrap Core CSS -->
-		<link href="css/bootstrap.min.css" rel="stylesheet">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
 
-		<!-- Custom CSS -->
-		<link href="css/sb-admin.css" rel="stylesheet">
+<!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="css/sb-admin.css" rel="stylesheet">
 
 
-		<!-- Custom Fonts -->
-		<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<!-- Custom Fonts -->
+<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet"
+	type="text/css">
 
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-		<title>Home</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+<title>Home</title>
 
-		<script>
-			function resizeTableFrame() {
-				var formFrame = document.getElementById('formFrame');
-				formFrame.style.height = formFrame.contentWindow.document.body.scrollHeight + 'px';
+<script>
+	function resizeTableFrame() {
+		var formFrame = document.getElementById('formFrame');
+		formFrame.style.height = formFrame.contentWindow.document.body.scrollHeight
+				+ 'px';
+	}
+</script>
+
+<style>
+.hidden {
+	display: none;
+}
+
+.unhidden {
+	display: block;
+}
+</style>
+<script>
+	function unhide(clickedButton, divID) {
+		var item = document.getElementById(divID);
+		if (item) {
+			if (item.className == 'hidden') {
+				item.className = 'unhidden';
 			}
-		</script>
+		}
+	}
+</script>
 
-		<style>
-			.hidden {
-				display: none;
-			}
+</head>
 
-			.unhidden {
-				display: block;
-			}
-		</style>
-		<script>
-			function unhide(clickedButton, divID) {
-				var item = document.getElementById(divID);
-				if (item) {
-					if (item.className == 'hidden') {
-						item.className = 'unhidden';
-					}
-				}
-			}
+<body ng-controller="queryReferenceLoader">
 
-		</script>
-
-	</head>
-
-	<body ng-controller="queryReferenceLoader">
-	
 	<div id="wrapper">
 
-			<!-- Navigation -->
-			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="index.html">Home</a>
-				</div>
-				<!-- Top Menu Items -->
-				<ul class="nav navbar-right top-nav">
-					<li class="dropdown">
-					<li class="dropdown">
-						<a href="login.html" onclick="eraseCookie('usercookie')"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-					</li>
+		<!-- Navigation -->
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-ex1-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html">Home</a>
+			</div>
+			<!-- Top Menu Items -->
+			<ul class="nav navbar-right top-nav">
+				<li class="dropdown">
+				<li class="dropdown"><a href="login.html"
+					onclick="eraseCookie('usercookie')"><i
+						class="fa fa-fw fa-power-off"></i> Log Out</a></li>
+			</ul>
+			<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+				<ul class="nav navbar-nav side-nav">
+					<li class="active"><a href="index.html"><i
+							class="fa fa-fw fa-music"></i> Home</a></li>
+
+					<li><a href="upload.html"><i class="fa fa-fw fa-upload"></i>
+							Upload New Library</a></li>
+
+					<li><a href="editUser.html"><i class="fa fa-fw fa-user"></i>
+							Profile</a></li>
+
 				</ul>
-				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-				<div class="collapse navbar-collapse navbar-ex1-collapse">
-					<ul class="nav navbar-nav side-nav">
-						<li class="active">
-							<a href="index.html"><i class="fa fa-fw fa-music"></i> Home</a>
-						</li>
-						<!-- 
-						<li>
-							<a href="upload.html"><i class="fa fa-fw fa-upload"></i> Upload New Library</a>
-						</li>
-						 -->
-						<li>
-							<a href="editUser.html"><i class="fa fa-fw fa-user"></i> Profile</a>
-						</li>
+			</div>
+			<!-- /.navbar-collapse -->
+		</nav>
 
-					</ul>
-				</div>
-				<!-- /.navbar-collapse -->
-			</nav>
+		<div id="page-wrapper">
 
-			<div id="page-wrapper">
+			<div class="container-fluid">
 
-				<div class="container-fluid">
-
-					<!-- Page Heading -->
-					<div class="row">
-						<div class="col-lg-12">
-							<h1 class="page-header"> Music Library <small>Overview</small></h1>
-						</div>
+				<!-- Page Heading -->
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="page-header">
+							Music Library <small>Overview</small>
+						</h1>
+					</div>
 					<!-- /.row -->
 					<div class="col-lg-3">
-						<button type="submit" id="library"  onclick="viewLibrary()" class="btn btn-default">
-							View Entire Library
-						</button>
-						</div>
-						<!--<input type=text id="searchTerm" placeholder="search" class="text" size="20" autofocus required>
-						<input type="submit" id="search"  onclick="searchLibrary()" class="btn btn-default" value="Search Library"> -->									
-						<div class="col-lg-3">
-								<label>View Playlist</label>
-								<select id="querySelection" class="form-control">
-									<option ng-repeat="query in queries" value={{query.id}}>{{query.title}}</option>
-								</select>
-								<button type="submit" id="select"  onclick="alterQuery()" class="btn btn-default">
-									Select
-								</button>
-						</div>
-					</div><!-- end selectQueryVisibility  -->
+						<button type="submit" id="library" onclick="viewLibrary()"
+							class="btn btn-default">View Entire Library</button>
+					</div>
+					<!--<input type=text id="searchTerm" placeholder="search" class="text" size="20" autofocus required>
+						<input type="submit" id="search"  onclick="searchLibrary()" class="btn btn-default" value="Search Library"> -->
+					<div class="col-lg-3">
+						<label>View Playlist</label> <select id="querySelection"
+							class="form-control">
+							<option ng-repeat="query in queries" value={{query.id}}>{{query.title}}</option>
+						</select>
+						<button type="submit" id="select" onclick="alterQuery()"
+							class="btn btn-default">Select</button>
+					</div>
+				</div>
+				<!-- end selectQueryVisibility  -->
 			</div>
 		</div>
 
 		<div id="parametersAndTableVisibility" class="hidden" align="center">
-				<iframe id="formFrame" src="querytable.html" frameborder=0 width="100%" height="400"></iframe>
-		</div><!-- end parametersAndTableVisibility  -->
-
-
-
-
+			<iframe id="formFrame" src="querytable.html" frameborder=0
+				width="100%" height="400"></iframe>
 		</div>
-		<!-- /#page-wrapper -->
+		<!-- end parametersAndTableVisibility  -->
 
-		<!-- /#wrapper -->
 
-		<script>
+
+
+	</div>
+	<!-- /#page-wrapper -->
+
+	<!-- /#wrapper -->
+
+	<script>
+		var x = readCookie('usercookie')
+		//alert(x);
+		if (!x) {
+			window.location.replace("/dss/login.html");
+		} else {
+			var ID = x.charAt(x.length - 3)
+			if (ID == -1 || ID == "D") {
+				eraseCookie('usercookie');
+			}
+
+		}
+
+		function queryReferenceLoader($scope, $http) {
 			var x = readCookie('usercookie')
-			//alert(x);
-			if (!x) {
-				window.location.replace("/dss/login.html");
-			}
-			else{
-				var ID = x.charAt(x.length-3)
-					if(ID==-1 || ID=="D"){
-						eraseCookie('usercookie');
-					}
-										
-			}
+			var libraryPersistentID = x.split('libraryPersistentID":"');
+			var userID = libraryPersistentID[1].substring(0,
+					libraryPersistentID[1].length - 2);
+			$http.get('/dss/rest/playlists/playlistsbyuser/' + userID).success(
+					function(data) {
+						$scope.queries = data;
+					});
+		}
 
-			function queryReferenceLoader($scope, $http) {
-				var x = readCookie('usercookie')
-				var libraryPersistentID = x.split('libraryPersistentID":"');		
-				var userID = libraryPersistentID[1].substring(0,libraryPersistentID[1].length-2);
-				//alert(userID);
-				$http.get('/dss/rest/playlists/playlistsbyuser/'+userID).success(function(data) {
-					$scope.queries = data;
-				});
-			}
-
-			function readCookie(name) {
-				var nameEQ = name + "=";
-				var ca = document.cookie.split(';');
-				for (var i = 0; i < ca.length; i++) {
-					var c = ca[i];
-					while (c.charAt(0) == ' ')
+		function readCookie(name) {
+			var nameEQ = name + "=";
+			var ca = document.cookie.split(';');
+			for (var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ')
 					c = c.substring(1, c.length);
-					if (c.indexOf(nameEQ) == 0) {
-						return c.substring(nameEQ.length, c.length);
-					}
+				if (c.indexOf(nameEQ) == 0) {
+					return c.substring(nameEQ.length, c.length);
 				}
-				return null;
 			}
+			return null;
+		}
 
-			function createCookie(name, value, days) {
-				if (days) {
-					var date = new Date();
-					date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-					var expires = "; expires=" + date.toGMTString();
-				} else
-					var expires = "";
-				document.cookie = name + "=" + value + expires + "; path=/";
-			}
+		function createCookie(name, value, days) {
+			if (days) {
+				var date = new Date();
+				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+				var expires = "; expires=" + date.toGMTString();
+			} else
+				var expires = "";
+			document.cookie = name + "=" + value + expires + "; path=/";
+		}
 
-			function eraseCookie(name) {
-				createCookie(name, "", -1);
-				window.location.replace("/dss/login.html");
-			}
+		function eraseCookie(name) {
+			createCookie(name, "", -1);
+			window.location.replace("/dss/login.html");
+		}
 
-			function viewLibrary() {
-				document.getElementById("parametersAndTableVisibility").className = 'unhidden';
-				var formFrame = document.getElementById('formFrame');
-				createCookie('choicecookie', "all", 0);
-				formFrame.src = "querytable.html";
-			}
-			
-			/*
-			function searchLibrary(){
-				var searchTerm = "searchTerm"+document.getElementById('searchTerm').value;
-				var formFrame = document.getElementById('formFrame');
-				createCookie('choicecookie', searchTerm, 0);
-				formFrame.src = "querytable.html";
-			}
-			*/
+		function viewLibrary() {
+			document.getElementById("parametersAndTableVisibility").className = 'unhidden';
+			var formFrame = document.getElementById('formFrame');
+			createCookie('choicecookie', "all", 0);
+			formFrame.src = "querytable.html";
+		}
 
-			function alterQuery() {
-				var choice = document.getElementById('querySelection').value;
-				var formFrame = document.getElementById('formFrame');
-				document.getElementById("parametersAndTableVisibility").className = 'unhidden';
-				createCookie('choicecookie', choice, 0);
-				formFrame.src = "querytable.html";
+		function alterQuery() {
+			var choice = document.getElementById('querySelection').value;
+			var formFrame = document.getElementById('formFrame');
+			document.getElementById("parametersAndTableVisibility").className = 'unhidden';
+			createCookie('choicecookie', choice, 0);
+			formFrame.src = "querytable.html";
 
-			}
-		</script>
+		}
+	</script>
 
-	</body>
+</body>
 
 </html>

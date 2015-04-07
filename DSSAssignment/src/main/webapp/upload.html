@@ -166,8 +166,6 @@
 			window.location.replace("/dss/login.html");
 		} else {
 			var ID = x.charAt(x.length - 3)
-			//alert(ID);
-			//alert(x);
 			if (ID == -1 || ID == "D") {
 				newUser = true;
 				document.getElementById('header').innerHTML = "Registration Successful! Welcome new user";
@@ -175,22 +173,11 @@
 			} else {
 				newUser = false;
 				var elem = document.getElementById('header');
-				elem.innerHTML = " Warning Uploading a New Library Will Overwrite Your Existing Library!";
+				elem.innerHTML = " Warning any new library uploads must be from the same device!";
 				elem.style.color = 'red';
 			}
 
 		}
-
-		/*
-		function hideButton() {
-			var buttn = document.getElementById("submitButton");
-			var parent = buttn.parentNode;
-			parent.removeChild(buttn);
-
-			var temp = jQuery('#form').submit();
-			return true;
-		}
-		 */
 
 		function createCookie(name, value, days) {
 			if (days) {
@@ -220,7 +207,6 @@
 			window.location.replace("/dss/login.html");
 		}
 
-		//alert(window.location.hash);
 		var response = window.location.hash;
 		var len = response.length;
 		var elem = document.getElementById("server-reponse");
@@ -233,14 +219,12 @@
 		function createUserCookie() {
 			if (newUser) {
 				var x = readCookie('usercookie')
-				//alert(x);
 				var libraryPersistentID = "";
 				var username = x.split('username":"');
 				var usersplit = username[1]
 						.substring(0, username[1].length - 2);
 				var passwordsplit = (usersplit.split('","password'));
 				var userID = passwordsplit[0];
-				//alert("username"+userID);
 
 				(function($) {
 					$
@@ -259,7 +243,8 @@
 									var elem = document
 											.getElementById("server-reponse");
 									if (data != null) {
-										createCookie('usercookie', JSON.stringify(data), 0);
+										createCookie('usercookie', JSON
+												.stringify(data), 0);
 										var key = 'libraryPersistentID';
 										if (data[key] != -1) {
 											//alert("User Profile Complete!");
@@ -317,7 +302,6 @@
 												.stringify(data), 0);
 										var key = 'libraryPersistentID';
 										if (data[key] != -1) {
-											//alert("User Profile Complete!");
 											window.location
 													.replace("index.html");
 										} else {

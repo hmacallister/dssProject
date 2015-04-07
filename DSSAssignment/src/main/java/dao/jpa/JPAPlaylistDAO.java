@@ -14,7 +14,6 @@ import javax.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import rest.PlaylistREST;
 import dao.PlaylistDAO;
 import entities.Playlist;
 import entities.Track;
@@ -22,31 +21,32 @@ import entities.User;
 
 @Stateless
 @Local
-public class JPAPlaylistDAO implements PlaylistDAO{
-	
+public class JPAPlaylistDAO implements PlaylistDAO {
+
 	@PersistenceContext
 	private EntityManager em;
-	
+
 	private final Logger log = LoggerFactory.getLogger(JPAPlaylistDAO.class);
 
 	@Override
 	public void addPlaylist(Playlist playlist) {
 		Query query = em.createQuery("from Playlist");
 		List<Playlist> playlists = query.getResultList();
-		if (!playlists.contains(playlists)) {
+		if (!playlists.contains(playlist)) {
 			em.merge(playlist);
 		}
-		
+
 	}
 
 	@Override
 	public Playlist getPlaylistByTitle(String title) {
-		Query query = em.createQuery("from Playlist cd where cd.title = :title");
+		Query query = em
+				.createQuery("from Playlist cd where cd.title = :title");
 		query.setParameter("title", title);
 		List<Playlist> result = query.getResultList();
-		if(result.isEmpty()){
+		if (result.isEmpty()) {
 			Playlist t = new Playlist("empty");
-			return  t;
+			return t;
 		}
 		return result.get(0);
 	}
@@ -56,21 +56,21 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 		Query query = em.createQuery("from Playlist cd where cd.id = :id");
 		query.setParameter("id", id);
 		List<Playlist> result = query.getResultList();
-		if(result.isEmpty()){
+		if (result.isEmpty()) {
 			Playlist t = new Playlist("empty");
-			return  t;
+			return t;
 		}
 		Playlist playlist = result.get(0);
 		List<Track> tracks = playlist.getTrackTitles();
 		List<String> ids = new ArrayList<String>();
-		for(Track t: tracks){
+		for (Track t : tracks) {
 			ids.add(t.getTrackId());
 		}
 		Collections.sort(ids);
 		List<Track> orderedTracks = new ArrayList<Track>();
-		for(int i=0; i< ids.size(); i++){
-			for(Track t: tracks){
-				if(t.getTrackId().equals(ids.get(i))){
+		for (int i = 0; i < ids.size(); i++) {
+			for (Track t : tracks) {
+				if (t.getTrackId().equals(ids.get(i))) {
 					orderedTracks.add(t);
 				}
 			}
@@ -83,47 +83,49 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 	public void removePlaylistById(int id) {
 		Playlist disc = em.find(Playlist.class, id);
 		em.remove(disc);
-		
+
 	}
 
 	@Override
 	public void updatePlaylist(Playlist playlist) {
-		log.info("playlist in dao: "+playlist.getTitle());
+		log.info("playlist in dao: " + playlist.getTitle());
 		Query query = em.createQuery("from Playlist");
 		List<Playlist> playlists = query.getResultList();
 		List<Track> playlistTracks = new ArrayList<Track>();
 		List<String> trackIds = new ArrayList<String>();
-		for(Track t:playlist.getTrackTitles()){
-			Query trackQuery = em.createQuery("from Track t where t.id = :trackId");
+		for (Track t : playlist.getTrackTitles()) {
+			Query trackQuery = em
+					.createQuery("from Track t where t.id = :trackId");
 			trackQuery.setParameter("trackId", t.getId());
 			List<Track> result = trackQuery.getResultList();
 			Track track = result.get(0);
 			trackIds.add(track.getTrackId());
 			playlistTracks.add(track);
 		}
-		
+
 		Collections.sort(trackIds);
-		for(int i=0; i< trackIds.size(); i++){
+		for (int i = 0; i < trackIds.size(); i++) {
 			playlistTracks.get(i).setTrackId(trackIds.get(i));
 		}
-		for(Playlist p : playlists){
-			if(p.getId() == playlist.getId()){
-				//p.setTitle(playlist.getTitle());
+		for (Playlist p : playlists) {
+			if (p.getId() == playlist.getId()) {
 				p.setTrackTitles(playlistTracks);
 				em.persist(p);
 				break;
 			}
 		}
-		
+
 	}
 
 	@Override
 	public List<Playlist> getPlaylistsByUser(String userID) {
-		Query userQuery = em.createQuery("from User u where u.libraryPersistentID = :userID");
+		Query userQuery = em
+				.createQuery("from User u where u.libraryPersistentID = :userID");
 		userQuery.setParameter("userID", userID);
 		List<User> userresult = userQuery.getResultList();
 		User user = userresult.get(0);
-		Query query = em.createQuery("from Playlist p where p.userFK = :user order by title");
+		Query query = em
+				.createQuery("from Playlist p where p.userFK = :user order by title");
 		query.setParameter("user", user);
 		List<Playlist> result = query.getResultList();
 		return result;
@@ -139,17 +141,19 @@ public class JPAPlaylistDAO implements PlaylistDAO{
 
 	@Override
 	public void addAllPlaylists(Collection<Playlist> playlists) {
-		for(Playlist playlist: playlists){
-			playlist.getTrackTitles();
-			em.merge(playlist);
+		for (Playlist playlist : playlists) {
+			Query query = em.createQuery("from Playlist");
+			List<Playlist> existingPlaylists = query.getResultList();
+			if (!existingPlaylists.contains(playlist)) {
+				playlist.getTrackTitles();
+				em.merge(playlist);
+			} else {
+				log.info("merging update");
+				playlist.getTrackTitles();
+				updatePlaylist(playlist);
+			}
 		}
-		
-	}
 
-	@Override
-	public void deleteTrackFromPlaylist(Track track) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

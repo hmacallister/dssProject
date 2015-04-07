@@ -11,8 +11,8 @@ import entities.User;
 
 @Stateless
 @Local
-public class UserServiceEJB implements UserService{
-	
+public class UserServiceEJB implements UserService {
+
 	@EJB
 	private UserDAO dao;
 
@@ -20,42 +20,35 @@ public class UserServiceEJB implements UserService{
 		return dao.getAllUsers();
 	}
 
-	
 	public User getUser(User user) {
 		return dao.getUser(user);
 	}
-	
-	public User addUser(User user){
-		 return dao.addUser(user);
+
+	public User addUser(User user) {
+		return dao.addUser(user);
 	}
-	
-	public User updateUser(User user){
+
+	public User updateUser(User user) {
 		return dao.updateUser(user);
 	}
 
-
 	public void deleteUser(User user) {
 		dao.deleteUser(user);
-		
+
 	}
 
 	public User getUserById(User user) {
 		return dao.getUserById(user);
 	}
 
-
 	@Override
 	public User getUserByLibraryPersistentID(String libraryPersistentID) {
 		return dao.getUserByLibraryPersistentID(libraryPersistentID);
 	}
 
-
 	@Override
 	public User getUserByName(String username) {
 		return dao.getUserByName(username);
 	}
-
-
-
 
 }

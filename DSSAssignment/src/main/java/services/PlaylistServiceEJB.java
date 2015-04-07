@@ -8,19 +8,18 @@ import javax.ejb.Stateless;
 
 import dao.PlaylistDAO;
 import entities.Playlist;
-import entities.Track;
 
 @Stateless
 @Local
-public class PlaylistServiceEJB implements PlaylistService{
-	
+public class PlaylistServiceEJB implements PlaylistService {
+
 	@EJB
 	private PlaylistDAO dao;
 
 	@Override
 	public void addPlaylist(Playlist playlist) {
 		dao.addPlaylist(playlist);
-		
+
 	}
 
 	@Override
@@ -36,13 +35,13 @@ public class PlaylistServiceEJB implements PlaylistService{
 	@Override
 	public void removePlaylistById(int id) {
 		dao.removePlaylistById(id);
-		
+
 	}
 
 	@Override
 	public void updatePlaylist(Playlist playlist) {
 		dao.updatePlaylist(playlist);
-		
+
 	}
 
 	@Override
@@ -53,12 +52,6 @@ public class PlaylistServiceEJB implements PlaylistService{
 	@Override
 	public List<Playlist> getAllPlaylists() {
 		return dao.getAllPlaylists();
-	}
-
-	@Override
-	public void deleteTrackFromPlaylist(Track track) {
-		dao.deleteTrackFromPlaylist(track);
-		
 	}
 
 }
