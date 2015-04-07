@@ -29,8 +29,8 @@ public class UserServiceEJB implements UserService{
 		 return dao.addUser(user);
 	}
 	
-	public void updateUser(User user){
-		 dao.updateUser(user);
+	public User updateUser(User user){
+		return dao.updateUser(user);
 	}
 
 

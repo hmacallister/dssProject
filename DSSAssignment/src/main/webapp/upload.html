@@ -167,7 +167,7 @@
 		} else {
 			var ID = x.charAt(x.length - 3)
 			//alert(ID);
-			alert(x);
+			//alert(x);
 			if (ID == -1 || ID == "D") {
 				newUser = true;
 				document.getElementById('header').innerHTML = "Registration Successful! Welcome new user";
@@ -233,7 +233,7 @@
 		function createUserCookie() {
 			if (newUser) {
 				var x = readCookie('usercookie')
-				alert(x);
+				//alert(x);
 				var libraryPersistentID = "";
 				var username = x.split('username":"');
 				var usersplit = username[1]
@@ -259,8 +259,7 @@
 									var elem = document
 											.getElementById("server-reponse");
 									if (data != null) {
-										createCookie('usercookie', JSON
-												.stringify(data), 0);
+										createCookie('usercookie', JSON.stringify(data), 0);
 										var key = 'libraryPersistentID';
 										if (data[key] != -1) {
 											//alert("User Profile Complete!");

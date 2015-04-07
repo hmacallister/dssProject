@@ -81,10 +81,12 @@
 						<li class="active">
 							<a href="index.html"><i class="fa fa-fw fa-music"></i> Home</a>
 						</li>
+						<!-- 
 						<li>
 							<a href="upload.html"><i class="fa fa-fw fa-upload"></i> Upload New Library</a>
 						</li>
-												<li>
+						 -->
+						<li>
 							<a href="editUser.html"><i class="fa fa-fw fa-user"></i> Profile</a>
 						</li>
 
@@ -124,7 +126,7 @@
 		</div>
 
 		<div id="parametersAndTableVisibility" class="hidden" align="center">
-				<iframe id="formFrame" src="querytable.html" frameborder=0 width="100%" height="350"></iframe>
+				<iframe id="formFrame" src="querytable.html" frameborder=0 width="100%" height="400"></iframe>
 		</div><!-- end parametersAndTableVisibility  -->
 
 
@@ -189,6 +191,7 @@
 			}
 
 			function viewLibrary() {
+				document.getElementById("parametersAndTableVisibility").className = 'unhidden';
 				var formFrame = document.getElementById('formFrame');
 				createCookie('choicecookie', "all", 0);
 				formFrame.src = "querytable.html";

@@ -14,7 +14,7 @@ public interface UserService {
 	User getUserById(User user);
 	User addUser(User user);
 	User getUserByLibraryPersistentID(String libraryPersistentID);
-	void updateUser(User user);
+	User updateUser(User user);
 	void deleteUser(User user);
 	User getUserByName(String username);
 

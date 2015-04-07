@@ -12,6 +12,6 @@ public interface UserDAO {
 	User getUserByName(String username);
 	User getUserByLibraryPersistentID(String libraryPersistentID);
 	User addUser(User user);
-	void updateUser(User user);
+	User updateUser(User user);
 	void deleteUser(User user);
 }

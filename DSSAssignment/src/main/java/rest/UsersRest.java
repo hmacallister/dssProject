@@ -75,8 +75,9 @@ public class UsersRest {
 	@POST
 	@Path("/updateuser")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateUser(User user) {
-		 service.updateUser(user);
+	@Produces(MediaType.APPLICATION_JSON)
+	public User updateUser(User user) {
+		return service.updateUser(user);
 	}
 	
 	@DELETE

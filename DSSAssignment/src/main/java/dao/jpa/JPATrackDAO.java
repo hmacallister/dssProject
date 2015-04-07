@@ -130,6 +130,7 @@ public class JPATrackDAO implements TrackDAO {
 		List<Track> tracks = query.getResultList();
 		log.info("editing: "+track.getId());
 		for (Track t : tracks) {
+			//log.info("track list id: "+t.getId());
 			if (t.getId() == track.getId()) {
 				t.setTitle(track.getTitle());
 				t.setArtist(track.getArtist());
