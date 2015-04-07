@@ -11,8 +11,9 @@ import entities.User;
 public interface TrackDAO {
 	void addTracks(List<Track> tracks);
 	Track getTrack(String trackID);
+	Track getTrackById(int id);
 	void addTrack(Track track);
-	void deleteTrack(Track track);
+	boolean deleteTrack(Track track);
 	void updateTrack(Track track);
 	List<Track> getTracksByUser(String userID);
 	List<Track> getTracksSearch(String searchAndId);

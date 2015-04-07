@@ -168,9 +168,13 @@
 				})(jQuery);
 				
 				function registerUser(){
-					//var username = document.getElementById('username');
-					//var password = document.getElementById('password');
-					//var libraryPersistentID = "TEMPORARY";
+					//alert(document.getElementById('username').value);
+					if(document.getElementById('username').value == "" || document.getElementById('password').value == ""){
+						var elem = document.getElementById("result");
+						elem.innerHTML = "Register Failed: please include username and password";
+						elem.style.color = 'red';
+						return;
+					}
 					(function($){	
 					$.ajax({
 							url : '/dss/rest/users/',

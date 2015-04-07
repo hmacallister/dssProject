@@ -60,6 +60,13 @@ public class Playlist implements Serializable{
 	}
 	*/
 
+	public Playlist(Integer id, String title, User userFK, List<Track> trackTitles) {
+		this.id = id;
+		this.title = title;
+		this.userFK = userFK;
+		this.trackTitles = trackTitles;
+	}
+
 	public Integer getId() {
 		return id;
 	}

@@ -35,8 +35,8 @@ public class TrackServiceEJB implements TrackService{
 	}
 
 	@Override
-	public void deleteTrack(Track track) {
-		dao.deleteTrack(track);
+	public boolean deleteTrack(Track track) {
+		return dao.deleteTrack(track);
 		
 	}
 
@@ -49,6 +49,11 @@ public class TrackServiceEJB implements TrackService{
 	@Override
 	public List<Track> getTracksSearch(String searchAndId) {
 		return dao.getTracksSearch(searchAndId);
+	}
+
+	@Override
+	public Track getTrackById(int id) {
+		return dao.getTrackById(id);
 	}
 
 	

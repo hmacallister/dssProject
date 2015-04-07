@@ -92,7 +92,7 @@
 				</tr>
 			</thead>
 			<tbody>
-<tr ng-repeat="record in records" id={{record[0]}}>
+			<tr ng-repeat="record in records" id={{record[0]}}>
 					<td class="id">{{record[0]}}</td>
 					<td class="title"><input type="text" id=title{{record[0]}} value={{record[1]}}></td>
 					<td class="artist"><input type="text" id=artist{{record[0]}} value='{{record[2]}}'></td>
@@ -192,7 +192,8 @@
 						success : function(data, textStatus, jQxhr) {
 							alert("Track Deleted");
 							window.location.reload();
-							window.top.location.replace("/dss/index.html");
+							window.top.document.getElementById("parametersAndTableVisibility").className = 'hidden';
+							//window.top.location.replace("/dss/index.html");
 						},
 						error : function(jqXhr, textStatus, errorThrown) {
 							alert("Delete Failed");
@@ -230,7 +231,8 @@
 						success : function(data, textStatus, jQxhr) {
 							alert("Track Edit Successful");
 							window.location.reload();
-							window.top.location.replace("/dss/index.html");
+							window.top.document.getElementById("parametersAndTableVisibility").className = 'hidden';
+							//window.top.location.replace("/dss/index.html");
 						},
 						error : function(jqXhr, textStatus, errorThrown) {
 							alert("Track Edit Failed");
@@ -255,7 +257,8 @@
 				
 				window.name = sortedOrder;
 				window.location.reload();
-				window.top.location.replace("/dss/index.html");
+				window.top.document.getElementById("parametersAndTableVisibility").className = 'hidden';
+				//window.top.location.replace("/dss/index.html");
 			}
 			
 			

@@ -77,11 +77,19 @@ public class JPATrackDAO implements TrackDAO {
 	}
 
 	@Override
-	public void deleteTrack(Track track) {
-		Track deletedTrack = em.find(Track.class, track.getId());
+	public boolean deleteTrack(Track track) {
+		//Track deletedTrack = em.find(Track.class, track.getId());
+		
+		
+		Query deleteQuery = em.createQuery("FROM Track t WHERE t.id = :id");
+		deleteQuery.setParameter("id", track.getId());
+		List<Track> tracks = deleteQuery.getResultList(); 
+		Track deletedTrack = tracks.get(0);
 
 		List<Track> allTracks = new ArrayList<Track>();
 		log.info("***** track about to be deleted is id: " + deletedTrack.getId());
+		
+		
 		
 		/*
 		 * Query query = em.createQuery("from Playlist"); List<Playlist>
@@ -113,19 +121,28 @@ public class JPATrackDAO implements TrackDAO {
 
 		try {
 			//Query deleteQuery = em.createQuery("DELETE FROM Track t WHERE t.id = :id");
-			//int deletedCount = deleteQuery.setParameter("id", track.getId()).executeUpdate();
-			//log.info("***** track being deleted in playlist is id: "+track.getId() + " deleted tracks count: "+deletedCount);
+			//deleteQuery.setParameter("id", track.getId()).executeUpdate();
+			log.info("***** track being deleted in playlist is id: "+track.getId());
 			em.remove(deletedTrack);
+			return true;
 		} catch (Exception e) {
-			log.info("couldn't remove track" + deletedTrack.getId());
+			//log.info("couldn't remove track" + deletedTrack.getId());
 			//e.printStackTrace();
 		}
+		return false;
 		// addTracks(allTracks);
 	}
 
 	@Override
 	public void updateTrack(Track track) {
-
+		Track updateTrack = em.find(Track.class, track.getId());
+		updateTrack.setTitle(track.getTitle());
+		updateTrack.setArtist(track.getArtist());
+		updateTrack.setAlbum(track.getAlbum());
+		updateTrack.setGenre(track.getGenre());
+		log.info("edited title: "+track.getTitle());
+		em.merge(updateTrack);
+		/*
 		Query query = em.createQuery("from Track");
 		List<Track> tracks = query.getResultList();
 		log.info("editing: "+track.getId());
@@ -141,6 +158,7 @@ public class JPATrackDAO implements TrackDAO {
 				break;
 			}
 		}
+		*/
 	}
 
 	@Override
@@ -180,6 +198,17 @@ public class JPATrackDAO implements TrackDAO {
 			log.info("search exception");
 		}
 		return null;
+	}
+
+	@Override
+	public Track getTrackById(int id) {
+		Query query = em.createQuery("from Track t where t.id = :id");
+		query.setParameter("id", id);
+		List<Track> result = query.getResultList();
+		if (result.isEmpty()) {
+			return null;
+		}
+		return result.get(0);
 	}
 
 }
